@@ -10,7 +10,8 @@
     "url": "git+https://github.com/championswimmer/vuex-persist.git"
   },
   "scripts": {
-    "doc": "typedoc --ignoreCompilerErrors --mode modules --theme minimal --name vuex-persist --out docs dist"
+    "predoc": "rm -rf docs/*",
+    "doc": "typedoc --ignoreCompilerErrors --mode modules --name vuex-persist --out docs dist"
   },
   "keywords": [
     "vue",

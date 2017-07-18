@@ -4,6 +4,11 @@ A Typescript-ready [Vuex](https://vuex.vuejs.org/) plugin that enables
 you to save the state of your app to a persisted storage like
 Cookies or localStorage.
 
+[![bitHound Overall Score](https://www.bithound.io/github/championswimmer/vuex-persist/badges/score.svg)](https://www.bithound.io/github/championswimmer/vuex-persist)
+[![bitHound Dependencies](https://www.bithound.io/github/championswimmer/vuex-persist/badges/dependencies.svg)](https://www.bithound.io/github/championswimmer/vuex-persist/master/dependencies/npm)
+[![codebeat badge](https://codebeat.co/badges/dc97dea1-1e70-45d5-b3f1-fec2a6c3e4b0)](https://codebeat.co/projects/github-com-championswimmer-vuex-persist-master)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0fdc0921591d4ab98b0c0c173ef22649)](https://www.codacy.com/app/championswimmer/vuex-persist?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=championswimmer/vuex-persist&amp;utm_campaign=Badge_Grade)
+
 
 ## Installation
 
@@ -18,6 +23,76 @@ yarn add vuex-persist
 
 
 ## Usage
+
+### Steps
+
+Import it
+```js
+import VuexPersistence from 'vuex-persist'
+```
+
+Create an object
+
+```js
+const vuexLocal = new VuexPersistence({
+    storage: window.localStorage
+})
+```
+
+Use it as Vue plugin.
+
+```js
+const store = new Vuex.Store<State>({
+  state: { ... },
+  mutations: { ... },
+  actions: { ... },
+  plugins: [vuexLocal.plugin]
+})
+```
+
+### Constructor Parameters -
+
+When creating the VuexPersistence object, we pass an `options` object
+of type `PersistOptions`.
+Here are the properties, and what they mean -
+
+| Property     	| Type                               	| Description                                                                                                                        	|
+|--------------	|------------------------------------	|------------------------------------------------------------------------------------------------------------------------------------	|
+| key          	| string                             	| The key to store the state in the storage                                                                                          	|
+| storage      	| Storage (Web API)                  	| localStorage, sessionStorage or your custom Storage object. Must implement getItem, setItem, clear etc.                            	|
+| saveState    	| function (key, state[, storage])   	| If not using storage, this custom function handles saving state to persistence                                                     	|
+| restoreState 	| function (key[, storage]) => state 	| If not using storage, this custom function handles retrieving state from storage                                                   	|
+| reducer      	| function (state) => object         	| state reducer. reduces state to only those values you want to save. by default, saves entire state                                 	|
+| filter       	| function (mutation) => boolean     	| mutation filter. look at mutation.type and return true for only those ones which you want a persistence write to be triggered for. 	|
+
+
+
+## Examples
+
+### Simple
+
+Quick example -
+
+```js
+import Vue from 'vue'
+import Vuex 'vuex'
+import VuexPersistence from 'vuex-persist'
+
+
+Vue.use(Vuex)
+
+const store = new Vuex.Store<State>({
+  state: {
+    user: {name: 'Arnav'},
+    navigation: {path: '/home'}
+  },
+  plugins: [(new VuexPersistence()).plugin]
+})
+
+export default store
+```
+
+### Detailed
 
 Here is an example store that has 2 modules, `user` and `navigation`
 We are going to save user details into a Cookie _(using js-cookie)_
