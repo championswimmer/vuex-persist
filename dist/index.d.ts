@@ -1,6 +1,3 @@
-/**
- * Created by championswimmer on 18/07/17.
- */
 import { Payload, Plugin } from 'vuex';
 /**
  * Options to be used to construct a {@link VuexPersistence} object
@@ -66,12 +63,6 @@ export declare class VuexPersistence<S, P extends Payload> implements PersistOpt
     key: string;
     filter: (mutation: Payload) => boolean;
     /**
-     * Creates a subscriber on the store. automatically is used
-     * when this is used a vuex plugin. Not for manual usage.
-     * @param store
-     */
-    private subscriber;
-    /**
      * The plugin function that can be used inside a vuex store.
      */
     plugin: Plugin<S>;
@@ -82,5 +73,11 @@ export declare class VuexPersistence<S, P extends Payload> implements PersistOpt
      * @param {PersistOptions} options
      */
     constructor(options: PersistOptions<S>);
+    /**
+     * Creates a subscriber on the store. automatically is used
+     * when this is used a vuex plugin. Not for manual usage.
+     * @param store
+     */
+    private subscriber;
 }
 export default VuexPersistence;

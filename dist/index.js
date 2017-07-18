@@ -1,5 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * Created by championswimmer on 18/07/17.
+ */
 const lodash_1 = require("lodash");
 /**
  * A class to define default options to be used
@@ -11,7 +14,7 @@ class DefaultOptions {
         this.storage = window.localStorage;
         this.key = 'vuex';
         this.restoreState = (key) => {
-            return JSON.parse((this.storage.getItem(key) || "{}"));
+            return JSON.parse((this.storage.getItem(key) || '{}'));
         };
         this.saveState = (key, state) => {
             this.storage.setItem(key, JSON.stringify(state));
