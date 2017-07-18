@@ -1,5 +1,7 @@
 # vuex-persist
 
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0fdc0921591d4ab98b0c0c173ef22649)](https://www.codacy.com/app/championswimmer/vuex-persist?utm_source=github.com&utm_medium=referral&utm_content=championswimmer/vuex-persist&utm_campaign=badger)
+
 A Typescript-ready [Vuex](https://vuex.vuejs.org/) plugin that enables
 you to save the state of your app to a persisted storage like
 Cookies or localStorage.
