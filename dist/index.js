@@ -72,5 +72,6 @@
         return VuexPersistence;
     }());
     exports.VuexPersistence = VuexPersistence;
+    exports.default = VuexPersistence;
 });
 //# sourceMappingURL=index.js.map

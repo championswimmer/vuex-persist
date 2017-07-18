@@ -83,3 +83,4 @@ export declare class VuexPersistence<S, P extends Payload> implements PersistOpt
      */
     constructor(options: PersistOptions<S>);
 }
+export default VuexPersistence;

@@ -122,4 +122,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S>{
     }
 
   }
+
 }
+
+export default VuexPersistence
