@@ -1,6 +1,6 @@
 {
   "name": "vuex-persist",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "A Vuex persistence plugin in Typescript",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
@@ -20,7 +20,9 @@
     "cover": "node_modules/.bin/nyc npm test"
   },
   "nyc": {
-    "extension": ["ts"],
+    "extension": [
+      "ts"
+    ],
     "reporter": [
       "lcov",
       "text-summary"
