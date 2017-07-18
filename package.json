@@ -11,7 +11,7 @@
   },
   "scripts": {
     "predoc": "rm -rf docs/*",
-    "doc": "typedoc --ignoreCompilerErrors --mode modules --name vuex-persist --out docs dist",
+    "doc": "typedoc --ignoreCompilerErrors --mode modules --name vuex-persist --theme minimal --out docs dist",
     "prebuild": "rm -rf dist/*",
     "build": "node_modules/.bin/tsc || true",
     "pretest": "npm run build",
