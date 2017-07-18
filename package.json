@@ -1,6 +1,6 @@
 {
   "name": "vuex-persist",
-  "version": "0.1.1",
+  "version": "0.1.1-1",
   "description": "A Vuex persistence plugin in Typescript",
   "main": "dist/index.js",
   "typings": "dist/index.d.ts",
