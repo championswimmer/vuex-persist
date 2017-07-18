@@ -41,7 +41,7 @@
          * Create a {@link VuexPersistence} object.
          * Use the <code>plugin</code> function of this class as a
          * Vuex plugin.
-         * @param options
+         * @param {PersistOptions} options
          */
         function VuexPersistence(options) {
             var _this = this;

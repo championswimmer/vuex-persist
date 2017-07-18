@@ -79,7 +79,7 @@ export declare class VuexPersistence<S, P extends Payload> implements PersistOpt
      * Create a {@link VuexPersistence} object.
      * Use the <code>plugin</code> function of this class as a
      * Vuex plugin.
-     * @param options
+     * @param {PersistOptions} options
      */
     constructor(options: PersistOptions<S>);
 }

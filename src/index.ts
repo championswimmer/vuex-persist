@@ -99,7 +99,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S>{
    * Create a {@link VuexPersistence} object.
    * Use the <code>plugin</code> function of this class as a
    * Vuex plugin.
-   * @param options
+   * @param {PersistOptions} options
    */
   constructor (options: PersistOptions<S>) {
     this.restoreState = ((options.restoreState != null) ? options.restoreState : defOpt.restoreState)
