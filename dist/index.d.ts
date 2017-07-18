@@ -4,6 +4,10 @@ import { Payload, Plugin } from 'vuex';
  */
 export interface PersistOptions<S> {
     /**
+     * Window.Storage type object. Default is localStorage
+     */
+    storage?: Storage;
+    /**
      * Method to retrieve state from persistence
      * @param key
      * @param [storage]
@@ -16,10 +20,6 @@ export interface PersistOptions<S> {
      * @param [storage]
      */
     saveState?: (key: string, state: {}, storage?: Storage) => void;
-    /**
-     * Window.Storage type object. Default is localStorage
-     */
-    storage?: Storage;
     /**
      * Function to reduce state to the object you want to save.
      * Be default, we save the entire state.
@@ -56,9 +56,9 @@ export declare class DefaultOptions<S> implements PersistOptions<S> {
  * A class that implements the vuex persistence.
  */
 export declare class VuexPersistence<S, P extends Payload> implements PersistOptions<S> {
+    storage: Storage;
     restoreState: (key: string, storage?: Storage) => S;
     saveState: (key: string, state: {}, storage?: Storage) => void;
-    storage: Storage;
     reducer: (state: S) => {};
     key: string;
     filter: (mutation: Payload) => boolean;
@@ -66,6 +66,7 @@ export declare class VuexPersistence<S, P extends Payload> implements PersistOpt
      * The plugin function that can be used inside a vuex store.
      */
     plugin: Plugin<S>;
+    private mStorage;
     /**
      * Create a {@link VuexPersistence} object.
      * Use the <code>plugin</code> function of this class as a

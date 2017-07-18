@@ -4,6 +4,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
  * Created by championswimmer on 18/07/17.
  */
 const lodash_1 = require("lodash");
+const DomStorage = require("dom-storage");
 /**
  * A class to define default options to be used
  * if respective options do not exist in the constructor
@@ -11,7 +12,7 @@ const lodash_1 = require("lodash");
  */
 class DefaultOptions {
     constructor() {
-        this.storage = window.localStorage;
+        this.storage = (typeof window !== 'undefined') ? window.localStorage : new DomStorage(null, { strict: false });
         this.key = 'vuex';
         this.restoreState = (key) => {
             return JSON.parse((this.storage.getItem(key) || '{}'));
@@ -42,12 +43,12 @@ class VuexPersistence {
          * @param store
          */
         this.subscriber = (store) => (handler) => store.subscribe(handler);
+        this.storage = ((options.storage != null) ? options.storage : defOpt.storage);
         this.restoreState = ((options.restoreState != null) ? options.restoreState : defOpt.restoreState);
-        this.saveState = ((options.saveState != null) ? options.saveState : defOpt.restoreState);
+        this.saveState = ((options.saveState != null) ? options.saveState : defOpt.saveState);
         this.reducer = ((options.reducer != null) ? options.reducer : defOpt.reducer);
         this.key = ((options.key != null) ? options.key : defOpt.key);
         this.filter = ((options.filter != null) ? options.filter : defOpt.filter);
-        this.storage = ((options.storage != null) ? options.storage : defOpt.storage);
         this.plugin = (store) => {
             const savedState = this.restoreState(this.key, this.storage);
             store.replaceState(lodash_1.merge({}, store.state, savedState));
@@ -57,6 +58,12 @@ class VuexPersistence {
                 }
             });
         };
+    }
+    get storage() {
+        return this.mStorage;
+    }
+    set storage(str) {
+        this.mStorage = str;
     }
 }
 exports.VuexPersistence = VuexPersistence;

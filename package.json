@@ -11,7 +11,20 @@
   },
   "scripts": {
     "predoc": "rm -rf docs/*",
-    "doc": "typedoc --ignoreCompilerErrors --mode modules --name vuex-persist --out docs dist"
+    "doc": "typedoc --ignoreCompilerErrors --mode modules --name vuex-persist --out docs dist",
+    "prebuild": "rm -rf dist/*",
+    "build": "node_modules/.bin/tsc || true",
+    "pretest": "npm run build",
+    "test": "node_modules/.bin/_mocha --compilers ts:ts-node/register",
+    "precover": "npm run build",
+    "cover": "node_modules/.bin/nyc npm test"
+  },
+  "nyc": {
+    "extension": ["ts"],
+    "reporter": [
+      "lcov",
+      "text-summary"
+    ]
   },
   "keywords": [
     "vue",
@@ -26,8 +39,16 @@
   },
   "homepage": "https://github.com/championswimmer/vuex-persist#readme",
   "devDependencies": {
+    "@types/chai": "^4.0.1",
     "@types/lodash": "^4.14.69",
-    "typescript": "^2.4.1"
+    "@types/mocha": "^2.2.41",
+    "chai": "^4.1.0",
+    "dom-storage": "^2.0.2",
+    "mocha": "^3.4.2",
+    "nyc": "^11.0.3",
+    "ts-node": "^3.2.0",
+    "typescript": "^2.4.1",
+    "vue": "^2.4.1"
   },
   "dependencies": {
     "lodash": "^4.17.4",
