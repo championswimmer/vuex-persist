@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "module": "umd",
+    "moduleResolution": "node",
+    "target": "es5",
+    "lib": [
+      "es5",
+      "es2015.promise",
+      "dom"
+    ],
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true,
+    "outDir": "dist",
+    "declaration": true,
+    "noImplicitReturns": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true
+  },
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

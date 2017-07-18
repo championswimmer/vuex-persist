@@ -1,0 +1,32 @@
+{
+  "name": "vuex-persist",
+  "version": "0.1.0",
+  "description": "A Vuex persistence plugin in Typescript",
+  "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
+  "types": "dist/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/championswimmer/vuex-persist.git"
+  },
+  "keywords": [
+    "vue",
+    "vuex",
+    "persist",
+    "localstorage"
+  ],
+  "author": "Arnav Gupta <championswimmer@gmail.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/championswimmer/vuex-persist/issues"
+  },
+  "homepage": "https://github.com/championswimmer/vuex-persist#readme",
+  "devDependencies": {
+    "@types/lodash": "^4.14.69",
+    "typescript": "^2.4.1"
+  },
+  "dependencies": {
+    "vuex": "^2.3.1",
+    "lodash": "^4.17.4"
+  }
+}
