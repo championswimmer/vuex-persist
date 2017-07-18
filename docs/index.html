@@ -913,6 +913,71 @@ img { max-width: 100%; }
 </nav>
 <div class="container container-main">
 	<div class="content-wrap">
+		<div class="tsd-panel tsd-typography">
+			<h1 id="vuex-persist">vuex-persist</h1>
+			<p>A Typescript-ready <a href="https://vuex.vuejs.org/">Vuex</a> plugin that enables
+				you to save the state of your app to a persisted storage like
+			Cookies or localStorage.</p>
+			<h2 id="installation">Installation</h2>
+			<pre><code class="lang-shell">npm install --save vuex-persist
+</code></pre>
+			<p>or</p>
+			<pre><code class="lang-shell">yarn add vuex-persist
+</code></pre>
+			<h2 id="usage">Usage</h2>
+			<p>Here is an example store that has 2 modules, <code>user</code> and <code>navigation</code>
+				We are going to save user details into a Cookie <em>(using js-cookie)</em>
+				And, we will save the navigation state into <em>localStorage</em> whenever
+				a new item is added to nav items.
+				So you can use multiple VuexPersistence instances to store different
+			parts of your Vuex store into different storage providers.</p>
+			<pre><code class="lang-js"><span class="hljs-keyword">import</span> Vue <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>
+<span class="hljs-keyword">import</span> Vuex, {Payload, Store} <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex'</span>
+<span class="hljs-keyword">import</span> VuexPersistence <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex-persist'</span>
+<span class="hljs-keyword">import</span> Cookies <span class="hljs-keyword">from</span> <span class="hljs-string">'js-cookie'</span>
+<span class="hljs-keyword">import</span> {<span class="hljs-built_in">module</span> <span class="hljs-keyword">as</span> userModule, UserState} <span class="hljs-keyword">from</span> <span class="hljs-string">'./user'</span>
+<span class="hljs-keyword">import</span> navModule, {NavigationState} <span class="hljs-keyword">from</span> <span class="hljs-string">'./navigation'</span>
+
+<span class="hljs-keyword">export</span> interface State {
+  <span class="hljs-attr">user</span>: UserState,
+  <span class="hljs-attr">navigation</span>: NavigationState
+}
+
+
+Vue.use(Vuex)
+
+<span class="hljs-keyword">const</span> vuexCookie = <span class="hljs-keyword">new</span> VuexPersistence&lt;State, Payload&gt;({
+  <span class="hljs-attr">restoreState</span>: <span class="hljs-function">(<span class="hljs-params">key, storage</span>) =&gt;</span> Cookies.getJSON(key),
+  <span class="hljs-attr">saveState</span>: <span class="hljs-function">(<span class="hljs-params">key, state, storage</span>) =&gt;</span> Cookies.set(key, state, {
+    <span class="hljs-attr">expires</span>: <span class="hljs-number">3</span>
+  }),
+  <span class="hljs-attr">reducer</span>: <span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> ({<span class="hljs-attr">user</span>: state.user}),
+  <span class="hljs-attr">filter</span>: <span class="hljs-function">(<span class="hljs-params">mutation</span>) =&gt;</span> (mutation.type == <span class="hljs-string">'logIn'</span> || mutation.type == <span class="hljs-string">'logOut'</span>)
+})
+<span class="hljs-keyword">const</span> vuexLocal = <span class="hljs-keyword">new</span> VuexPersistence&lt;State, Payload&gt; ({
+  <span class="hljs-attr">storage</span>: <span class="hljs-built_in">window</span>.localStorage,
+  <span class="hljs-attr">reducer</span>: <span class="hljs-function"><span class="hljs-params">state</span> =&gt;</span> ({<span class="hljs-attr">navigation</span>: state.navigation}),
+  <span class="hljs-attr">filter</span>: <span class="hljs-function"><span class="hljs-params">mutation</span> =&gt;</span> (mutation.type == <span class="hljs-string">'addNavItem'</span>)
+})
+
+<span class="hljs-keyword">const</span> store = <span class="hljs-keyword">new</span> Vuex.Store&lt;State&gt;({
+  <span class="hljs-attr">modules</span>: {
+    <span class="hljs-attr">user</span>: userModule,
+    <span class="hljs-attr">navigation</span>: navModule
+  },
+  <span class="hljs-attr">plugins</span>: [vuexCookie.plugin, vuexLocal.plugin]
+})
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> store
+</code></pre>
+			<p>Some of the most popular ways to persist your store would be -</p>
+			<ul>
+				<li><strong><a href="https://npmjs.com/js-cookie">js-cookie</a></strong> to use browser Cookies</li>
+				<li><strong>window.localStorage</strong> (remains, across PC reboots, untill you clear browser data)</li>
+				<li><strong>window.sessionStorage</strong> (vanishes when you close browser tab)</li>
+				<li><strong><a href="http://npmjs.com/localForage">localForage</a></strong> Uses IndexedDB from the browser</li>
+			</ul>
+		</div>
 		<div style="position:relative;"><a name="typedoc-main-index" class="tsd-anchor"></a></div>
 		<section class="tsd-panel-group tsd-index-group">
 			<h2>Index</h2>
