@@ -10,6 +10,11 @@
     "use strict";
     Object.defineProperty(exports, "__esModule", { value: true });
     var lodash_1 = require("lodash");
+    /**
+     * A class to define default options to be used
+     * if respective options do not exist in the constructor
+     * of {@link VuexPersistence}
+     */
     var DefaultOptions = (function () {
         function DefaultOptions() {
             var _this = this;
@@ -28,9 +33,23 @@
     }());
     exports.DefaultOptions = DefaultOptions;
     var defOpt = new DefaultOptions();
+    /**
+     * A class that implements the vuex persistence.
+     */
     var VuexPersistence = (function () {
+        /**
+         * Create a {@link VuexPersistence} object.
+         * Use the <code>plugin</code> function of this class as a
+         * Vuex plugin.
+         * @param options
+         */
         function VuexPersistence(options) {
             var _this = this;
+            /**
+             * Creates a subscriber on the store. automatically is used
+             * when this is used a vuex plugin. Not for manual usage.
+             * @param store
+             */
             this.subscriber = function (store) {
                 return function (handler) { return store.subscribe(handler); };
             };
