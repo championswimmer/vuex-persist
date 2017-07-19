@@ -4,6 +4,11 @@ A Typescript-ready [Vuex](https://vuex.vuejs.org/) plugin that enables
 you to save the state of your app to a persisted storage like
 Cookies or localStorage.
 
+[![GitHub Stars](https://img.shields.io/github/stars/championswimmer/vuex-persist.svg?style=social&label= vuex-persist ★)](https://github.com/championswimmer/vuex-persist)
+[![npm](https://img.shields.io/npm/v/vuex-persist.svg?colorB=dd1100)](http://npmjs.com/vuex-persist)
+[![npm](https://img.shields.io/npm/dw/vuex-persist.svg?colorB=fc4f4f)](http://npmjs.com/vuex-persist)
+[![license](https://img.shields.io/github/license/championswimmer/vuex-persist.svg)]()
+
 [![bitHound Overall Score](https://www.bithound.io/github/championswimmer/vuex-persist/badges/score.svg)](https://www.bithound.io/github/championswimmer/vuex-persist)
 [![bitHound Dependencies](https://www.bithound.io/github/championswimmer/vuex-persist/badges/dependencies.svg)](https://www.bithound.io/github/championswimmer/vuex-persist/master/dependencies/npm)
 [![codebeat badge](https://codebeat.co/badges/dc97dea1-1e70-45d5-b3f1-fec2a6c3e4b0)](https://codebeat.co/projects/github-com-championswimmer-vuex-persist-master)
