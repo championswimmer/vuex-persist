@@ -2,10 +2,9 @@
   "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "node",
-    "target": "es2015",
+    "target": "es5",
     "lib": [
-      "es5",
-      "es2015.promise",
+      "es2015",
       "dom"
     ],
     "sourceMap": true,
@@ -14,6 +13,7 @@
     "declaration": true,
     "noImplicitReturns": true,
     "noImplicitAny": true,
+    "noImplicitThis": true,
     "strictNullChecks": true
   },
   "include": [

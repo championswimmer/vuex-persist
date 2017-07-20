@@ -1,3 +1,6 @@
+/**
+ * Created by championswimmer on 18/07/17.
+ */
 import { Payload, Plugin } from 'vuex';
 /**
  * Options to be used to construct a {@link VuexPersistence} object

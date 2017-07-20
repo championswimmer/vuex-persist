@@ -1,7 +1,6 @@
 /**
  * Created by championswimmer on 18/07/17.
  */
-import { merge } from 'lodash'
 import {Payload, Plugin, Store} from 'vuex'
 import DomStorage = require('dom-storage')
 
@@ -112,7 +111,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
 
     this.plugin = (store: Store<S>) => {
       const savedState = this.restoreState(this.key, this.storage)
-      store.replaceState(merge({}, store.state, savedState))
+      store.replaceState(Object.assign({}, store.state, savedState))
 
       this.subscriber(store)((mutation: P, state: S) => {
         if (this.filter(mutation)) {
