@@ -10,8 +10,8 @@
     "url": "git+https://github.com/championswimmer/vuex-persist.git"
   },
   "scripts": {
-    "predoc": "rm -rf docs/*",
-    "doc": "typedoc --ignoreCompilerErrors --mode modules --name vuex-persist --out docs dist",
+    "predoc": "rm -rf docs; mkdir -p docs;",
+    "doc": "typedoc --ignoreCompilerErrors --mode modules --name vuex-persist --out docs",
     "postdoc": "touch docs/.nojekyll",
     "prebuild": "rm -rf dist/*",
     "build": "node_modules/.bin/tsc || true",

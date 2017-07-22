@@ -68,12 +68,34 @@
 				<p>A Typescript-ready <a href="https://vuex.vuejs.org/">Vuex</a> plugin that enables
 					you to save the state of your app to a persisted storage like
 				Cookies or localStorage.</p>
+				<p><a href="http://github.com/championswimmer/vuex-persist"><img src="https://img.shields.io/github/stars/championswimmer/vuex-persist.svg?style=social&amp;label=%20vuex-persist" alt="GitHub stars"></a>
+					<a href="http://npmjs.com/vuex-persist"><img src="https://img.shields.io/npm/v/vuex-persist.svg?colorB=dd1100" alt="npm"></a>
+					<a href="http://npmjs.com/vuex-persist"><img src="https://img.shields.io/npm/dw/vuex-persist.svg?colorB=fc4f4f" alt="npm"></a>
+				<a href=""><img src="https://img.shields.io/github/license/championswimmer/vuex-persist.svg" alt="license"></a></p>
 				<p><a href="https://www.bithound.io/github/championswimmer/vuex-persist"><img src="https://www.bithound.io/github/championswimmer/vuex-persist/badges/score.svg" alt="bitHound Overall Score"></a>
 					<a href="https://www.bithound.io/github/championswimmer/vuex-persist/master/dependencies/npm"><img src="https://www.bithound.io/github/championswimmer/vuex-persist/badges/dependencies.svg" alt="bitHound Dependencies"></a>
 					<a href="https://codebeat.co/projects/github-com-championswimmer-vuex-persist-master"><img src="https://codebeat.co/badges/dc97dea1-1e70-45d5-b3f1-fec2a6c3e4b0" alt="codebeat badge"></a>
 					<a href="https://www.codacy.com/app/championswimmer/vuex-persist?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=championswimmer/vuex-persist&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/0fdc0921591d4ab98b0c0c173ef22649" alt="Codacy Badge"></a>
 					<a href="https://codeclimate.com/github/championswimmer/vuex-persist"><img src="https://codeclimate.com/github/championswimmer/vuex-persist/badges/gpa.svg" alt="Code Climate"></a>
 				<a href="https://codecov.io/gh/championswimmer/vuex-persist"><img src="https://codecov.io/gh/championswimmer/vuex-persist/branch/master/graph/badge.svg" alt="codecov"></a></p>
+				<h2 id="features">Features</h2>
+				<ul>
+					<li>Automatically save store on mutation.</li>
+					<li>Choose which mutations trigger store save, and which don&#39;t, using <code>filter</code> function</li>
+					<li>Works perfectly with modules in store</li>
+					<li>Ability to save partial store, using a <code>reducer</code> function</li>
+					<li>Automatically restores store when app loads</li>
+					<li>You can create mulitple VuexPersistence instances if you want to -<ul>
+							<li>Save some parts of the store to localStorage, some to sessionStorage</li>
+							<li>Trigger saving to localStorage on data download, saving to cookies on authentication result</li>
+						</ul>
+					</li>
+				</ul>
+				<h2 id="compatibility">Compatibility</h2>
+				<ul>
+					<li><a href="http://vuejs.org">VueJS</a> - v2.0 and above</li>
+					<li><a href="http://vuex.vuejs.org">Vuex</a> - v2.1 and above</li>
+				</ul>
 				<h2 id="installation">Installation</h2>
 				<pre><code class="lang-shell">npm install --save vuex-persist
 </code></pre>
@@ -90,13 +112,21 @@
     <span class="hljs-attr">storage</span>: <span class="hljs-built_in">window</span>.localStorage
 })
 </code></pre>
-				<p>Use it as Vue plugin.</p>
-				<pre><code class="lang-js"><span class="hljs-keyword">const</span> store = <span class="hljs-keyword">new</span> Vuex.Store&lt;State&gt;({
+				<p>Use it as Vue plugin. (in typescript)</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">const</span> store = <span class="hljs-keyword">new</span> Vuex.Store&lt;State&gt;({
+  state: { ... },
+  mutations: { ... },
+  actions: { ... },
+  plugins: [vuexLocal.plugin]
+})
+</code></pre>
+				<p>(or in Javascript)</p>
+				<pre><code class="lang-js"><span class="hljs-keyword">const</span> store = {
   <span class="hljs-attr">state</span>: { ... },
   <span class="hljs-attr">mutations</span>: { ... },
   <span class="hljs-attr">actions</span>: { ... },
   <span class="hljs-attr">plugins</span>: [vuexLocal.plugin]
-})
+}
 </code></pre>
 				<h3 id="constructor-parameters-">Constructor Parameters -</h3>
 				<p>When creating the VuexPersistence object, we pass an <code>options</code> object
@@ -119,27 +149,27 @@
 						<tr>
 							<td>storage</td>
 							<td>Storage (Web API)</td>
-							<td>localStorage, sessionStorage or your custom Storage object. Must implement getItem, setItem, clear etc.</td>
+							<td>localStorage, sessionStorage or your custom Storage object. <br>Must implement getItem, setItem, clear etc.</td>
 						</tr>
 						<tr>
 							<td>saveState</td>
-							<td>function (key, state[, storage])</td>
-							<td>If not using storage, this custom function handles saving state to persistence</td>
+							<td>function<br> (key, state[, storage])</td>
+							<td>If not using storage, this custom function handles <br>saving state to persistence</td>
 						</tr>
 						<tr>
 							<td>restoreState</td>
-							<td>function (key[, storage]) =&gt; state</td>
-							<td>If not using storage, this custom function handles retrieving state from storage</td>
+							<td>function<br> (key[, storage]) =&gt; state</td>
+							<td>If not using storage, this custom function handles <br>retrieving state from storage</td>
 						</tr>
 						<tr>
 							<td>reducer</td>
-							<td>function (state) =&gt; object</td>
-							<td>state reducer. reduces state to only those values you want to save. by default, saves entire state</td>
+							<td>function<br> (state) =&gt; object</td>
+							<td>State reducer. reduces state to only those values you want to save. <br>By default, saves entire state</td>
 						</tr>
 						<tr>
 							<td>filter</td>
-							<td>function (mutation) =&gt; boolean</td>
-							<td>mutation filter. look at mutation.type and return true for only those ones which you want a persistence write to be triggered for.</td>
+							<td>function<br> (mutation) =&gt; boolean</td>
+							<td>Mutation filter. Look at <code>mutation.type</code> and return true <br>for only those ones which you want a persistence write to be triggered for. <br> Default returns true for all mutations</td>
 						</tr>
 					</tbody>
 				</table>
@@ -223,6 +253,9 @@ Vue.use(Vuex)
 				<ul>
 					<li class="globals  ">
 						<a href="globals.html"><em>Globals</em></a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_mockstorage_.html">"<wbr>Mock<wbr>Storage"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_index_.html">"index"</a>
