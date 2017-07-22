@@ -43,19 +43,6 @@ export interface PersistOptions<S> {
     filter?: (mutation: Payload) => boolean;
 }
 /**
- * A class to define default options to be used
- * if respective options do not exist in the constructor
- * of {@link VuexPersistence}
- */
-export declare class DefaultOptions<S> implements PersistOptions<S> {
-    storage: Storage;
-    key: string;
-    restoreState: (key: string) => any;
-    saveState: (key: string, state: {}) => void;
-    reducer: (state: S) => S;
-    filter: (mutation: Payload) => boolean;
-}
-/**
  * A class that implements the vuex persistence.
  */
 export declare class VuexPersistence<S, P extends Payload> implements PersistOptions<S> {
@@ -69,7 +56,6 @@ export declare class VuexPersistence<S, P extends Payload> implements PersistOpt
      * The plugin function that can be used inside a vuex store.
      */
     plugin: Plugin<S>;
-    private mStorage;
     /**
      * Create a {@link VuexPersistence} object.
      * Use the <code>plugin</code> function of this class as a

@@ -17,7 +17,6 @@
     "build": "node_modules/.bin/tsc || true",
     "pretest": "npm run build",
     "test": "node_modules/.bin/_mocha --compilers ts:ts-node/register",
-    "precover": "npm run build",
     "cover": "node_modules/.bin/nyc npm test"
   },
   "nyc": {
@@ -46,7 +45,6 @@
     "@types/lodash": "^4.14.69",
     "@types/mocha": "^2.2.41",
     "chai": "^4.1.0",
-    "dom-storage": "^2.0.2",
     "mocha": "^3.4.2",
     "nyc": "^11.0.3",
     "ts-node": "^3.2.0",

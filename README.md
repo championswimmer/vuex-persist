@@ -11,7 +11,19 @@ Cookies or localStorage.
 [![Code Climate](https://codeclimate.com/github/championswimmer/vuex-persist/badges/gpa.svg)](https://codeclimate.com/github/championswimmer/vuex-persist)
 [![codecov](https://codecov.io/gh/championswimmer/vuex-persist/branch/master/graph/badge.svg)](https://codecov.io/gh/championswimmer/vuex-persist)
 
+## Features
+ - Automatically save store on mutation.
+ - Choose which mutations trigger store save, and which don't, using `filter` function
+ - Works perfectly with modules in store
+ - Ability to save partial store, using a `reducer` function
+ - Automatically restores store when app loads
+ - You can create mulitple VuexPersistence instances if you want to -
+    - Save some parts of the store to localStorage, some to sessionStorage
+    - Trigger saving to localStorage on data download, saving to cookies on authentication result
 
+## Compatibility
+ - [VueJS](http://vuejs.org) - v2.0 and above
+ - [Vuex](http://vuex.vuejs.org) - v2.1 and above
 
 ## Installation
 
@@ -42,15 +54,25 @@ const vuexLocal = new VuexPersistence({
 })
 ```
 
-Use it as Vue plugin.
+Use it as Vue plugin. (in typescript)
 
-```js
+```typescript
 const store = new Vuex.Store<State>({
   state: { ... },
   mutations: { ... },
   actions: { ... },
   plugins: [vuexLocal.plugin]
 })
+```
+
+(or in Javascript)
+```js
+const store = {
+  state: { ... },
+  mutations: { ... },
+  actions: { ... },
+  plugins: [vuexLocal.plugin]
+}
 ```
 
 ### Constructor Parameters -
@@ -62,11 +84,11 @@ Here are the properties, and what they mean -
 | Property     	| Type                               	| Description                                                                                                                        	|
 |--------------	|------------------------------------	|------------------------------------------------------------------------------------------------------------------------------------	|
 | key          	| string                             	| The key to store the state in the storage                                                                                          	|
-| storage      	| Storage (Web API)                  	| localStorage, sessionStorage or your custom Storage object. Must implement getItem, setItem, clear etc.                            	|
-| saveState    	| function (key, state[, storage])   	| If not using storage, this custom function handles saving state to persistence                                                     	|
-| restoreState 	| function (key[, storage]) => state 	| If not using storage, this custom function handles retrieving state from storage                                                   	|
-| reducer      	| function (state) => object         	| state reducer. reduces state to only those values you want to save. by default, saves entire state                                 	|
-| filter       	| function (mutation) => boolean     	| mutation filter. look at mutation.type and return true for only those ones which you want a persistence write to be triggered for. 	|
+| storage      	| Storage (Web API)                  	| localStorage, sessionStorage or your custom Storage object. <br>Must implement getItem, setItem, clear etc.                            	|
+| saveState    	| function<br> (key, state[, storage])   	| If not using storage, this custom function handles <br>saving state to persistence                                                     	|
+| restoreState 	| function<br> (key[, storage]) => state 	| If not using storage, this custom function handles <br>retrieving state from storage                                                   	|
+| reducer      	| function<br> (state) => object         	| State reducer. reduces state to only those values you want to save. <br>By default, saves entire state                                 	|
+| filter       	| function<br> (mutation) => boolean     	| Mutation filter. Look at `mutation.type` and return true <br>for only those ones which you want a persistence write to be triggered for. <br> Default returns true for all mutations 	|
 
 
 

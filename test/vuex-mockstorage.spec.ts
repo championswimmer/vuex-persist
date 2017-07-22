@@ -1,7 +1,4 @@
 /**
- * Created by championswimmer on 22/07/17.
- */
-/**
  * Created by championswimmer on 20/07/17.
  */
 import {Store} from 'vuex'
@@ -12,11 +9,9 @@ import VuexPersistence from '../dist'
 import {assert, expect, should} from 'chai'
 
 Vue.use(Vuex)
-const objStorage: any = {}
+const mockStorage = new MockStorage()
 const vuexPersist = new VuexPersistence<any, any>({
-  key: 'dafuq',
-  restoreState: (key) => objStorage[key],
-  saveState: (key, state) => { objStorage[key] = state },
+  storage: mockStorage,
   reducer: (state) => ({dog: state.dog}),
   filter: (mutation) => (mutation.type === 'dogBark')
 })
@@ -40,9 +35,9 @@ const store = new Store<any>({
   },
   plugins: [vuexPersist.plugin]
 })
-const getSavedStore = () => objStorage['dafuq']
+const getSavedStore = () => JSON.parse(mockStorage.getItem('vuex'))
 
-describe('Storage: Custom(Object), Test: reducer, filter', () => {
+describe('Storage: MockStorage, Test: reducer, filter', () => {
   it('should persist reduced state', () => {
     store.commit('dogBark')
     expect(getSavedStore().dog.barks).to.equal(1)

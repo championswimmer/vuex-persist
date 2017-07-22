@@ -1,29 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-var DomStorage = require("dom-storage");
-/**
- * A class to define default options to be used
- * if respective options do not exist in the constructor
- * of {@link VuexPersistence}
- */
-var DefaultOptions = (function () {
-    function DefaultOptions() {
-        var _this = this;
-        this.storage = (typeof window !== 'undefined') ? window.localStorage : new DomStorage(null, { strict: false });
-        this.key = 'vuex';
-        this.restoreState = function (key) {
-            return JSON.parse((_this.storage.getItem(key) || '{}'));
-        };
-        this.saveState = function (key, state) {
-            _this.storage.setItem(key, JSON.stringify(state));
-        };
-        this.reducer = function (state) { return state; };
-        this.filter = function (mutation) { return true; };
-    }
-    return DefaultOptions;
-}());
-exports.DefaultOptions = DefaultOptions;
-var defOpt = new DefaultOptions();
+var MockStorage_1 = require("./MockStorage");
 /**
  * A class that implements the vuex persistence.
  */
@@ -44,12 +21,26 @@ var VuexPersistence = (function () {
         this.subscriber = function (store) {
             return function (handler) { return store.subscribe(handler); };
         };
-        this.storage = ((options.storage != null) ? options.storage : defOpt.storage);
-        this.restoreState = ((options.restoreState != null) ? options.restoreState : defOpt.restoreState);
-        this.saveState = ((options.saveState != null) ? options.saveState : defOpt.saveState);
-        this.reducer = ((options.reducer != null) ? options.reducer : defOpt.reducer);
-        this.key = ((options.key != null) ? options.key : defOpt.key);
-        this.filter = ((options.filter != null) ? options.filter : defOpt.filter);
+        this.key = ((options.key != null) ? options.key : 'vuex');
+        this.storage = ((options.storage != null)
+            ? options.storage
+            : (new MockStorage_1.default()));
+        this.restoreState = ((options.restoreState != null)
+            ? options.restoreState
+            : (function (key, storage) {
+                return JSON.parse((storage || _this.storage).getItem(key) || '{}');
+            }));
+        this.saveState = ((options.saveState != null)
+            ? options.saveState
+            : (function (key, state, storage) {
+                return (storage || _this.storage).setItem(key, JSON.stringify(state));
+            }));
+        this.reducer = ((options.reducer != null)
+            ? options.reducer
+            : (function (state) { return state; }));
+        this.filter = ((options.filter != null)
+            ? options.filter
+            : (function (mutation) { return true; }));
         this.plugin = function (store) {
             var savedState = _this.restoreState(_this.key, _this.storage);
             store.replaceState(Object.assign({}, store.state, savedState));
@@ -60,16 +51,6 @@ var VuexPersistence = (function () {
             });
         };
     }
-    Object.defineProperty(VuexPersistence.prototype, "storage", {
-        get: function () {
-            return this.mStorage;
-        },
-        set: function (str) {
-            this.mStorage = str;
-        },
-        enumerable: true,
-        configurable: true
-    });
     return VuexPersistence;
 }());
 exports.VuexPersistence = VuexPersistence;
