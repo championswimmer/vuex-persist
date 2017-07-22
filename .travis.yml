@@ -14,7 +14,7 @@ cache:
   directories:
     - "node_modules"
 install:
-  - yarn global add codecov nyc
+  - yarn global add codecov nyc mocha
 script: 'npm run cover'
 after_success:
   - codecov
