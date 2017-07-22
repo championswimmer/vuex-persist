@@ -14,7 +14,7 @@ cache:
   directories:
     - "node_modules"
 install:
-  - yarn global add codecov nyc mocha ts-node
+  - yarn global add codecov nyc mocha ts-node typescript
 script: 'npm run cover'
 after_success:
   - codecov
