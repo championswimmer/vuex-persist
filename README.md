@@ -95,7 +95,7 @@ Here are the properties, and what they mean -
 | restoreState 	| function<br> (key[, storage]) => state 	| If not using storage, this custom function handles <br>retrieving state from storage                                                   	|
 | reducer      	| function<br> (state) => object         	| State reducer. reduces state to only those values you want to save. <br>By default, saves entire state                                 	|
 | filter       	| function<br> (mutation) => boolean     	| Mutation filter. Look at `mutation.type` and return true <br>for only those ones which you want a persistence write to be triggered for. <br> Default returns true for all mutations 	|
-
+| modules       | string[]                                  | List of modules you want to persist. (Do not write your own reducer if you want to use this)      |
 
 
 ## Examples
@@ -154,12 +154,12 @@ const vuexCookie = new VuexPersistence<State, Payload>({
   saveState: (key, state, storage) => Cookies.set(key, state, {
     expires: 3
   }),
-  reducer: (state) => ({user: state.user}),
+  modules: ['user'], //only save user module
   filter: (mutation) => (mutation.type == 'logIn' || mutation.type == 'logOut')
 })
 const vuexLocal = new VuexPersistence<State, Payload> ({
   storage: window.localStorage,
-  reducer: state => ({navigation: state.navigation}),
+  reducer: state => ({navigation: state.navigation}), //only save navigation module
   filter: mutation => (mutation.type == 'addNavItem')
 })
 

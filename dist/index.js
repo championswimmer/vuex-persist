@@ -37,7 +37,14 @@ var VuexPersistence = (function () {
             }));
         this.reducer = ((options.reducer != null)
             ? options.reducer
-            : (function (state) { return state; }));
+            : ((options.modules == null)
+                ? (function (state) { return state; })
+                : (function (state) {
+                    return options.modules.reduce(function (a, i) {
+                        return Object.assign(a, (_a = {}, _a[i] = state[i], _a));
+                        var _a;
+                    }, {});
+                })));
         this.filter = ((options.filter != null)
             ? options.filter
             : (function (mutation) { return true; }));

@@ -47,6 +47,13 @@ export interface PersistOptions<S> {
    * @param mutation object of type {@link Payload}
    */
   filter?: (mutation: Payload) => boolean
+
+  /**
+   * Names of modules that you want to persist.
+   * If you create your custom {@link PersistOptions.reducer} function,
+   * then that will override filter behaviour, not this argument
+   */
+  modules?: string[]
 }
 
 /**
@@ -59,6 +66,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
   public reducer: (state: S) => {}
   public key: string
   public filter: (mutation: Payload) => boolean
+  public modules: string[]
 
   /**
    * The plugin function that can be used inside a vuex store.
@@ -82,18 +90,26 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
         ? options.restoreState
         : ((key: string, storage?: Storage) =>
             JSON.parse((storage || this.storage).getItem(key) || '{}')
-      )
+        )
     )
     this.saveState = (
       (options.saveState != null)
         ? options.saveState
         : ((key: string, state: {}, storage?: Storage) =>
-              (storage || this.storage).setItem(key, JSON.stringify(state)))
+          (storage || this.storage).setItem(key, JSON.stringify(state)))
     )
     this.reducer = (
       (options.reducer != null)
         ? options.reducer
-        : ((state: S) => state)
+        : (
+          (options.modules == null)
+            ? ((state: S) => state)
+            : (
+              (state: any) =>
+                (<string[]>options.modules).reduce((a, i) =>
+                  Object.assign(a, {[i]: state[i]}), {})
+            )
+        )
     )
     this.filter = (
       (options.filter != null)
