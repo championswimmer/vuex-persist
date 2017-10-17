@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var MockStorage_1 = require("./MockStorage");
+var deepAssign = require("deep-assign");
 /**
  * A class that implements the vuex persistence.
  */
@@ -50,7 +51,7 @@ var VuexPersistence = (function () {
             : (function (mutation) { return true; }));
         this.plugin = function (store) {
             var savedState = _this.restoreState(_this.key, _this.storage);
-            store.replaceState(Object.assign({}, store.state, savedState));
+            store.replaceState(deepAssign(store.state, savedState));
             _this.subscriber(store)(function (mutation, state) {
                 if (_this.filter(mutation)) {
                     _this.saveState(_this.key, _this.reducer(state), _this.storage);

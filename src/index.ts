@@ -3,6 +3,7 @@
  */
 import {Payload, Plugin, Store} from 'vuex'
 import MockStorage from './MockStorage'
+import deepAssign = require('deep-assign')
 /**
  * Options to be used to construct a {@link VuexPersistence} object
  */
@@ -119,7 +120,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
 
     this.plugin = (store: Store<S>) => {
       const savedState = this.restoreState(this.key, this.storage)
-      store.replaceState(Object.assign({}, store.state, savedState))
+      store.replaceState(deepAssign(store.state, savedState))
 
       this.subscriber(store)((mutation: P, state: S) => {
         if (this.filter(mutation)) {
