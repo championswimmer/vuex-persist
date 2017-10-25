@@ -3,7 +3,7 @@
  */
 import { Payload, Plugin, Store } from 'vuex'
 import MockStorage from './MockStorage'
-import merge from "lodash/merge";
+import merge from 'lodash/merge'
 /**
  * Options to be used to construct a {@link VuexPersistence} object
  */
@@ -107,7 +107,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
             ? ((state: S) => state)
             : (
               (state: any) =>
-                (<string[]>options.modules).reduce((a, i) =>
+                (<string[]> options.modules).reduce((a, i) =>
                   Object.assign(a, { [i]: state[i] }), {})
             )
         )
@@ -144,4 +144,4 @@ export {
   MockStorage
 }
 
-export default VuexPersistence;
+export default VuexPersistence
