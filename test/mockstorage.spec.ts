@@ -1,8 +1,8 @@
 /**
  * Created by championswimmer on 22/07/17.
  */
-import MockStorage from '../dist/MockStorage'
-import {assert, expect, should} from 'chai'
+import { MockStorage } from '../dist'
+import { assert, expect, should } from 'chai'
 
 const mockStorage = new MockStorage()
 

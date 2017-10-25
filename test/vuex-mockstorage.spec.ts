@@ -1,18 +1,17 @@
 /**
  * Created by championswimmer on 20/07/17.
  */
-import {Store} from 'vuex'
+import { Store } from 'vuex'
 import Vuex = require('vuex')
 import Vue = require('vue')
-import MockStorage from '../dist/MockStorage'
-import VuexPersistence from '../dist'
-import {assert, expect, should} from 'chai'
+import VuexPersistence, { MockStorage } from '../dist'
+import { assert, expect, should } from 'chai'
 
 Vue.use(Vuex)
 const mockStorage = new MockStorage()
 const vuexPersist = new VuexPersistence<any, any>({
   storage: mockStorage,
-  reducer: (state) => ({dog: state.dog}),
+  reducer: (state) => ({ dog: state.dog }),
   filter: (mutation) => (mutation.type === 'dogBark')
 })
 

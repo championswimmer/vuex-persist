@@ -46,3 +46,4 @@ typings/
 .yarn-integrity
 .env
 /.idea
+\.rpt2_cache/
