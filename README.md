@@ -104,9 +104,9 @@ Here are the properties, and what they mean -
 
 Quick example -
 
-```js
+```typescript
 import Vue from 'vue'
-import Vuex 'vuex'
+import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
 
 
@@ -133,7 +133,7 @@ So you can use multiple VuexPersistence instances to store different
 parts of your Vuex store into different storage providers.
 
 
-```js
+```typescript
 import Vue from 'vue'
 import Vuex, {Payload, Store} from 'vuex'
 import VuexPersistence from 'vuex-persist'
@@ -173,6 +173,45 @@ const store = new Vuex.Store<State>({
 
 export default store
 
+```
+
+### Support Strict Mode
+This now supports [Vuex strict mode](https://vuex.vuejs.org/en/strict.html)
+(Keep in mind, **NOT** to use strict mode in production)
+In strict mode, we cannot use `store.replaceState` so instead we use a mutation
+
+You'll need to keep in mind to add the **`RESTORE_MUTATION`** to your mutations
+See example below
+
+To configure with strict mode support - 
+
+```typescript
+import Vue from 'vue'
+import Vuex, {Payload, Store} from 'vuex'
+import VuexPersistence from 'vuex-persist'
+
+const vuexPersist = new VuexPersistence<any, any>({
+  strictMode: true, // This **MUST** be set to true
+  storage: localStorage,
+  reducer: (state) => ({ dog: state.dog }),
+  filter: (mutation) => (mutation.type === 'dogBark')
+})
+
+const store = new Vuex.Store<State>({
+  strict: true, // This makes the Vuex store strict
+  state: {
+    user: {
+      name: 'Arnav'
+    },
+    foo: {
+      bar: 'baz'
+    }
+  },
+  mutations: {
+    RESTORE_MUTATION: vuexPersist.RESTORE_MUTATION // this mutation **MUST** be named "RESTORE_MUTATION"
+  },
+  plugins: [vuexPersist.plugin]
+})
 ```
 
 Some of the most popular ways to persist your store would be -
