@@ -1,7 +1,7 @@
 /**
  * Created by championswimmer on 18/07/17.
  */
-import { Payload, Plugin } from 'vuex';
+import { Mutation, Payload, Plugin } from 'vuex';
 import MockStorage from './MockStorage';
 /**
  * Options to be used to construct a {@link VuexPersistence} object
@@ -48,6 +48,11 @@ export interface PersistOptions<S> {
      * then that will override filter behaviour, not this argument
      */
     modules?: string[];
+    /**
+     * Set this to true to support
+     * <a href="https://vuex.vuejs.org/en/strict.html">Vuex Strict Mode</a>
+     */
+    strictMode?: boolean;
 }
 /**
  * A class that implements the vuex persistence.
@@ -60,10 +65,16 @@ export declare class VuexPersistence<S, P extends Payload> implements PersistOpt
     key: string;
     filter: (mutation: Payload) => boolean;
     modules: string[];
+    strictMode: boolean;
     /**
      * The plugin function that can be used inside a vuex store.
      */
     plugin: Plugin<S>;
+    /**
+     * A mutation that can be used to restore state
+     * Helpful if we are running in strict mode
+     */
+    RESTORE_MUTATION: Mutation<S>;
     /**
      * Create a {@link VuexPersistence} object.
      * Use the <code>plugin</code> function of this class as a

@@ -32,7 +32,7 @@ const store = new Store<any>({
 })
 const getSavedStore = () => JSON.parse(vuexPersist.storage.getItem('vuex') as string)
 
-describe('Storage: MockStorage, Test: reducer, filter', () => {
+describe('Storage: Default Storage, Test: reducer, filter; Strict Mode: OFF', () => {
   it('should persist reduced state', () => {
     store.commit('dogBark')
     expect(getSavedStore().dog.barks).to.equal(1)

@@ -1,27 +1,28 @@
 /**
- * Created by championswimmer on 22/07/17.
- */
-/**
  * Created by championswimmer on 20/07/17.
  */
-import {Store} from 'vuex'
+import { Store } from 'vuex'
 import Vuex = require('vuex')
 import Vue = require('vue')
-import MockStorage from '../dist/MockStorage'
-import VuexPersistence from '../dist'
-import {assert, expect, should} from 'chai'
+import VuexPersistence, { MockStorage } from '../dist'
+import { assert, expect, should } from 'chai'
 
 Vue.use(Vuex)
-const objStorage: any = {}
+const mockStorage = new MockStorage()
+mockStorage.setItem('vuex', JSON.stringify({
+  dog: {
+    barks: 2
+  }
+}))
 const vuexPersist = new VuexPersistence<any, any>({
-  key: 'dafuq',
-  restoreState: (key) => objStorage[key],
-  saveState: (key, state) => { objStorage[key] = state },
-  reducer: (state) => ({dog: state.dog}),
+  strictMode: true,
+  storage: mockStorage,
+  reducer: (state) => ({ dog: state.dog }),
   filter: (mutation) => (mutation.type === 'dogBark')
 })
 
 const store = new Store<any>({
+  strict: true,
   state: {
     dog: {
       barks: 0
@@ -36,16 +37,17 @@ const store = new Store<any>({
     },
     catMew(state) {
       state.cat.mews++
-    }
+    },
+    RESTORE_MUTATION: vuexPersist.RESTORE_MUTATION
   },
   plugins: [vuexPersist.plugin]
 })
-const getSavedStore = () => objStorage['dafuq']
+const getSavedStore = () => JSON.parse(mockStorage.getItem('vuex'))
 
-describe('Storage: Custom(Object); Test: reducer, filter; Strict Mode: OFF', () => {
+describe('Storage: MockStorage; Test: reducer, filter; Existing Data: TRUE; Strict: TRUE', () => {
   it('should persist reduced state', () => {
     store.commit('dogBark')
-    expect(getSavedStore().dog.barks).to.equal(1)
+    expect(getSavedStore().dog.barks).to.equal(3)
   })
   it('should not persist non reduced state', () => {
     store.commit('catMew')

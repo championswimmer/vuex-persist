@@ -4,7 +4,7 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
 
-var merge = _interopDefault(require('lodash/merge'));
+var merge = _interopDefault(require('lodash.merge'));
 
 /**
  * Created by championswimmer on 22/07/17.
@@ -74,22 +74,43 @@ var VuexPersistence = (function () {
             : (function (key, state, storage) {
                 return (storage || _this.storage).setItem(key, JSON.stringify(state));
             }));
+        /**
+         * How this works is -
+         *  1. If there is options.reducer function, we use that, if not;
+         *  2. We check options.modules;
+         *    1. If there is no options.modules array, we use entire state in reducer
+         *    2. Otherwise, we create a reducer that merges all those state modules that are
+         *        defined in the options.modules[] array
+         * @type {((state: S) => {}) | ((state: S) => S) | ((state: any) => {})}
+         */
         this.reducer = ((options.reducer != null)
             ? options.reducer
             : ((options.modules == null)
                 ? (function (state) { return state; })
                 : (function (state) {
                     return options.modules.reduce(function (a, i) {
-                        return Object.assign(a, (_a = {}, _a[i] = state[i], _a));
+                        return merge(a, (_a = {}, _a[i] = state[i], _a));
                         var _a;
                     }, {});
                 })));
         this.filter = ((options.filter != null)
             ? options.filter
             : (function (mutation) { return true; }));
+        this.strictMode = options.strictMode || false;
+        this.RESTORE_MUTATION = function RESTORE_MUTATION(state, savedState) {
+            state = merge(state, savedState);
+        };
         this.plugin = function (store) {
             var savedState = _this.restoreState(_this.key, _this.storage);
-            store.replaceState(merge(store.state, savedState));
+            /**
+             * If in strict mode, do only via mutation
+             */
+            if (_this.strictMode) {
+                store.commit('RESTORE_MUTATION', savedState);
+            }
+            else {
+                store.replaceState(merge(store.state, savedState));
+            }
             _this.subscriber(store)(function (mutation, state) {
                 if (_this.filter(mutation)) {
                     _this.saveState(_this.key, _this.reducer(state), _this.storage);

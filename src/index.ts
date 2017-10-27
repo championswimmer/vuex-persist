@@ -1,7 +1,7 @@
 /**
  * Created by championswimmer on 18/07/17.
  */
-import { Payload, Plugin, Store } from 'vuex'
+import {Mutation, Payload, Plugin, Store} from 'vuex'
 import MockStorage from './MockStorage'
 import merge from 'lodash.merge'
 /**
@@ -55,6 +55,12 @@ export interface PersistOptions<S> {
    * then that will override filter behaviour, not this argument
    */
   modules?: string[]
+
+  /**
+   * Set this to true to support
+   * <a href="https://vuex.vuejs.org/en/strict.html">Vuex Strict Mode</a>
+   */
+  strictMode?: boolean
 }
 
 /**
@@ -68,11 +74,17 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
   public key: string
   public filter: (mutation: Payload) => boolean
   public modules: string[]
+  public strictMode: boolean
 
   /**
    * The plugin function that can be used inside a vuex store.
    */
   public plugin: Plugin<S>
+  /**
+   * A mutation that can be used to restore state
+   * Helpful if we are running in strict mode
+   */
+  public RESTORE_MUTATION: Mutation<S>
   /**
    * Create a {@link VuexPersistence} object.
    * Use the <code>plugin</code> function of this class as a
@@ -127,9 +139,23 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
         : ((mutation) => true)
     )
 
+
+    this.strictMode = options.strictMode || false
+
+    this.RESTORE_MUTATION = function RESTORE_MUTATION (state: S, savedState: any) {
+      state = merge(state, savedState)
+    }
+
     this.plugin = (store: Store<S>) => {
       const savedState = this.restoreState(this.key, this.storage)
-      store.replaceState(merge(store.state, savedState))
+      /**
+       * If in strict mode, do only via mutation
+       */
+      if (this.strictMode) {
+        store.commit('RESTORE_MUTATION', savedState)
+      } else {
+        store.replaceState(merge(store.state, savedState))
+      }
 
       this.subscriber(store)((mutation: P, state: S) => {
         if (this.filter(mutation)) {

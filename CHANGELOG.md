@@ -5,6 +5,8 @@
 
 ### 0.3.0
 
+#### 0.3.0
+ - Supports [Vuex strict mode](https://vuex.vuejs.org/en/strict.html)
 #### 0.2.2
  - Use lodash.merge instead of deep-assign
  - [FIX] use merge for reducer too
