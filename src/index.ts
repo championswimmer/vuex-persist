@@ -3,7 +3,7 @@
  */
 import { Payload, Plugin, Store } from 'vuex'
 import MockStorage from './MockStorage'
-import merge from 'lodash/merge'
+import merge from 'lodash.merge'
 /**
  * Options to be used to construct a {@link VuexPersistence} object
  */
@@ -90,7 +90,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
       (options.restoreState != null)
         ? options.restoreState
         : ((key: string, storage?: Storage) =>
-          JSON.parse((storage || this.storage).getItem(key) || '{}')
+            JSON.parse((storage || this.storage).getItem(key) || '{}')
         )
     )
     this.saveState = (
@@ -99,6 +99,15 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
         : ((key: string, state: {}, storage?: Storage) =>
           (storage || this.storage).setItem(key, JSON.stringify(state)))
     )
+    /**
+     * How this works is -
+     *  1. If there is options.reducer function, we use that, if not;
+     *  2. We check options.modules;
+     *    1. If there is no options.modules array, we use entire state in reducer
+     *    2. Otherwise, we create a reducer that merges all those state modules that are
+     *        defined in the options.modules[] array
+     * @type {((state: S) => {}) | ((state: S) => S) | ((state: any) => {})}
+     */
     this.reducer = (
       (options.reducer != null)
         ? options.reducer
@@ -108,7 +117,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
             : (
               (state: any) =>
                 (<string[]> options.modules).reduce((a, i) =>
-                  Object.assign(a, { [i]: state[i] }), {})
+                  merge(a, { [i]: state[i] }), {})
             )
         )
     )
