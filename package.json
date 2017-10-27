@@ -10,11 +10,13 @@
     "url": "git+https://github.com/championswimmer/vuex-persist.git"
   },
   "scripts": {
-    "predoc": "rm -rf docs; mkdir -p docs;",
-    "doc": "typedoc --ignoreCompilerErrors --mode modules --name vuex-persist --out docs",
-    "postdoc": "touch docs/.nojekyll",
-    "prebuild": "rm -rf dist/*",
-    "build": "node_modules/.bin/tsc || true",
+    "doc:clean": "rimraf docs/**/**",
+    "postdoc:clean": "mkdirp docs",
+    "predoc": "run-s doc:clean",
+    "doc": "typedoc --ignoreCompilerErrors --mode modules --name vuex-persist --out docs src",
+    "postdoc": "nodetouch docs/.nojekyll",
+    "prebuild": "rimraf dist/**/**",
+    "build": "rollup -c",
     "pretest": "npm run build",
     "test": "node_modules/.bin/_mocha --compilers ts:ts-node/register",
     "cover": "node_modules/.bin/nyc npm test"
@@ -42,18 +44,23 @@
   "homepage": "https://github.com/championswimmer/vuex-persist#readme",
   "devDependencies": {
     "@types/chai": "^4.0.1",
-    "@types/deep-assign": "^0.1.0",
     "@types/lodash": "^4.14.69",
     "@types/mocha": "^2.2.41",
     "chai": "^4.1.0",
+    "mkdirp": "^0.5.1",
     "mocha": "^4.0.0",
     "nyc": "^11.0.3",
+    "rimraf": "^2.6.2",
+    "rollup": "^0.50.0",
+    "rollup-plugin-typescript2": "^0.7.0",
+    "touch": "^3.1.0",
     "ts-node": "^3.2.0",
+    "typedoc": "^0.9.0",
     "typescript": "^2.4.1",
     "vue": "^2.4.1"
   },
   "dependencies": {
-    "deep-assign": "^2.0.0",
+    "lodash": "^4.17.4",
     "vuex": "^2.3.1"
   }
 }

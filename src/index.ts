@@ -1,9 +1,9 @@
 /**
  * Created by championswimmer on 18/07/17.
  */
-import {Payload, Plugin, Store} from 'vuex'
+import { Payload, Plugin, Store } from 'vuex'
 import MockStorage from './MockStorage'
-import deepAssign = require('deep-assign')
+import merge from 'lodash/merge'
 /**
  * Options to be used to construct a {@link VuexPersistence} object
  */
@@ -90,7 +90,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
       (options.restoreState != null)
         ? options.restoreState
         : ((key: string, storage?: Storage) =>
-            JSON.parse((storage || this.storage).getItem(key) || '{}')
+          JSON.parse((storage || this.storage).getItem(key) || '{}')
         )
     )
     this.saveState = (
@@ -107,8 +107,8 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
             ? ((state: S) => state)
             : (
               (state: any) =>
-                (<string[]>options.modules).reduce((a, i) =>
-                  Object.assign(a, {[i]: state[i]}), {})
+                (<string[]> options.modules).reduce((a, i) =>
+                  Object.assign(a, { [i]: state[i] }), {})
             )
         )
     )
@@ -120,7 +120,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
 
     this.plugin = (store: Store<S>) => {
       const savedState = this.restoreState(this.key, this.storage)
-      store.replaceState(deepAssign(store.state, savedState))
+      store.replaceState(merge(store.state, savedState))
 
       this.subscriber(store)((mutation: P, state: S) => {
         if (this.filter(mutation)) {
@@ -138,6 +138,10 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
   private subscriber = (store: Store<S>) =>
     (handler: (mutation: P, state: S) => any) => store.subscribe(handler)
 
+}
+
+export {
+  MockStorage
 }
 
 export default VuexPersistence

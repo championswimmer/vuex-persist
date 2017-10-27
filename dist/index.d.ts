@@ -2,6 +2,7 @@
  * Created by championswimmer on 18/07/17.
  */
 import { Payload, Plugin } from 'vuex';
+import MockStorage from './MockStorage';
 /**
  * Options to be used to construct a {@link VuexPersistence} object
  */
@@ -77,4 +78,5 @@ export declare class VuexPersistence<S, P extends Payload> implements PersistOpt
      */
     private subscriber;
 }
+export { MockStorage };
 export default VuexPersistence;
