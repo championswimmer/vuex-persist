@@ -40,6 +40,34 @@ var MockStorage = (function () {
     return MockStorage;
 }());
 
+var SimplePromiseQueue = (function () {
+    function SimplePromiseQueue() {
+        this._queue = [];
+        this._flushing = false;
+    }
+    SimplePromiseQueue.prototype.enqueue = function (promise) {
+        this._queue.push(promise);
+        if (!this._flushing)
+            return this.flushQueue();
+        return Promise.resolve();
+    };
+    SimplePromiseQueue.prototype.flushQueue = function () {
+        var _this = this;
+        this._flushing = true;
+        var chain = function () {
+            var nextTask = _this._queue.shift();
+            if (nextTask) {
+                return nextTask.then(chain);
+            }
+            else {
+                _this._flushing = false;
+            }
+        };
+        return Promise.resolve(chain());
+    };
+    return SimplePromiseQueue;
+}());
+
 /**
  * A class that implements the vuex persistence.
  */
@@ -60,19 +88,21 @@ var VuexPersistence = (function () {
         this.subscriber = function (store) {
             return function (handler) { return store.subscribe(handler); };
         };
+        this._mutex = new SimplePromiseQueue();
         this.key = ((options.key != null) ? options.key : 'vuex');
+        this.subscribed = false;
         this.storage = ((options.storage != null)
             ? options.storage
             : (new MockStorage()));
         this.restoreState = ((options.restoreState != null)
             ? options.restoreState
             : (function (key, storage) {
-                return JSON.parse((storage || _this.storage).getItem(key) || '{}');
+                return Promise.resolve((storage || _this.storage).getItem(key)).then(function (value) { return JSON.parse(value || '{}'); });
             }));
         this.saveState = ((options.saveState != null)
             ? options.saveState
             : (function (key, state, storage) {
-                return (storage || _this.storage).setItem(key, JSON.stringify(state));
+                return Promise.resolve((storage || _this.storage).setItem(key, JSON.stringify(state)));
             }));
         /**
          * How this works is -
@@ -101,20 +131,22 @@ var VuexPersistence = (function () {
             state = merge(state, savedState);
         };
         this.plugin = function (store) {
-            var savedState = _this.restoreState(_this.key, _this.storage);
-            /**
-             * If in strict mode, do only via mutation
-             */
-            if (_this.strictMode) {
-                store.commit('RESTORE_MUTATION', savedState);
-            }
-            else {
-                store.replaceState(merge(store.state, savedState));
-            }
-            _this.subscriber(store)(function (mutation, state) {
-                if (_this.filter(mutation)) {
-                    _this.saveState(_this.key, _this.reducer(state), _this.storage);
+            Promise.resolve(_this.restoreState(_this.key, _this.storage)).then(function (savedState) {
+                /**
+                 * If in strict mode, do only via mutation
+                 */
+                if (_this.strictMode) {
+                    store.commit('RESTORE_MUTATION', savedState);
                 }
+                else {
+                    store.replaceState(merge(store.state, savedState));
+                }
+                _this.subscriber(store)(function (mutation, state) {
+                    if (_this.filter(mutation)) {
+                        _this._mutex.enqueue(Promise.resolve(_this.saveState(_this.key, _this.reducer(state), _this.storage)));
+                    }
+                });
+                _this.subscribed = true;
             });
         };
     }

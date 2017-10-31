@@ -18,7 +18,7 @@
     "prebuild": "rimraf dist/**/**",
     "build": "rollup -c",
     "pretest": "npm run build",
-    "test": "node_modules/.bin/_mocha --compilers ts:ts-node/register",
+    "test": "node_modules/.bin/_mocha --require ts-node/register test/**/*.ts",
     "cover": "node_modules/.bin/nyc npm test"
   },
   "nyc": {
@@ -48,6 +48,7 @@
     "@types/lodash.merge": "^4.6.3",
     "@types/mocha": "^2.2.41",
     "chai": "^4.1.0",
+    "localforage": "^1.5.3",
     "mkdirp": "^0.5.1",
     "mocha": "^4.0.0",
     "nyc": "^11.0.3",

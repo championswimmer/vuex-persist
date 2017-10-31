@@ -2,11 +2,11 @@
  * Created by championswimmer on 23/07/17.
  */
 
-import {Store} from 'vuex'
+import { Store } from 'vuex'
 import Vuex = require('vuex')
 import Vue = require('vue')
 import VuexPersistence from '../dist'
-import {assert, expect, should} from 'chai'
+import { assert, expect, should } from 'chai'
 
 Vue.use(Vuex)
 const vuexPersist = new VuexPersistence({})
@@ -30,7 +30,7 @@ const store = new Store<any>({
   },
   plugins: [vuexPersist.plugin]
 })
-const getSavedStore = () => JSON.parse(vuexPersist.storage.getItem('vuex') as string)
+const getSavedStore = () => JSON.parse((vuexPersist.storage as Storage).getItem('vuex') as string)
 
 describe('Storage: Default Storage, Test: reducer, filter; Strict Mode: OFF', () => {
   it('should persist reduced state', () => {

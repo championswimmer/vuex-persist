@@ -3,6 +3,10 @@
  */
 import { Mutation, Payload, Plugin } from 'vuex';
 import MockStorage from './MockStorage';
+export declare type AsyncStorage = {
+    getItem<T>(key: string): Promise<T>;
+    setItem<T>(key: string, data: T): Promise<T>;
+};
 /**
  * Options to be used to construct a {@link VuexPersistence} object
  */
@@ -10,20 +14,20 @@ export interface PersistOptions<S> {
     /**
      * Window.Storage type object. Default is localStorage
      */
-    storage?: Storage;
+    storage?: Storage | AsyncStorage;
     /**
      * Method to retrieve state from persistence
      * @param key
      * @param [storage]
      */
-    restoreState?: (key: string, storage?: Storage) => S;
+    restoreState?: (key: string, storage?: Storage) => Promise<S> | S;
     /**
      * Method to save state into persistence
      * @param key
      * @param state
      * @param [storage]
      */
-    saveState?: (key: string, state: {}, storage?: Storage) => void;
+    saveState?: (key: string, state: {}, storage?: Storage) => Promise<void> | void;
     /**
      * Function to reduce state to the object you want to save.
      * Be default, we save the entire state.
@@ -58,9 +62,9 @@ export interface PersistOptions<S> {
  * A class that implements the vuex persistence.
  */
 export declare class VuexPersistence<S, P extends Payload> implements PersistOptions<S> {
-    storage: Storage;
-    restoreState: (key: string, storage?: Storage) => S;
-    saveState: (key: string, state: {}, storage?: Storage) => void;
+    storage: Storage | AsyncStorage;
+    restoreState: (key: string, storage?: AsyncStorage | Storage) => Promise<S> | S;
+    saveState: (key: string, state: {}, storage?: AsyncStorage | Storage) => Promise<void> | void;
     reducer: (state: S) => {};
     key: string;
     filter: (mutation: Payload) => boolean;
@@ -75,6 +79,7 @@ export declare class VuexPersistence<S, P extends Payload> implements PersistOpt
      * Helpful if we are running in strict mode
      */
     RESTORE_MUTATION: Mutation<S>;
+    subscribed: boolean;
     /**
      * Create a {@link VuexPersistence} object.
      * Use the <code>plugin</code> function of this class as a
@@ -88,6 +93,7 @@ export declare class VuexPersistence<S, P extends Payload> implements PersistOpt
      * @param store
      */
     private subscriber;
+    private _mutex;
 }
 export { MockStorage };
 export default VuexPersistence;
