@@ -58,9 +58,9 @@ export interface PersistOptions<S> {
  * A class that implements the vuex persistence.
  */
 export declare class VuexPersistence<S, P extends Payload> implements PersistOptions<S> {
-    storage: Storage;
-    restoreState: (key: string, storage?: Storage) => S;
-    saveState: (key: string, state: {}, storage?: Storage) => void;
+    storage: Storage | any;
+    restoreState: (key: string, storage?: Storage) => (S | Promise<S>);
+    saveState: (key: string, state: {}, storage?: Storage) => (void | Promise<void>);
     reducer: (state: S) => {};
     key: string;
     filter: (mutation: Payload) => boolean;

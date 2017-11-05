@@ -14,7 +14,8 @@
     "noImplicitReturns": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
-    "strictNullChecks": true
+    "strictNullChecks": true,
+    "rootDir": "."
   },
   "include": [
     "src"

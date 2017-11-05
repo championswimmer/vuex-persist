@@ -11,14 +11,14 @@ export interface PersistOptions<S> {
   /**
    * Window.Storage type object. Default is localStorage
    */
-  storage?: Storage
+  storage?: Storage | any
 
   /**
    * Method to retrieve state from persistence
    * @param key
    * @param [storage]
    */
-  restoreState?: (key: string, storage?: Storage) => S
+  restoreState?: (key: string, storage?: Storage) => (S | Promise<S>)
 
   /**
    * Method to save state into persistence
@@ -26,7 +26,7 @@ export interface PersistOptions<S> {
    * @param state
    * @param [storage]
    */
-  saveState?: (key: string, state: {}, storage?: Storage) => void
+  saveState?: (key: string, state: {}, storage?: Storage) => (void | Promise<void>)
 
   /**
    * Function to reduce state to the object you want to save.
@@ -67,9 +67,9 @@ export interface PersistOptions<S> {
  * A class that implements the vuex persistence.
  */
 export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> {
-  public storage: Storage
-  public restoreState: (key: string, storage?: Storage) => S
-  public saveState: (key: string, state: {}, storage?: Storage) => void
+  public storage: Storage | any
+  public restoreState: (key: string, storage?: Storage) => (S | Promise<S>)
+  public saveState: (key: string, state: {}, storage?: Storage) => (void | Promise<void>)
   public reducer: (state: S) => {}
   public key: string
   public filter: (mutation: Payload) => boolean
@@ -101,15 +101,28 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
     this.restoreState = (
       (options.restoreState != null)
         ? options.restoreState
-        : ((key: string, storage?: Storage) =>
-            JSON.parse((storage || this.storage).getItem(key) || '{}')
+        : (async (key: string, storage?: Storage) =>
+          {
+            try {
+              return JSON.parse(await (storage || this.storage).getItem(key) || '{}')
+            } catch (err) {
+              throw err
+            }
+          }
         )
     )
     this.saveState = (
       (options.saveState != null)
         ? options.saveState
-        : ((key: string, state: {}, storage?: Storage) =>
-          (storage || this.storage).setItem(key, JSON.stringify(state)))
+        : (async (key: string, state: {}, storage?: Storage) =>
+          {
+            try {
+              return await (storage || this.storage).setItem(key, JSON.stringify(state))
+            } catch (err) {
+              throw err
+            }
+          }
+        )
     )
     /**
      * How this works is -
@@ -146,8 +159,13 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
       state = merge(state, savedState)
     }
 
-    this.plugin = (store: Store<S>) => {
-      const savedState = this.restoreState(this.key, this.storage)
+    this.plugin = async (store: Store<S>) => {
+      let savedState = {}
+      try {
+        savedState =  this.restoreState(this.key, this.storage)
+      } catch (err) {
+        console.error(err)
+      }
       /**
        * If in strict mode, do only via mutation
        */
@@ -157,8 +175,9 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
         store.replaceState(merge(store.state, savedState))
       }
 
-      this.subscriber(store)((mutation: P, state: S) => {
+      this.subscriber(store)(async (mutation: P, state: S) => {
         if (this.filter(mutation)) {
+          // TODO: Use a Promise queue here
           this.saveState(this.key, this.reducer(state), this.storage)
         }
       })
