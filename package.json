@@ -10,9 +10,9 @@
     "url": "git+https://github.com/championswimmer/vuex-persist.git"
   },
   "scripts": {
-    "doc:clean": "rimraf docs/**/**",
+    "doc:clean": "rimraf docs",
     "postdoc:clean": "mkdirp docs",
-    "predoc": "run-s doc:clean",
+    "predoc": "npm run doc:clean",
     "doc": "typedoc --ignoreCompilerErrors --mode modules --name vuex-persist --out docs src",
     "postdoc": "nodetouch docs/.nojekyll",
     "prebuild": "rimraf dist/**/**",

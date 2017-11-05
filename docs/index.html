@@ -72,7 +72,8 @@
 					<a href="http://npmjs.com/vuex-persist"><img src="https://img.shields.io/npm/v/vuex-persist.svg?colorB=dd1100" alt="npm"></a>
 					<a href="http://npmjs.com/vuex-persist"><img src="https://img.shields.io/npm/dw/vuex-persist.svg?colorB=fc4f4f" alt="npm"></a>
 				<a href=""><img src="https://img.shields.io/github/license/championswimmer/vuex-persist.svg" alt="license"></a></p>
-				<p><a href="https://www.bithound.io/github/championswimmer/vuex-persist"><img src="https://www.bithound.io/github/championswimmer/vuex-persist/badges/score.svg" alt="bitHound Overall Score"></a>
+				<p><a href="https://travis-ci.org/championswimmer/vuex-persist"><img src="https://travis-ci.org/championswimmer/vuex-persist.svg?branch=master" alt="Build Status"></a>
+					<a href="https://www.bithound.io/github/championswimmer/vuex-persist"><img src="https://www.bithound.io/github/championswimmer/vuex-persist/badges/score.svg" alt="bitHound Overall Score"></a>
 					<a href="https://www.bithound.io/github/championswimmer/vuex-persist/master/dependencies/npm"><img src="https://www.bithound.io/github/championswimmer/vuex-persist/badges/dependencies.svg" alt="bitHound Dependencies"></a>
 					<a href="https://codebeat.co/projects/github-com-championswimmer-vuex-persist-master"><img src="https://codebeat.co/badges/dc97dea1-1e70-45d5-b3f1-fec2a6c3e4b0" alt="codebeat badge"></a>
 					<a href="https://www.codacy.com/app/championswimmer/vuex-persist?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=championswimmer/vuex-persist&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/0fdc0921591d4ab98b0c0c173ef22649" alt="Codacy Badge"></a>
@@ -144,12 +145,12 @@
 						<tr>
 							<td>key</td>
 							<td>string</td>
-							<td>The key to store the state in the storage</td>
+							<td>The key to store the state in the storage <br><em><strong>Default: &#39;vuex&#39;</strong></em></td>
 						</tr>
 						<tr>
 							<td>storage</td>
 							<td>Storage (Web API)</td>
-							<td>localStorage, sessionStorage or your custom Storage object. <br>Must implement getItem, setItem, clear etc.</td>
+							<td>localStorage, sessionStorage or your custom Storage object. <br>Must implement getItem, setItem, clear etc. <br> <em><strong>Default: window.localStorage</strong></em></td>
 						</tr>
 						<tr>
 							<td>saveState</td>
@@ -171,24 +172,29 @@
 							<td>function<br> (mutation) =&gt; boolean</td>
 							<td>Mutation filter. Look at <code>mutation.type</code> and return true <br>for only those ones which you want a persistence write to be triggered for. <br> Default returns true for all mutations</td>
 						</tr>
+						<tr>
+							<td>modules</td>
+							<td>string[]</td>
+							<td>List of modules you want to persist. (Do not write your own reducer if you want to use this)</td>
+						</tr>
 					</tbody>
 				</table>
 				<h2 id="examples">Examples</h2>
 				<h3 id="simple">Simple</h3>
 				<p>Quick example -</p>
-				<pre><code class="lang-js"><span class="hljs-keyword">import</span> Vue <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>
-<span class="hljs-keyword">import</span> Vuex <span class="hljs-string">'vuex'</span>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> Vue <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>
+<span class="hljs-keyword">import</span> Vuex <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex'</span>
 <span class="hljs-keyword">import</span> VuexPersistence <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex-persist'</span>
 
 
 Vue.use(Vuex)
 
 <span class="hljs-keyword">const</span> store = <span class="hljs-keyword">new</span> Vuex.Store&lt;State&gt;({
-  <span class="hljs-attr">state</span>: {
-    <span class="hljs-attr">user</span>: {<span class="hljs-attr">name</span>: <span class="hljs-string">'Arnav'</span>},
-    <span class="hljs-attr">navigation</span>: {<span class="hljs-attr">path</span>: <span class="hljs-string">'/home'</span>}
+  state: {
+    user: {name: <span class="hljs-string">'Arnav'</span>},
+    navigation: {path: <span class="hljs-string">'/home'</span>}
   },
-  <span class="hljs-attr">plugins</span>: [(<span class="hljs-keyword">new</span> VuexPersistence()).plugin]
+  plugins: [(<span class="hljs-keyword">new</span> VuexPersistence()).plugin]
 })
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> store
@@ -200,44 +206,78 @@ Vue.use(Vuex)
 					a new item is added to nav items.
 					So you can use multiple VuexPersistence instances to store different
 				parts of your Vuex store into different storage providers.</p>
-				<pre><code class="lang-js"><span class="hljs-keyword">import</span> Vue <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> Vue <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>
 <span class="hljs-keyword">import</span> Vuex, {Payload, Store} <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex'</span>
 <span class="hljs-keyword">import</span> VuexPersistence <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex-persist'</span>
 <span class="hljs-keyword">import</span> Cookies <span class="hljs-keyword">from</span> <span class="hljs-string">'js-cookie'</span>
-<span class="hljs-keyword">import</span> {<span class="hljs-built_in">module</span> <span class="hljs-keyword">as</span> userModule, UserState} <span class="hljs-keyword">from</span> <span class="hljs-string">'./user'</span>
-<span class="hljs-keyword">import</span> navModule, {NavigationState} <span class="hljs-keyword">from</span> <span class="hljs-string">'./navigation'</span>
+<span class="hljs-keyword">import</span> {<span class="hljs-keyword">module</span> as userModule, UserState} from './user'
+import navModule, {NavigationState} <span class="hljs-keyword">from</span> <span class="hljs-string">'./navigation'</span>
 
-<span class="hljs-keyword">export</span> interface State {
-  <span class="hljs-attr">user</span>: UserState,
-  <span class="hljs-attr">navigation</span>: NavigationState
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> State {
+  user: UserState,
+  navigation: NavigationState
 }
 
 
 Vue.use(Vuex)
 
 <span class="hljs-keyword">const</span> vuexCookie = <span class="hljs-keyword">new</span> VuexPersistence&lt;State, Payload&gt;({
-  <span class="hljs-attr">restoreState</span>: <span class="hljs-function">(<span class="hljs-params">key, storage</span>) =&gt;</span> Cookies.getJSON(key),
-  <span class="hljs-attr">saveState</span>: <span class="hljs-function">(<span class="hljs-params">key, state, storage</span>) =&gt;</span> Cookies.set(key, state, {
-    <span class="hljs-attr">expires</span>: <span class="hljs-number">3</span>
+  restoreState: <span class="hljs-function">(<span class="hljs-params">key, storage</span>) =&gt;</span> Cookies.getJSON(key),
+  saveState: <span class="hljs-function">(<span class="hljs-params">key, state, storage</span>) =&gt;</span> Cookies.set(key, state, {
+    expires: <span class="hljs-number">3</span>
   }),
-  <span class="hljs-attr">reducer</span>: <span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> ({<span class="hljs-attr">user</span>: state.user}),
-  <span class="hljs-attr">filter</span>: <span class="hljs-function">(<span class="hljs-params">mutation</span>) =&gt;</span> (mutation.type == <span class="hljs-string">'logIn'</span> || mutation.type == <span class="hljs-string">'logOut'</span>)
+  modules: [<span class="hljs-string">'user'</span>], <span class="hljs-comment">//only save user module</span>
+  filter: <span class="hljs-function">(<span class="hljs-params">mutation</span>) =&gt;</span> (mutation.type == <span class="hljs-string">'logIn'</span> || mutation.type == <span class="hljs-string">'logOut'</span>)
 })
 <span class="hljs-keyword">const</span> vuexLocal = <span class="hljs-keyword">new</span> VuexPersistence&lt;State, Payload&gt; ({
-  <span class="hljs-attr">storage</span>: <span class="hljs-built_in">window</span>.localStorage,
-  <span class="hljs-attr">reducer</span>: <span class="hljs-function"><span class="hljs-params">state</span> =&gt;</span> ({<span class="hljs-attr">navigation</span>: state.navigation}),
-  <span class="hljs-attr">filter</span>: <span class="hljs-function"><span class="hljs-params">mutation</span> =&gt;</span> (mutation.type == <span class="hljs-string">'addNavItem'</span>)
+  storage: <span class="hljs-built_in">window</span>.localStorage,
+  reducer: <span class="hljs-function"><span class="hljs-params">state</span> =&gt;</span> ({navigation: state.navigation}), <span class="hljs-comment">//only save navigation module</span>
+  filter: <span class="hljs-function"><span class="hljs-params">mutation</span> =&gt;</span> (mutation.type == <span class="hljs-string">'addNavItem'</span>)
 })
 
 <span class="hljs-keyword">const</span> store = <span class="hljs-keyword">new</span> Vuex.Store&lt;State&gt;({
-  <span class="hljs-attr">modules</span>: {
-    <span class="hljs-attr">user</span>: userModule,
-    <span class="hljs-attr">navigation</span>: navModule
+  modules: {
+    user: userModule,
+    navigation: navModule
   },
-  <span class="hljs-attr">plugins</span>: [vuexCookie.plugin, vuexLocal.plugin]
+  plugins: [vuexCookie.plugin, vuexLocal.plugin]
 })
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> store
+</code></pre>
+				<h3 id="support-strict-mode">Support Strict Mode</h3>
+				<p>This now supports <a href="https://vuex.vuejs.org/en/strict.html">Vuex strict mode</a>
+					(Keep in mind, <strong>NOT</strong> to use strict mode in production)
+				In strict mode, we cannot use <code>store.replaceState</code> so instead we use a mutation</p>
+				<p>You&#39;ll need to keep in mind to add the <strong><code>RESTORE_MUTATION</code></strong> to your mutations
+				See example below</p>
+				<p>To configure with strict mode support - </p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">import</span> Vue <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>
+<span class="hljs-keyword">import</span> Vuex, {Payload, Store} <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex'</span>
+<span class="hljs-keyword">import</span> VuexPersistence <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex-persist'</span>
+
+<span class="hljs-keyword">const</span> vuexPersist = <span class="hljs-keyword">new</span> VuexPersistence&lt;<span class="hljs-built_in">any</span>, <span class="hljs-built_in">any</span>&gt;({
+  strictMode: <span class="hljs-literal">true</span>, <span class="hljs-comment">// This **MUST** be set to true</span>
+  storage: localStorage,
+  reducer: <span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> ({ dog: state.dog }),
+  filter: <span class="hljs-function">(<span class="hljs-params">mutation</span>) =&gt;</span> (mutation.type === <span class="hljs-string">'dogBark'</span>)
+})
+
+<span class="hljs-keyword">const</span> store = <span class="hljs-keyword">new</span> Vuex.Store&lt;State&gt;({
+  strict: <span class="hljs-literal">true</span>, <span class="hljs-comment">// This makes the Vuex store strict</span>
+  state: {
+    user: {
+      name: <span class="hljs-string">'Arnav'</span>
+    },
+    foo: {
+      bar: <span class="hljs-string">'baz'</span>
+    }
+  },
+  mutations: {
+    RESTORE_MUTATION: vuexPersist.RESTORE_MUTATION <span class="hljs-comment">// this mutation **MUST** be named "RESTORE_MUTATION"</span>
+  },
+  plugins: [vuexPersist.plugin]
+})
 </code></pre>
 				<p>Some of the most popular ways to persist your store would be -</p>
 				<ul>
@@ -256,6 +296,9 @@ Vue.use(Vuex)
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_mockstorage_.html">"<wbr>Mock<wbr>Storage"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_simplepromisequeue_.html">"<wbr>Simple<wbr>Promise<wbr>Queue"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_index_.html">"index"</a>
