@@ -1,14 +1,14 @@
 /**
  * Created by championswimmer on 18/07/17.
  */
+import merge from 'lodash.merge'
 import { Mutation, Payload, Plugin, Store } from 'vuex'
 import MockStorage from './MockStorage'
 import SimplePromiseQueue from './SimplePromiseQueue'
-import merge from 'lodash.merge'
 
-export type AsyncStorage = {
-  getItem<T>(key: string): Promise<T>;
-  setItem<T>(key: string, data: T): Promise<T>;
+export interface AsyncStorage {
+  getItem<T>(key: string): Promise<T>
+  setItem<T>(key: string, data: T): Promise<T>
 }
 
 /**
@@ -93,6 +93,10 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
    */
   public RESTORE_MUTATION: Mutation<S>
   public subscribed: boolean
+
+  // tslint:disable-next-line:variable-name
+  private _mutex = new SimplePromiseQueue()
+
   /**
    * Create a {@link VuexPersistence} object.
    * Use the <code>plugin</code> function of this class as a
@@ -111,14 +115,14 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
       (options.restoreState != null)
         ? options.restoreState
         : ((key: string, storage?: Storage | AsyncStorage) =>
-          Promise.resolve((storage || this.storage as any).getItem(key)).then(value => JSON.parse(value || '{}'))
+            Promise.resolve((storage || this.storage as any).getItem(key)).then((value) => JSON.parse(value || '{}'))
         )
     )
     this.saveState = (
       (options.saveState != null)
         ? options.saveState
         : ((key: string, state: {}, storage?: Storage) =>
-          Promise.resolve<void>((storage || this.storage as any).setItem(key, JSON.stringify(state) as any))
+            Promise.resolve<void>((storage || this.storage as any).setItem(key, JSON.stringify(state) as any))
         )
     )
     /**
@@ -138,7 +142,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
             ? ((state: S) => state)
             : (
               (state: any) =>
-                (<string[]>options.modules).reduce((a, i) =>
+                (options.modules as string[]).reduce((a, i) =>
                   merge(a, { [i]: state[i] }), {})
             )
         )
@@ -149,7 +153,6 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
         : ((mutation) => true)
     )
 
-
     this.strictMode = options.strictMode || false
 
     this.RESTORE_MUTATION = function RESTORE_MUTATION(state: S, savedState: any) {
@@ -157,7 +160,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
     }
 
     this.plugin = (store: Store<S>) => {
-      Promise.resolve(this.restoreState(this.key, this.storage)).then(savedState => {
+      Promise.resolve(this.restoreState(this.key, this.storage)).then((savedState) => {
         /**
          * If in strict mode, do only via mutation
          */
@@ -173,9 +176,9 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
               Promise.resolve(this.saveState(this.key, this.reducer(state), this.storage))
             )
           }
-        });
+        })
         this.subscribed = true
-      });
+      })
     }
   }
 
@@ -186,9 +189,6 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
    */
   private subscriber = (store: Store<S>) =>
     (handler: (mutation: P, state: S) => any) => store.subscribe(handler)
-
-  private _mutex = new SimplePromiseQueue()
-
 }
 
 export {

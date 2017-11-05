@@ -3,7 +3,6 @@
     "extends": [
         "tslint:recommended"
     ],
-    "jsRules": {},
     "rules": {
         "semicolon": [true, "never"],
         "quotemark": [true, "single"],
@@ -11,9 +10,10 @@
         "max-classes-per-file": [false],
         "trailing-comma": false,
         "object-literal-sort-keys": false,
-        "ordered-imports": false,
+        "ordered-imports": true,
         "no-string-literal": false,
-        "no-console": ["error", {"allow": ["warn", "error"]}]
+        "no-console": false
+
     },
     "rulesDirectory": []
 }

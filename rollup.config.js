@@ -10,7 +10,8 @@ export default {
         exports: 'named'
     },
     external: [
-        "lodash/merge"
+        "lodash.merge",
+        "vuex"
     ],
     plugins: [
         typescript()

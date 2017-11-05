@@ -1,12 +1,9 @@
-/**
- * Created by championswimmer on 18/07/17.
- */
 import { Mutation, Payload, Plugin } from 'vuex';
 import MockStorage from './MockStorage';
-export declare type AsyncStorage = {
+export interface AsyncStorage {
     getItem<T>(key: string): Promise<T>;
     setItem<T>(key: string, data: T): Promise<T>;
-};
+}
 /**
  * Options to be used to construct a {@link VuexPersistence} object
  */
@@ -80,6 +77,7 @@ export declare class VuexPersistence<S, P extends Payload> implements PersistOpt
      */
     RESTORE_MUTATION: Mutation<S>;
     subscribed: boolean;
+    private _mutex;
     /**
      * Create a {@link VuexPersistence} object.
      * Use the <code>plugin</code> function of this class as a
@@ -93,7 +91,6 @@ export declare class VuexPersistence<S, P extends Payload> implements PersistOpt
      * @param store
      */
     private subscriber;
-    private _mutex;
 }
 export { MockStorage };
 export default VuexPersistence;

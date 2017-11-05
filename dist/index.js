@@ -40,6 +40,7 @@ var MockStorage = (function () {
     return MockStorage;
 }());
 
+// tslint:disable: variable-name
 var SimplePromiseQueue = (function () {
     function SimplePromiseQueue() {
         this._queue = [];
@@ -47,8 +48,9 @@ var SimplePromiseQueue = (function () {
     }
     SimplePromiseQueue.prototype.enqueue = function (promise) {
         this._queue.push(promise);
-        if (!this._flushing)
+        if (!this._flushing) {
             return this.flushQueue();
+        }
         return Promise.resolve();
     };
     SimplePromiseQueue.prototype.flushQueue = function () {
@@ -69,6 +71,9 @@ var SimplePromiseQueue = (function () {
 }());
 
 /**
+ * Created by championswimmer on 18/07/17.
+ */
+/**
  * A class that implements the vuex persistence.
  */
 var VuexPersistence = (function () {
@@ -80,6 +85,8 @@ var VuexPersistence = (function () {
      */
     function VuexPersistence(options) {
         var _this = this;
+        // tslint:disable-next-line:variable-name
+        this._mutex = new SimplePromiseQueue();
         /**
          * Creates a subscriber on the store. automatically is used
          * when this is used a vuex plugin. Not for manual usage.
@@ -88,7 +95,6 @@ var VuexPersistence = (function () {
         this.subscriber = function (store) {
             return function (handler) { return store.subscribe(handler); };
         };
-        this._mutex = new SimplePromiseQueue();
         this.key = ((options.key != null) ? options.key : 'vuex');
         this.subscribed = false;
         this.storage = ((options.storage != null)
