@@ -3,6 +3,10 @@
 ## 1.0.0
  - TBA
 
+### 0.5.0
+ - Depends on Vuex 3.x now
+ - Supports localforage without custom restoreState/saveState now
+
 ### 0.4.0
  - Supports localforage and similar async storages
 ### 0.3.0

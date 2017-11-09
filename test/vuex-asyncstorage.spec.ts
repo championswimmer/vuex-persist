@@ -66,7 +66,7 @@ describe('Storage: AsyncStorage; Test: reducer, filter; Strict Mode: OFF', () =>
     await waitUntil(() => vuexPersist.subscribed)
     store.commit('dogBark')
     expect(objectStore["dafuq"]).to.exist
-    expect(objectStore["dafuq"]).to.equal(JSON.stringify({ dog: { barks: 1 } }))
+    expect(objectStore["dafuq"].dog.barks).to.equal(1)
   })
   it('should not persist non reduced state', async () => {
     store.commit('catMew')

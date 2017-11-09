@@ -90,7 +90,7 @@ Here are the properties, and what they mean -
 | Property     	| Type                               	| Description                                                                                                                        	|
 |--------------	|------------------------------------	|------------------------------------------------------------------------------------------------------------------------------------	|
 | key          	| string                             	| The key to store the state in the storage <br>_**Default: 'vuex'**_                                                                                          	|
-| storage      	| Storage (Web API)                  	| localStorage, sessionStorage or your custom Storage object. <br>Must implement getItem, setItem, clear etc. <br> _**Default: window.localStorage**_                           	|
+| storage      	| Storage (Web API)                  	| localStorage, sessionStorage, localforage or your custom Storage object. <br>Must implement getItem, setItem, clear etc. <br> _**Default: window.localStorage**_                           	|
 | saveState    	| function<br> (key, state[, storage])   	| If not using storage, this custom function handles <br>saving state to persistence                                                     	|
 | restoreState 	| function<br> (key[, storage]) => state 	| If not using storage, this custom function handles <br>retrieving state from storage                                                   	|
 | reducer      	| function<br> (state) => object         	| State reducer. reduces state to only those values you want to save. <br>By default, saves entire state                                 	|

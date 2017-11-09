@@ -2,7 +2,7 @@
  * Created by championswimmer on 18/07/17.
  */
 import merge from 'lodash.merge'
-import { Mutation, Payload, Plugin, Store } from 'vuex'
+import {Mutation, MutationPayload, Payload, Plugin, Store} from 'vuex'
 import MockStorage from './MockStorage'
 import SimplePromiseQueue from './SimplePromiseQueue'
 
@@ -115,14 +115,24 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
       (options.restoreState != null)
         ? options.restoreState
         : ((key: string, storage?: Storage | AsyncStorage) =>
-            Promise.resolve((storage || this.storage as any).getItem(key)).then((value) => JSON.parse(value || '{}'))
+            Promise.resolve((storage || this.storage as any).getItem(key))
+              .then((value) =>
+                typeof value === 'string' // If string, parse, or else, just return
+                  ? JSON.parse(value || '{}')
+                  : (value || {})
+              )
         )
     )
     this.saveState = (
       (options.saveState != null)
         ? options.saveState
         : ((key: string, state: {}, storage?: Storage) =>
-            Promise.resolve<void>((storage || this.storage as any).setItem(key, JSON.stringify(state) as any))
+            Promise.resolve<void>((storage || this.storage as any).setItem(
+              key, // Second argument is state _object_ if localforage, stringified otherwise
+              (((storage && storage._config && storage._config.name) === 'localforage')
+                ? merge({}, state)
+                : JSON.stringify(state) as any)
+            ))
         )
     )
     /**
@@ -170,7 +180,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
           store.replaceState(merge(store.state, savedState))
         }
 
-        this.subscriber(store)((mutation: P, state: S) => {
+        this.subscriber(store)((mutation: MutationPayload, state: S) => {
           if (this.filter(mutation)) {
             this._mutex.enqueue(
               Promise.resolve(this.saveState(this.key, this.reducer(state), this.storage))
@@ -188,7 +198,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
    * @param store
    */
   private subscriber = (store: Store<S>) =>
-    (handler: (mutation: P, state: S) => any) => store.subscribe(handler)
+    (handler: (mutation: MutationPayload, state: S) => any) => store.subscribe(handler)
 }
 
 export {
