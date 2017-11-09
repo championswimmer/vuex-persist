@@ -62,7 +62,9 @@
     "vue": "^2.4.1"
   },
   "dependencies": {
-    "lodash.merge": "^4.6.0",
-    "vuex": "^2.3.1"
+    "lodash.merge": "^4.6.0"
+  },
+  "peerDependencies": {
+    "vuex": "^3.0.1"
   }
 }
