@@ -1,12 +1,78 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+function _interopDefault (ex) { return (ex && (typeof ex === 'object') && 'default' in ex) ? ex['default'] : ex; }
+
+var merge = _interopDefault(require('lodash.merge'));
+
+/**
+ * Created by championswimmer on 22/07/17.
+ */
+var MockStorage = (function () {
+    function MockStorage() {
+    }
+    Object.defineProperty(MockStorage.prototype, "length", {
+        get: function () {
+            return Object.keys(this).length;
+        },
+        enumerable: true,
+        configurable: true
+    });
+    MockStorage.prototype.key = function (index) {
+        return Object.keys(this)[index];
+    };
+    MockStorage.prototype.setItem = function (key, data) {
+        this[key] = data.toString();
+    };
+    MockStorage.prototype.getItem = function (key) {
+        return this[key];
+    };
+    MockStorage.prototype.removeItem = function (key) {
+        delete this[key];
+    };
+    MockStorage.prototype.clear = function () {
+        for (var _i = 0, _a = Object.keys(this); _i < _a.length; _i++) {
+            var key = _a[_i];
+            delete this[key];
+        }
+    };
+    return MockStorage;
+}());
+
+// tslint:disable: variable-name
+var SimplePromiseQueue = (function () {
+    function SimplePromiseQueue() {
+        this._queue = [];
+        this._flushing = false;
+    }
+    SimplePromiseQueue.prototype.enqueue = function (promise) {
+        this._queue.push(promise);
+        if (!this._flushing) {
+            return this.flushQueue();
+        }
+        return Promise.resolve();
+    };
+    SimplePromiseQueue.prototype.flushQueue = function () {
+        var _this = this;
+        this._flushing = true;
+        var chain = function () {
+            var nextTask = _this._queue.shift();
+            if (nextTask) {
+                return nextTask.then(chain);
+            }
+            else {
+                _this._flushing = false;
+            }
+        };
+        return Promise.resolve(chain());
+    };
+    return SimplePromiseQueue;
+}());
+
 /**
  * Created by championswimmer on 18/07/17.
  */
-var lodash_merge_1 = require("lodash.merge");
-var MockStorage_1 = require("./MockStorage");
-exports.MockStorage = MockStorage_1.default;
-var SimplePromiseQueue_1 = require("./SimplePromiseQueue");
 /**
  * A class that implements the vuex persistence.
  */
@@ -20,7 +86,7 @@ var VuexPersistence = (function () {
     function VuexPersistence(options) {
         var _this = this;
         // tslint:disable-next-line:variable-name
-        this._mutex = new SimplePromiseQueue_1.default();
+        this._mutex = new SimplePromiseQueue();
         /**
          * Creates a subscriber on the store. automatically is used
          * when this is used a vuex plugin. Not for manual usage.
@@ -33,7 +99,7 @@ var VuexPersistence = (function () {
         this.subscribed = false;
         this.storage = ((options.storage != null)
             ? options.storage
-            : (new MockStorage_1.default()));
+            : (new MockStorage()));
         this.restoreState = ((options.restoreState != null)
             ? options.restoreState
             : (function (key, storage) {
@@ -49,7 +115,7 @@ var VuexPersistence = (function () {
             : (function (key, state, storage) {
                 return Promise.resolve((storage || _this.storage).setItem(key, // Second argument is state _object_ if localforage, stringified otherwise
                 (((storage && storage._config && storage._config.name) === 'localforage')
-                    ? lodash_merge_1.default({}, state)
+                    ? merge({}, state)
                     : JSON.stringify(state))));
             }));
         /**
@@ -67,7 +133,7 @@ var VuexPersistence = (function () {
                 ? (function (state) { return state; })
                 : (function (state) {
                     return options.modules.reduce(function (a, i) {
-                        return lodash_merge_1.default(a, (_a = {}, _a[i] = state[i], _a));
+                        return merge(a, (_a = {}, _a[i] = state[i], _a));
                         var _a;
                     }, {});
                 })));
@@ -76,7 +142,7 @@ var VuexPersistence = (function () {
             : (function (mutation) { return true; }));
         this.strictMode = options.strictMode || false;
         this.RESTORE_MUTATION = function RESTORE_MUTATION(state, savedState) {
-            state = lodash_merge_1.default(state, savedState);
+            state = merge(state, savedState);
         };
         this.plugin = function (store) {
             Promise.resolve(_this.restoreState(_this.key, _this.storage)).then(function (savedState) {
@@ -87,7 +153,7 @@ var VuexPersistence = (function () {
                     store.commit('RESTORE_MUTATION', savedState);
                 }
                 else {
-                    store.replaceState(lodash_merge_1.default(store.state, savedState));
+                    store.replaceState(merge(store.state, savedState));
                 }
                 _this.subscriber(store)(function (mutation, state) {
                     if (_this.filter(mutation)) {
@@ -100,6 +166,8 @@ var VuexPersistence = (function () {
     }
     return VuexPersistence;
 }());
+
 exports.VuexPersistence = VuexPersistence;
-exports.default = VuexPersistence;
+exports.MockStorage = MockStorage;
+exports['default'] = VuexPersistence;
 //# sourceMappingURL=index.js.map
