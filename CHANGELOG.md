@@ -2,6 +2,9 @@
 
 ## 1.0.0
  - TBA
+ 
+### 0.6.0
+ - Fix MockStorage missing
 
 ### 0.5.0
  - Depends on Vuex 3.x now
