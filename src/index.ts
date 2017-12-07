@@ -3,10 +3,10 @@
  */
 import merge from 'lodash.merge'
 import {Mutation, MutationPayload, Payload, Plugin, Store} from 'vuex'
-import MockStorage from './MockStorage'
-import SimplePromiseQueue from './SimplePromiseQueue'
 import {AsyncStorage} from './AsyncStorage'
+import MockStorage from './MockStorage'
 import {PersistOptions} from './PersistOptions'
+import SimplePromiseQueue from './SimplePromiseQueue'
 
 /**
  * A class that implements the vuex persistence.
@@ -85,17 +85,16 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
       state = merge(state, savedState)
     }
 
-
-
     this.asyncStorage = options.asyncStorage || false
-    let storageConfig = (<any>(this.storage))._config
+    const storageConfig = ((this.storage) as any)._config
     this.asyncStorage = (storageConfig && storageConfig.name) === 'localforage'
 
     if (this.asyncStorage) {
 
       /**
        * Async {@link #VuexPersistence.restoreState} implementation
-       * @type {((key: string, storage?: Storage) => (Promise<S> | S)) | ((key: string, storage: AsyncStorage) => Promise<any>)}
+       * @type {((key: string, storage?: Storage) =>
+       *      (Promise<S> | S)) | ((key: string, storage: AsyncStorage) => Promise<any>)}
        */
       this.restoreState = (
         (options.restoreState != null)
@@ -112,7 +111,8 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
 
       /**
        * Async {@link #VuexPersistence.saveState} implementation
-       * @type {((key: string, state: {}, storage?: Storage) => (Promise<void> | void)) | ((key: string, state: {}, storage?: Storage) => Promise<void>)}
+       * @type {((key: string, state: {}, storage?: Storage) =>
+       *    (Promise<void> | void)) | ((key: string, state: {}, storage?: Storage) => Promise<void>)}
        */
       this.saveState = (
         (options.saveState != null)
@@ -156,22 +156,26 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
 
       /**
        * Sync {@link #VuexPersistence.restoreState} implementation
-       * @type {((key: string, storage?: Storage) => (Promise<S> | S)) | ((key: string, storage: Storage) => (any | string | {}))}
+       * @type {((key: string, storage?: Storage) =>
+       *    (Promise<S> | S)) | ((key: string, storage: Storage) => (any | string | {}))}
        */
       this.restoreState = (
         (options.restoreState != null)
           ? options.restoreState
           : ((key: string, storage: Storage) => {
-             let value = (storage).getItem(key)
-              if (typeof value === 'string') // If string, parse, or else, just return
+             const value = (storage).getItem(key)
+             if (typeof value === 'string') {// If string, parse, or else, just return
                 return JSON.parse(value || '{}')
-              else return (value || {})
+             } else {
+               return (value || {})
+             }
           })
       )
 
       /**
        * Sync {@link #VuexPersistence.saveState} implementation
-       * @type {((key: string, state: {}, storage?: Storage) => (Promise<void> | void)) | ((key: string, state: {}, storage?: Storage) => Promise<void>)}
+       * @type {((key: string, state: {}, storage?: Storage) =>
+       *     (Promise<void> | void)) | ((key: string, state: {}, storage?: Storage) => Promise<void>)}
        */
       this.saveState = (
         (options.saveState != null)
@@ -189,7 +193,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
        * @param {Store<S>} store
        */
       this.plugin = (store: Store<S>) => {
-        let savedState = this.restoreState(this.key, this.storage) as S
+        const savedState = this.restoreState(this.key, this.storage) as S
 
         if (this.strictMode) {
           store.commit('RESTORE_MUTATION', savedState)

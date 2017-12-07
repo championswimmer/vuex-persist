@@ -1,8 +1,8 @@
 /**
  * Options to be used to construct a {@link VuexPersistence} object
  */
-import {AsyncStorage} from './AsyncStorage'
 import {Payload} from 'vuex'
+import {AsyncStorage} from './AsyncStorage'
 
 export interface PersistOptions<S> {
   /**
