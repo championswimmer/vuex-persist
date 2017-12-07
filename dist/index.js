@@ -125,7 +125,7 @@ var VuexPersistence = /** @class */ (function () {
         this.RESTORE_MUTATION = function RESTORE_MUTATION(state, savedState) {
             state = merge(state, savedState);
         };
-        this.asyncStorage = options.asyncStorage;
+        this.asyncStorage = options.asyncStorage || false;
         var storageConfig = (this.storage)._config;
         this.asyncStorage = (storageConfig && storageConfig.name) === 'localforage';
         if (this.asyncStorage) {

@@ -57,5 +57,5 @@ export interface PersistOptions<S> {
      * (Should be used for storages like LocalForage)
      * @default false
      */
-    asyncStorage: boolean;
+    asyncStorage?: boolean;
 }
