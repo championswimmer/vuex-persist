@@ -225,3 +225,52 @@ Some of the most popular ways to persist your store would be -
  - **window.localStorage** (remains, across PC reboots, untill you clear browser data)
  - **window.sessionStorage** (vanishes when you close browser tab)
  - **[localForage](http://npmjs.com/localForage)** Uses IndexedDB from the browser
+
+### Note on LocalForage and async stores
+
+There is Window.Storage API as defined by HTML5 DOM specs, which implements the following -
+
+```typescript
+interface Storage {
+    readonly length: number;
+    clear(): void;
+    getItem(key: string): string | null;
+    key(index: number): string | null;
+    removeItem(key: string): void;
+    setItem(key: string, data: string): void;
+    [key: string]: any;
+    [index: number]: string;
+}
+```
+
+As you can see it is an entirely synchronous storage. Also note that it
+saves only string values. Thus objects are stringified and stored.
+
+Now note the representative interface of Local Forage -
+
+```typescript
+export interface LocalForage {
+  getItem<T>(key: string): Promise<T>
+  setItem<T>(key: string, data: T): Promise<T>
+  removeItem(key: string): Promise<void>
+  clear(): Promise<void>
+  length(): Promise<number>
+  key(keyIndex: number): Promise<string>
+  _config?: {
+    name: string
+  }
+}
+```
+
+You can note 2 differences here -
+
+1. All functions are asynchronous with Promises (because WebSQL and IndexedDB are async)
+2. It works on objects too (not just strings)
+
+I have made `vuex-persist` compatible with both types of storages, but this comes
+at a slight cost.
+When using asynchronous (promise-based) storages, your state will **not** be
+immediately restored into vuex from localForage. It will go into the event loop
+and will finish when the JS thread is empty. This can invoke a delay of few seconds.
+[Issue #15](https://github.com/championswimmer/vuex-persist/issues/15) of this repository explains
+what you can do to _find out_ when store has restored.
