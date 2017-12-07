@@ -1,64 +1,12 @@
 import { Mutation, Payload, Plugin } from 'vuex';
 import MockStorage from './MockStorage';
-export interface AsyncStorage {
-    getItem<T>(key: string): Promise<T>;
-    setItem<T>(key: string, data: T): Promise<T>;
-}
-/**
- * Options to be used to construct a {@link VuexPersistence} object
- */
-export interface PersistOptions<S> {
-    /**
-     * Window.Storage type object. Default is localStorage
-     */
-    storage?: Storage | AsyncStorage;
-    /**
-     * Method to retrieve state from persistence
-     * @param key
-     * @param [storage]
-     */
-    restoreState?: (key: string, storage?: Storage) => Promise<S> | S;
-    /**
-     * Method to save state into persistence
-     * @param key
-     * @param state
-     * @param [storage]
-     */
-    saveState?: (key: string, state: {}, storage?: Storage) => Promise<void> | void;
-    /**
-     * Function to reduce state to the object you want to save.
-     * Be default, we save the entire state.
-     * You can use this if you want to save only a portion of it.
-     * @param state
-     */
-    reducer?: (state: S) => {};
-    /**
-     * Key to use to save the state into the storage
-     */
-    key?: string;
-    /**
-     * Method to filter which mutations will trigger state saving
-     * Be default returns true for all mutations.
-     * Check mutations using <code>mutation.type</code>
-     * @param mutation object of type {@link Payload}
-     */
-    filter?: (mutation: Payload) => boolean;
-    /**
-     * Names of modules that you want to persist.
-     * If you create your custom {@link PersistOptions.reducer} function,
-     * then that will override filter behaviour, not this argument
-     */
-    modules?: string[];
-    /**
-     * Set this to true to support
-     * <a href="https://vuex.vuejs.org/en/strict.html">Vuex Strict Mode</a>
-     */
-    strictMode?: boolean;
-}
+import { AsyncStorage } from './AsyncStorage';
+import { PersistOptions } from './PersistOptions';
 /**
  * A class that implements the vuex persistence.
  */
 export declare class VuexPersistence<S, P extends Payload> implements PersistOptions<S> {
+    asyncStorage: boolean;
     storage: Storage | AsyncStorage;
     restoreState: (key: string, storage?: AsyncStorage | Storage) => Promise<S> | S;
     saveState: (key: string, state: {}, storage?: AsyncStorage | Storage) => Promise<void> | void;
@@ -92,5 +40,5 @@ export declare class VuexPersistence<S, P extends Payload> implements PersistOpt
      */
     private subscriber;
 }
-export { MockStorage };
+export { MockStorage, AsyncStorage, PersistOptions };
 export default VuexPersistence;

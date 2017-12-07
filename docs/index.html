@@ -81,6 +81,11 @@
 				<a href="https://codecov.io/gh/championswimmer/vuex-persist"><img src="https://codecov.io/gh/championswimmer/vuex-persist/branch/master/graph/badge.svg" alt="codecov"></a></p>
 				<h2 id="features">Features</h2>
 				<ul>
+					<li>🎗 NEW IN V1.0.0<ul>
+							<li>Support localForage and other Promise based stores</li>
+							<li>Fix late restore of state for localStorage</li>
+						</ul>
+					</li>
 					<li>Automatically save store on mutation.</li>
 					<li>Choose which mutations trigger store save, and which don&#39;t, using <code>filter</code> function</li>
 					<li>Works perfectly with modules in store</li>
@@ -150,7 +155,7 @@
 						<tr>
 							<td>storage</td>
 							<td>Storage (Web API)</td>
-							<td>localStorage, sessionStorage or your custom Storage object. <br>Must implement getItem, setItem, clear etc. <br> <em><strong>Default: window.localStorage</strong></em></td>
+							<td>localStorage, sessionStorage, localforage or your custom Storage object. <br>Must implement getItem, setItem, clear etc. <br> <em><strong>Default: window.localStorage</strong></em></td>
 						</tr>
 						<tr>
 							<td>saveState</td>
@@ -176,6 +181,11 @@
 							<td>modules</td>
 							<td>string[]</td>
 							<td>List of modules you want to persist. (Do not write your own reducer if you want to use this)</td>
+						</tr>
+						<tr>
+							<td>asyncStorage</td>
+							<td>boolean</td>
+							<td>Denotes if the store uses Promises (like localforage) or not <br><em><strong>Default: false</strong></em></td>
 						</tr>
 					</tbody>
 				</table>
@@ -295,7 +305,13 @@ Vue.use(Vuex)
 						<a href="globals.html"><em>Globals</em></a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="modules/_asyncstorage_.html">"<wbr>Async<wbr>Storage"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="modules/_mockstorage_.html">"<wbr>Mock<wbr>Storage"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_persistoptions_.html">"<wbr>Persist<wbr>Options"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_simplepromisequeue_.html">"<wbr>Simple<wbr>Promise<wbr>Queue"</a>

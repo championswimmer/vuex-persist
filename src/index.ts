@@ -5,75 +5,14 @@ import merge from 'lodash.merge'
 import {Mutation, MutationPayload, Payload, Plugin, Store} from 'vuex'
 import MockStorage from './MockStorage'
 import SimplePromiseQueue from './SimplePromiseQueue'
-
-export interface AsyncStorage {
-  getItem<T>(key: string): Promise<T>
-  setItem<T>(key: string, data: T): Promise<T>
-}
-
-/**
- * Options to be used to construct a {@link VuexPersistence} object
- */
-export interface PersistOptions<S> {
-  /**
-   * Window.Storage type object. Default is localStorage
-   */
-  storage?: Storage | AsyncStorage
-
-  /**
-   * Method to retrieve state from persistence
-   * @param key
-   * @param [storage]
-   */
-  restoreState?: (key: string, storage?: Storage) => Promise<S> | S
-
-  /**
-   * Method to save state into persistence
-   * @param key
-   * @param state
-   * @param [storage]
-   */
-  saveState?: (key: string, state: {}, storage?: Storage) => Promise<void> | void
-
-  /**
-   * Function to reduce state to the object you want to save.
-   * Be default, we save the entire state.
-   * You can use this if you want to save only a portion of it.
-   * @param state
-   */
-  reducer?: (state: S) => {}
-
-  /**
-   * Key to use to save the state into the storage
-   */
-  key?: string
-
-  /**
-   * Method to filter which mutations will trigger state saving
-   * Be default returns true for all mutations.
-   * Check mutations using <code>mutation.type</code>
-   * @param mutation object of type {@link Payload}
-   */
-  filter?: (mutation: Payload) => boolean
-
-  /**
-   * Names of modules that you want to persist.
-   * If you create your custom {@link PersistOptions.reducer} function,
-   * then that will override filter behaviour, not this argument
-   */
-  modules?: string[]
-
-  /**
-   * Set this to true to support
-   * <a href="https://vuex.vuejs.org/en/strict.html">Vuex Strict Mode</a>
-   */
-  strictMode?: boolean
-}
+import {AsyncStorage} from './AsyncStorage'
+import {PersistOptions} from './PersistOptions'
 
 /**
  * A class that implements the vuex persistence.
  */
 export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> {
+  public asyncStorage: boolean
   public storage: Storage | AsyncStorage
   public restoreState: (key: string, storage?: AsyncStorage | Storage) => Promise<S> | S
   public saveState: (key: string, state: {}, storage?: AsyncStorage | Storage) => Promise<void> | void
@@ -105,36 +44,12 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
    */
   public constructor(options: PersistOptions<S>) {
     this.key = ((options.key != null) ? options.key : 'vuex')
+
     this.subscribed = false
-    this.storage = (
-      (options.storage != null)
-        ? options.storage
-        : (new MockStorage())
-    )
-    this.restoreState = (
-      (options.restoreState != null)
-        ? options.restoreState
-        : ((key: string, storage?: Storage | AsyncStorage) =>
-            Promise.resolve((storage || this.storage as any).getItem(key))
-              .then((value) =>
-                typeof value === 'string' // If string, parse, or else, just return
-                  ? JSON.parse(value || '{}')
-                  : (value || {})
-              )
-        )
-    )
-    this.saveState = (
-      (options.saveState != null)
-        ? options.saveState
-        : ((key: string, state: {}, storage?: Storage) =>
-            Promise.resolve<void>((storage || this.storage as any).setItem(
-              key, // Second argument is state _object_ if localforage, stringified otherwise
-              (((storage && storage._config && storage._config.name) === 'localforage')
-                ? merge({}, state)
-                : JSON.stringify(state) as any)
-            ))
-        )
-    )
+
+    this.storage =
+      ((options.storage != null) ? options.storage : (new MockStorage()))
+
     /**
      * How this works is -
      *  1. If there is options.reducer function, we use that, if not;
@@ -157,6 +72,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
             )
         )
     )
+
     this.filter = (
       (options.filter != null)
         ? options.filter
@@ -169,11 +85,112 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
       state = merge(state, savedState)
     }
 
-    this.plugin = (store: Store<S>) => {
-      Promise.resolve(this.restoreState(this.key, this.storage)).then((savedState) => {
-        /**
-         * If in strict mode, do only via mutation
-         */
+
+
+    this.asyncStorage = options.asyncStorage
+    let storageConfig = (<any>(this.storage))._config
+    this.asyncStorage = (storageConfig && storageConfig.name) === 'localforage'
+
+    if (this.asyncStorage) {
+
+      /**
+       * Async {@link #VuexPersistence.restoreState} implementation
+       * @type {((key: string, storage?: Storage) => (Promise<S> | S)) | ((key: string, storage: AsyncStorage) => Promise<any>)}
+       */
+      this.restoreState = (
+        (options.restoreState != null)
+          ? options.restoreState
+          : ((key: string, storage: AsyncStorage) =>
+              (storage ).getItem(key)
+                .then((value) =>
+                  typeof value === 'string' // If string, parse, or else, just return
+                    ? JSON.parse(value || '{}')
+                    : (value || {})
+                )
+          )
+      )
+
+      /**
+       * Async {@link #VuexPersistence.saveState} implementation
+       * @type {((key: string, state: {}, storage?: Storage) => (Promise<void> | void)) | ((key: string, state: {}, storage?: Storage) => Promise<void>)}
+       */
+      this.saveState = (
+        (options.saveState != null)
+          ? options.saveState
+          : ((key: string, state: {}, storage: AsyncStorage) =>
+              (storage).setItem(
+                key, // Second argument is state _object_ if localforage, stringified otherwise
+                (((storage && storage._config && storage._config.name) === 'localforage')
+                  ? merge({}, state)
+                  : JSON.stringify(state) as any)
+              )
+          )
+      )
+
+      /**
+       * Async version of plugin
+       * @param {Store<S>} store
+       */
+      this.plugin = (store: Store<S>) => {
+        ((this.restoreState(this.key, this.storage)) as Promise<S>).then((savedState) => {
+          /**
+           * If in strict mode, do only via mutation
+           */
+          if (this.strictMode) {
+            store.commit('RESTORE_MUTATION', savedState)
+          } else {
+            store.replaceState(merge(store.state, savedState))
+          }
+
+          this.subscriber(store)((mutation: MutationPayload, state: S) => {
+            if (this.filter(mutation)) {
+              this._mutex.enqueue(
+                this.saveState(this.key, this.reducer(state), this.storage) as Promise<void>
+              )
+            }
+          })
+          this.subscribed = true
+        })
+      }
+    } else {
+
+      /**
+       * Sync {@link #VuexPersistence.restoreState} implementation
+       * @type {((key: string, storage?: Storage) => (Promise<S> | S)) | ((key: string, storage: Storage) => (any | string | {}))}
+       */
+      this.restoreState = (
+        (options.restoreState != null)
+          ? options.restoreState
+          : ((key: string, storage: Storage) => {
+             let value = (storage).getItem(key)
+              if (typeof value === 'string') // If string, parse, or else, just return
+                return JSON.parse(value || '{}')
+              else return (value || {})
+          })
+      )
+
+      /**
+       * Sync {@link #VuexPersistence.saveState} implementation
+       * @type {((key: string, state: {}, storage?: Storage) => (Promise<void> | void)) | ((key: string, state: {}, storage?: Storage) => Promise<void>)}
+       */
+      this.saveState = (
+        (options.saveState != null)
+          ? options.saveState
+          : ((key: string, state: {}, storage: Storage) =>
+              (storage).setItem(
+                key, // Second argument is state _object_ if localforage, stringified otherwise
+                JSON.stringify(state) as any
+              )
+          )
+      )
+
+      /**
+       * Sync version of plugin
+       * @param {Store<S>} store
+       */
+      this.plugin = (store: Store<S>) => {
+        let savedState = this.restoreState(this.key, this.storage) as S
+
         if (this.strictMode) {
           store.commit('RESTORE_MUTATION', savedState)
         } else {
@@ -181,14 +198,11 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
         }
 
         this.subscriber(store)((mutation: MutationPayload, state: S) => {
-          if (this.filter(mutation)) {
-            this._mutex.enqueue(
-              Promise.resolve(this.saveState(this.key, this.reducer(state), this.storage))
-            )
-          }
+          this.saveState(this.key, this.reducer(state), this.storage)
         })
+
         this.subscribed = true
-      })
+      }
     }
   }
 
@@ -202,7 +216,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
 }
 
 export {
-  MockStorage
+  MockStorage, AsyncStorage, PersistOptions
 }
 
 export default VuexPersistence

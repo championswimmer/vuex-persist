@@ -18,6 +18,10 @@ Cookies or localStorage.
 [![codecov](https://codecov.io/gh/championswimmer/vuex-persist/branch/master/graph/badge.svg)](https://codecov.io/gh/championswimmer/vuex-persist)
 
 ## Features
+
+ - 🎗 NEW IN V1.0.0
+    - Support localForage and other Promise based stores
+    - Fix late restore of state for localStorage
  - Automatically save store on mutation.
  - Choose which mutations trigger store save, and which don't, using `filter` function
  - Works perfectly with modules in store
@@ -28,6 +32,7 @@ Cookies or localStorage.
     - Trigger saving to localStorage on data download, saving to cookies on authentication result
 
 ## Compatibility
+
  - [VueJS](http://vuejs.org) - v2.0 and above
  - [Vuex](http://vuex.vuejs.org) - v2.1 and above
 
@@ -96,7 +101,7 @@ Here are the properties, and what they mean -
 | reducer      	| function<br> (state) => object         	| State reducer. reduces state to only those values you want to save. <br>By default, saves entire state                                 	|
 | filter       	| function<br> (mutation) => boolean     	| Mutation filter. Look at `mutation.type` and return true <br>for only those ones which you want a persistence write to be triggered for. <br> Default returns true for all mutations 	|
 | modules       | string[]                                  | List of modules you want to persist. (Do not write your own reducer if you want to use this)      |
-
+| asyncStorage  | boolean                                   | Denotes if the store uses Promises (like localforage) or not <br>_**Default: false**_
 
 ## Examples
 
@@ -215,6 +220,7 @@ const store = new Vuex.Store<State>({
 ```
 
 Some of the most popular ways to persist your store would be -
+
  - **[js-cookie](https://npmjs.com/js-cookie)** to use browser Cookies
  - **window.localStorage** (remains, across PC reboots, untill you clear browser data)
  - **window.sessionStorage** (vanishes when you close browser tab)

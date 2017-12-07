@@ -9,7 +9,7 @@ var merge = _interopDefault(require('lodash.merge'));
 /**
  * Created by championswimmer on 22/07/17.
  */
-var MockStorage = (function () {
+var MockStorage = /** @class */ (function () {
     function MockStorage() {
     }
     Object.defineProperty(MockStorage.prototype, "length", {
@@ -41,7 +41,7 @@ var MockStorage = (function () {
 }());
 
 // tslint:disable: variable-name
-var SimplePromiseQueue = (function () {
+var SimplePromiseQueue = /** @class */ (function () {
     function SimplePromiseQueue() {
         this._queue = [];
         this._flushing = false;
@@ -76,7 +76,7 @@ var SimplePromiseQueue = (function () {
 /**
  * A class that implements the vuex persistence.
  */
-var VuexPersistence = (function () {
+var VuexPersistence = /** @class */ (function () {
     /**
      * Create a {@link VuexPersistence} object.
      * Use the <code>plugin</code> function of this class as a
@@ -97,27 +97,8 @@ var VuexPersistence = (function () {
         };
         this.key = ((options.key != null) ? options.key : 'vuex');
         this.subscribed = false;
-        this.storage = ((options.storage != null)
-            ? options.storage
-            : (new MockStorage()));
-        this.restoreState = ((options.restoreState != null)
-            ? options.restoreState
-            : (function (key, storage) {
-                return Promise.resolve((storage || _this.storage).getItem(key))
-                    .then(function (value) {
-                    return typeof value === 'string' // If string, parse, or else, just return
-                        ? JSON.parse(value || '{}')
-                        : (value || {});
-                });
-            }));
-        this.saveState = ((options.saveState != null)
-            ? options.saveState
-            : (function (key, state, storage) {
-                return Promise.resolve((storage || _this.storage).setItem(key, // Second argument is state _object_ if localforage, stringified otherwise
-                (((storage && storage._config && storage._config.name) === 'localforage')
-                    ? merge({}, state)
-                    : JSON.stringify(state))));
-            }));
+        this.storage =
+            ((options.storage != null) ? options.storage : (new MockStorage()));
         /**
          * How this works is -
          *  1. If there is options.reducer function, we use that, if not;
@@ -144,6 +125,62 @@ var VuexPersistence = (function () {
         this.RESTORE_MUTATION = function RESTORE_MUTATION(state, savedState) {
             state = merge(state, savedState);
         };
+        this.asyncStorage = options.asyncStorage;
+        var storageConfig = (this.storage)._config;
+        this.asyncStorage = (storageConfig && storageConfig.name) === 'localforage';
+        if (this.asyncStorage) {
+            /**
+             * Async {@link #VuexPersistence.restoreState} implementation
+             * @type {((key: string, storage?: Storage) => (Promise<S> | S)) | ((key: string, storage: AsyncStorage) => Promise<any>)}
+             */
+            this.restoreState = ((options.restoreState != null)
+                ? options.restoreState
+                : (function (key, storage) {
+                    return (storage).getItem(key)
+                        .then(function (value) {
+                        return typeof value === 'string' // If string, parse, or else, just return
+                            ? JSON.parse(value || '{}')
+                            : (value || {});
+                    });
+                }));
+            /**
+             * Async {@link #VuexPersistence.saveState} implementation
+             * @type {((key: string, state: {}, storage?: Storage) => (Promise<void> | void)) | ((key: string, state: {}, storage?: Storage) => Promise<void>)}
+             */
+            this.saveState = ((options.saveState != null)
+                ? options.saveState
+                : (function (key, state, storage) {
+                    return (storage).setItem(key, // Second argument is state _object_ if localforage, stringified otherwise
+                    (((storage && storage._config && storage._config.name) === 'localforage')
+                        ? merge({}, state)
+                        : JSON.stringify(state)));
+                }));
+        }
+        else {
+            /**
+             * Sync {@link #VuexPersistence.restoreState} implementation
+             * @type {((key: string, storage?: Storage) => (Promise<S> | S)) | ((key: string, storage: Storage) => (any | string | {}))}
+             */
+            this.restoreState = ((options.restoreState != null)
+                ? options.restoreState
+                : (function (key, storage) {
+                    var value = (storage).getItem(key);
+                    if (typeof value === 'string')
+                        return JSON.parse(value || '{}');
+                    else
+                        return (value || {});
+                }));
+            /**
+             * Sync {@link #VuexPersistence.saveState} implementation
+             * @type {((key: string, state: {}, storage?: Storage) => (Promise<void> | void)) | ((key: string, state: {}, storage?: Storage) => Promise<void>)}
+             */
+            this.saveState = ((options.saveState != null)
+                ? options.saveState
+                : (function (key, state, storage) {
+                    return (storage).setItem(key, // Second argument is state _object_ if localforage, stringified otherwise
+                    JSON.stringify(state));
+                }));
+        }
         this.plugin = function (store) {
             Promise.resolve(_this.restoreState(_this.key, _this.storage)).then(function (savedState) {
                 /**

@@ -98,7 +98,7 @@
 			<section class="tsd-panel">
 				<h3>Implements</h3>
 				<ul class="tsd-hierarchy">
-					<li><a href="../interfaces/_index_.persistoptions.html" class="tsd-signature-type">PersistOptions</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span></li>
+					<li><a href="../interfaces/_persistoptions_.persistoptions.html" class="tsd-signature-type">PersistOptions</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span></li>
 				</ul>
 			</section>
 			<section class="tsd-panel-group tsd-index-group">
@@ -116,6 +116,7 @@
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_index_.vuexpersistence.html#restore_mutation" class="tsd-kind-icon">RESTORE_<wbr>MUTATION</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-private"><a href="_index_.vuexpersistence.html#_mutex" class="tsd-kind-icon">_mutex</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_index_.vuexpersistence.html#asyncstorage" class="tsd-kind-icon">async<wbr>Storage</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_index_.vuexpersistence.html#filter" class="tsd-kind-icon">filter</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_index_.vuexpersistence.html#key" class="tsd-kind-icon">key</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="_index_.vuexpersistence.html#modules" class="tsd-kind-icon">modules</a></li>
@@ -143,13 +144,13 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Vuex<wbr>Persistence<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_index_.persistoptions.html" class="tsd-signature-type">PersistOptions</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_index_.vuexpersistence.html" class="tsd-signature-type">VuexPersistence</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Vuex<wbr>Persistence<span class="tsd-signature-symbol">(</span>options<span class="tsd-signature-symbol">: </span><a href="../interfaces/_persistoptions_.persistoptions.html" class="tsd-signature-type">PersistOptions</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="_index_.vuexpersistence.html" class="tsd-signature-type">VuexPersistence</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2170a51/src/index.ts#L98">index.ts:98</a></li>
+									<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/index.ts#L37">index.ts:37</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -162,7 +163,7 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>options: <a href="../interfaces/_index_.persistoptions.html" class="tsd-signature-type">PersistOptions</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>options: <a href="../interfaces/_persistoptions_.persistoptions.html" class="tsd-signature-type">PersistOptions</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 										<div class="lead">
 										</div>
@@ -182,7 +183,7 @@
 					<div class="tsd-signature tsd-kind-icon">RESTORE_<wbr>MUTATION<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Mutation</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2170a51/src/index.ts#L94">index.ts:94</a></li>
+							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/index.ts#L33">index.ts:33</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -198,7 +199,18 @@
 					<div class="tsd-signature tsd-kind-icon">_mutex<span class="tsd-signature-symbol">:</span> <a href="_simplepromisequeue_.simplepromisequeue.html" class="tsd-signature-type">SimplePromiseQueue</a><span class="tsd-signature-symbol"> =&nbsp;new SimplePromiseQueue()</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2170a51/src/index.ts#L98">index.ts:98</a></li>
+							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/index.ts#L37">index.ts:37</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="asyncstorage" class="tsd-anchor"></a>
+					<h3>async<wbr>Storage</h3>
+					<div class="tsd-signature tsd-kind-icon">async<wbr>Storage<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<p>Implementation of <a href="../interfaces/_persistoptions_.persistoptions.html">PersistOptions</a>.<a href="../interfaces/_persistoptions_.persistoptions.html#asyncstorage">asyncStorage</a></p>
+						<ul>
+							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/index.ts#L15">index.ts:15</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -207,9 +219,9 @@
 					<h3>filter</h3>
 					<div class="tsd-signature tsd-kind-icon">filter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/_index_.persistoptions.html">PersistOptions</a>.<a href="../interfaces/_index_.persistoptions.html#filter">filter</a></p>
+						<p>Implementation of <a href="../interfaces/_persistoptions_.persistoptions.html">PersistOptions</a>.<a href="../interfaces/_persistoptions_.persistoptions.html#filter">filter</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2170a51/src/index.ts#L82">index.ts:82</a></li>
+							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/index.ts#L21">index.ts:21</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -239,9 +251,9 @@
 					<h3>key</h3>
 					<div class="tsd-signature tsd-kind-icon">key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/_index_.persistoptions.html">PersistOptions</a>.<a href="../interfaces/_index_.persistoptions.html#key">key</a></p>
+						<p>Implementation of <a href="../interfaces/_persistoptions_.persistoptions.html">PersistOptions</a>.<a href="../interfaces/_persistoptions_.persistoptions.html#key">key</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2170a51/src/index.ts#L81">index.ts:81</a></li>
+							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/index.ts#L20">index.ts:20</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -250,9 +262,9 @@
 					<h3>modules</h3>
 					<div class="tsd-signature tsd-kind-icon">modules<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/_index_.persistoptions.html">PersistOptions</a>.<a href="../interfaces/_index_.persistoptions.html#modules">modules</a></p>
+						<p>Implementation of <a href="../interfaces/_persistoptions_.persistoptions.html">PersistOptions</a>.<a href="../interfaces/_persistoptions_.persistoptions.html#modules">modules</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2170a51/src/index.ts#L83">index.ts:83</a></li>
+							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/index.ts#L22">index.ts:22</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -262,7 +274,7 @@
 					<div class="tsd-signature tsd-kind-icon">plugin<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Plugin</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2170a51/src/index.ts#L89">index.ts:89</a></li>
+							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/index.ts#L28">index.ts:28</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -276,9 +288,9 @@
 					<h3>reducer</h3>
 					<div class="tsd-signature tsd-kind-icon">reducer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/_index_.persistoptions.html">PersistOptions</a>.<a href="../interfaces/_index_.persistoptions.html#reducer">reducer</a></p>
+						<p>Implementation of <a href="../interfaces/_persistoptions_.persistoptions.html">PersistOptions</a>.<a href="../interfaces/_persistoptions_.persistoptions.html#reducer">reducer</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2170a51/src/index.ts#L80">index.ts:80</a></li>
+							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/index.ts#L19">index.ts:19</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -308,9 +320,9 @@
 					<h3>restore<wbr>State</h3>
 					<div class="tsd-signature tsd-kind-icon">restore<wbr>State<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/_index_.persistoptions.html">PersistOptions</a>.<a href="../interfaces/_index_.persistoptions.html#restorestate">restoreState</a></p>
+						<p>Implementation of <a href="../interfaces/_persistoptions_.persistoptions.html">PersistOptions</a>.<a href="../interfaces/_persistoptions_.persistoptions.html#restorestate">restoreState</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2170a51/src/index.ts#L78">index.ts:78</a></li>
+							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/index.ts#L17">index.ts:17</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -318,7 +330,7 @@
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter-siganture">
 								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, storage<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_index_.asyncstorage.html" class="tsd-signature-type">AsyncStorage</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Storage</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">S</span></li>
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, storage<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_asyncstorage_.asyncstorage.html" class="tsd-signature-type">AsyncStorage</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Storage</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">S</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
@@ -328,7 +340,7 @@
 												<h5>key: <span class="tsd-signature-type">string</span></h5>
 											</li>
 											<li>
-												<h5><span class="tsd-flag ts-flagOptional">Optional</span> storage: <a href="../interfaces/_index_.asyncstorage.html" class="tsd-signature-type">AsyncStorage</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Storage</span></h5>
+												<h5><span class="tsd-flag ts-flagOptional">Optional</span> storage: <a href="../interfaces/_asyncstorage_.asyncstorage.html" class="tsd-signature-type">AsyncStorage</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Storage</span></h5>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">S</span><span class="tsd-signature-symbol">&gt;</span>
@@ -346,9 +358,9 @@
 					<h3>save<wbr>State</h3>
 					<div class="tsd-signature tsd-kind-icon">save<wbr>State<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/_index_.persistoptions.html">PersistOptions</a>.<a href="../interfaces/_index_.persistoptions.html#savestate">saveState</a></p>
+						<p>Implementation of <a href="../interfaces/_persistoptions_.persistoptions.html">PersistOptions</a>.<a href="../interfaces/_persistoptions_.persistoptions.html#savestate">saveState</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2170a51/src/index.ts#L79">index.ts:79</a></li>
+							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/index.ts#L18">index.ts:18</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
@@ -356,7 +368,7 @@
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter-siganture">
 								<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property">
-									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">__type</span>, storage<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_index_.asyncstorage.html" class="tsd-signature-type">AsyncStorage</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Storage</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span></li>
+									<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, state<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">__type</span>, storage<span class="tsd-signature-symbol">?: </span><a href="../interfaces/_asyncstorage_.asyncstorage.html" class="tsd-signature-type">AsyncStorage</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Storage</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">void</span></li>
 								</ul>
 								<ul class="tsd-descriptions">
 									<li class="tsd-description">
@@ -369,7 +381,7 @@
 												<h5>state: <span class="tsd-signature-type">__type</span></h5>
 											</li>
 											<li>
-												<h5><span class="tsd-flag ts-flagOptional">Optional</span> storage: <a href="../interfaces/_index_.asyncstorage.html" class="tsd-signature-type">AsyncStorage</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Storage</span></h5>
+												<h5><span class="tsd-flag ts-flagOptional">Optional</span> storage: <a href="../interfaces/_asyncstorage_.asyncstorage.html" class="tsd-signature-type">AsyncStorage</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">Storage</span></h5>
 											</li>
 										</ul>
 										<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span>
@@ -385,11 +397,11 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
 					<a name="storage" class="tsd-anchor"></a>
 					<h3>storage</h3>
-					<div class="tsd-signature tsd-kind-icon">storage<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Storage</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_index_.asyncstorage.html" class="tsd-signature-type">AsyncStorage</a></div>
+					<div class="tsd-signature tsd-kind-icon">storage<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Storage</span><span class="tsd-signature-symbol"> | </span><a href="../interfaces/_asyncstorage_.asyncstorage.html" class="tsd-signature-type">AsyncStorage</a></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/_index_.persistoptions.html">PersistOptions</a>.<a href="../interfaces/_index_.persistoptions.html#storage">storage</a></p>
+						<p>Implementation of <a href="../interfaces/_persistoptions_.persistoptions.html">PersistOptions</a>.<a href="../interfaces/_persistoptions_.persistoptions.html#storage">storage</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2170a51/src/index.ts#L77">index.ts:77</a></li>
+							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/index.ts#L16">index.ts:16</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -398,9 +410,9 @@
 					<h3>strict<wbr>Mode</h3>
 					<div class="tsd-signature tsd-kind-icon">strict<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
-						<p>Implementation of <a href="../interfaces/_index_.persistoptions.html">PersistOptions</a>.<a href="../interfaces/_index_.persistoptions.html#strictmode">strictMode</a></p>
+						<p>Implementation of <a href="../interfaces/_persistoptions_.persistoptions.html">PersistOptions</a>.<a href="../interfaces/_persistoptions_.persistoptions.html#strictmode">strictMode</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2170a51/src/index.ts#L84">index.ts:84</a></li>
+							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/index.ts#L23">index.ts:23</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -410,7 +422,7 @@
 					<div class="tsd-signature tsd-kind-icon">subscribed<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2170a51/src/index.ts#L95">index.ts:95</a></li>
+							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/index.ts#L34">index.ts:34</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -427,7 +439,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2170a51/src/index.ts#L190">index.ts:190</a></li>
+									<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/index.ts#L214">index.ts:214</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -459,7 +471,13 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="../modules/_asyncstorage_.html">"<wbr>Async<wbr>Storage"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_mockstorage_.html">"<wbr>Mock<wbr>Storage"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="../modules/_persistoptions_.html">"<wbr>Persist<wbr>Options"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_simplepromisequeue_.html">"<wbr>Simple<wbr>Promise<wbr>Queue"</a>
@@ -484,6 +502,9 @@
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-private">
 								<a href="_index_.vuexpersistence.html#_mutex" class="tsd-kind-icon">_mutex</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="_index_.vuexpersistence.html#asyncstorage" class="tsd-kind-icon">async<wbr>Storage</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="_index_.vuexpersistence.html#filter" class="tsd-kind-icon">filter</a>
@@ -522,12 +543,6 @@
 					</li>
 				</ul>
 				<ul class="after-current">
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="../interfaces/_index_.asyncstorage.html" class="tsd-kind-icon">Async<wbr>Storage</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="../interfaces/_index_.persistoptions.html" class="tsd-kind-icon">Persist<wbr>Options</a>
-					</li>
 				</ul>
 			</nav>
 		</div>

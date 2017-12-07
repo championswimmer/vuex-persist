@@ -56,10 +56,10 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../modules/_index_.html">&quot;index&quot;</a>
+					<a href="../modules/_persistoptions_.html">&quot;PersistOptions&quot;</a>
 				</li>
 				<li>
-					<a href="_index_.persistoptions.html">PersistOptions</a>
+					<a href="_persistoptions_.persistoptions.html">PersistOptions</a>
 				</li>
 			</ul>
 			<h1>Interface PersistOptions&lt;S&gt;</h1>
@@ -69,13 +69,6 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-comment">
-				<div class="tsd-comment tsd-typography">
-					<div class="lead">
-						<p>Options to be used to construct a <a href="../classes/_index_.vuexpersistence.html">VuexPersistence</a> object</p>
-					</div>
-				</div>
-			</section>
 			<section class="tsd-panel tsd-type-parameters">
 				<h3>Type parameters</h3>
 				<ul class="tsd-type-parameters">
@@ -105,14 +98,15 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_index_.persistoptions.html#filter" class="tsd-kind-icon">filter</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_index_.persistoptions.html#key" class="tsd-kind-icon">key</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_index_.persistoptions.html#modules" class="tsd-kind-icon">modules</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_index_.persistoptions.html#reducer" class="tsd-kind-icon">reducer</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_index_.persistoptions.html#restorestate" class="tsd-kind-icon">restore<wbr>State</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_index_.persistoptions.html#savestate" class="tsd-kind-icon">save<wbr>State</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_index_.persistoptions.html#storage" class="tsd-kind-icon">storage</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_index_.persistoptions.html#strictmode" class="tsd-kind-icon">strict<wbr>Mode</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_persistoptions_.persistoptions.html#asyncstorage" class="tsd-kind-icon">async<wbr>Storage</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_persistoptions_.persistoptions.html#filter" class="tsd-kind-icon">filter</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_persistoptions_.persistoptions.html#key" class="tsd-kind-icon">key</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_persistoptions_.persistoptions.html#modules" class="tsd-kind-icon">modules</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_persistoptions_.persistoptions.html#reducer" class="tsd-kind-icon">reducer</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_persistoptions_.persistoptions.html#restorestate" class="tsd-kind-icon">restore<wbr>State</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_persistoptions_.persistoptions.html#savestate" class="tsd-kind-icon">save<wbr>State</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_persistoptions_.persistoptions.html#storage" class="tsd-kind-icon">storage</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="_persistoptions_.persistoptions.html#strictmode" class="tsd-kind-icon">strict<wbr>Mode</a></li>
 							</ul>
 						</section>
 					</div>
@@ -121,12 +115,34 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="asyncstorage" class="tsd-anchor"></a>
+					<h3>async<wbr>Storage</h3>
+					<div class="tsd-signature tsd-kind-icon">async<wbr>Storage<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/PersistOptions.ts#L69">PersistOptions.ts:69</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<div class="lead">
+							<p>If your storage is async
+								i.e., if setItem(), getItem() etc return Promises
+							(Should be used for storages like LocalForage)</p>
+						</div>
+						<dl class="tsd-comment-tags">
+							<dt>default</dt>
+							<dd><p>false</p>
+							</dd>
+						</dl>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="filter" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> filter</h3>
 					<div class="tsd-signature tsd-kind-icon">filter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2170a51/src/index.ts#L57">index.ts:57</a></li>
+							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/PersistOptions.ts#L47">PersistOptions.ts:47</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -148,7 +164,7 @@
 					<div class="tsd-signature tsd-kind-icon">key<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2170a51/src/index.ts#L49">index.ts:49</a></li>
+							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/PersistOptions.ts#L39">PersistOptions.ts:39</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -163,13 +179,13 @@
 					<div class="tsd-signature tsd-kind-icon">modules<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2170a51/src/index.ts#L64">index.ts:64</a></li>
+							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/PersistOptions.ts#L54">PersistOptions.ts:54</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
 						<div class="lead">
 							<p>Names of modules that you want to persist.
-								If you create your custom <a href="_index_.persistoptions.html#reducer">PersistOptions.reducer</a> function,
+								If you create your custom <a href="_persistoptions_.persistoptions.html#reducer">PersistOptions.reducer</a> function,
 							then that will override filter behaviour, not this argument</p>
 						</div>
 					</div>
@@ -180,7 +196,7 @@
 					<div class="tsd-signature tsd-kind-icon">reducer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2170a51/src/index.ts#L44">index.ts:44</a></li>
+							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/PersistOptions.ts#L34">PersistOptions.ts:34</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -201,7 +217,7 @@
 					<div class="tsd-signature tsd-kind-icon">restore<wbr>State<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2170a51/src/index.ts#L28">index.ts:28</a></li>
+							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/PersistOptions.ts#L18">PersistOptions.ts:18</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -222,7 +238,7 @@
 					<div class="tsd-signature tsd-kind-icon">save<wbr>State<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">function</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2170a51/src/index.ts#L36">index.ts:36</a></li>
+							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/PersistOptions.ts#L26">PersistOptions.ts:26</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -242,10 +258,10 @@
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
 					<a name="storage" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagOptional">Optional</span> storage</h3>
-					<div class="tsd-signature tsd-kind-icon">storage<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Storage</span><span class="tsd-signature-symbol"> | </span><a href="_index_.asyncstorage.html" class="tsd-signature-type">AsyncStorage</a></div>
+					<div class="tsd-signature tsd-kind-icon">storage<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Storage</span><span class="tsd-signature-symbol"> | </span><a href="_asyncstorage_.asyncstorage.html" class="tsd-signature-type">AsyncStorage</a></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2170a51/src/index.ts#L21">index.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/PersistOptions.ts#L11">PersistOptions.ts:11</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -260,7 +276,7 @@
 					<div class="tsd-signature tsd-kind-icon">strict<wbr>Mode<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">true</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">false</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2170a51/src/index.ts#L70">index.ts:70</a></li>
+							<li>Defined in <a href="https://github.com/championswimmer/vuex-persist/blob/2e97648/src/PersistOptions.ts#L61">PersistOptions.ts:61</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -268,6 +284,11 @@
 							<p>Set this to true to support
 							<a href="https://vuex.vuejs.org/en/strict.html">Vuex Strict Mode</a></p>
 						</div>
+						<dl class="tsd-comment-tags">
+							<dt>default</dt>
+							<dd><p>false</p>
+							</dd>
+						</dl>
 					</div>
 				</section>
 			</section>
@@ -279,52 +300,55 @@
 						<a href="../globals.html"><em>Globals</em></a>
 					</li>
 					<li class=" tsd-kind-external-module">
+						<a href="../modules/_asyncstorage_.html">"<wbr>Async<wbr>Storage"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_mockstorage_.html">"<wbr>Mock<wbr>Storage"</a>
+					</li>
+					<li class="current tsd-kind-external-module">
+						<a href="../modules/_persistoptions_.html">"<wbr>Persist<wbr>Options"</a>
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="../modules/_simplepromisequeue_.html">"<wbr>Simple<wbr>Promise<wbr>Queue"</a>
 					</li>
-					<li class="current tsd-kind-external-module">
+					<li class=" tsd-kind-external-module">
 						<a href="../modules/_index_.html">"index"</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-					<li class=" tsd-kind-class tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="../classes/_index_.vuexpersistence.html" class="tsd-kind-icon">Vuex<wbr>Persistence</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-external-module">
-						<a href="_index_.asyncstorage.html" class="tsd-kind-icon">Async<wbr>Storage</a>
-					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-external-module tsd-has-type-parameter">
-						<a href="_index_.persistoptions.html" class="tsd-kind-icon">Persist<wbr>Options</a>
+						<a href="_persistoptions_.persistoptions.html" class="tsd-kind-icon">Persist<wbr>Options</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_index_.persistoptions.html#filter" class="tsd-kind-icon">filter</a>
+								<a href="_persistoptions_.persistoptions.html#asyncstorage" class="tsd-kind-icon">async<wbr>Storage</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_index_.persistoptions.html#key" class="tsd-kind-icon">key</a>
+								<a href="_persistoptions_.persistoptions.html#filter" class="tsd-kind-icon">filter</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_index_.persistoptions.html#modules" class="tsd-kind-icon">modules</a>
+								<a href="_persistoptions_.persistoptions.html#key" class="tsd-kind-icon">key</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_index_.persistoptions.html#reducer" class="tsd-kind-icon">reducer</a>
+								<a href="_persistoptions_.persistoptions.html#modules" class="tsd-kind-icon">modules</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_index_.persistoptions.html#restorestate" class="tsd-kind-icon">restore<wbr>State</a>
+								<a href="_persistoptions_.persistoptions.html#reducer" class="tsd-kind-icon">reducer</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_index_.persistoptions.html#savestate" class="tsd-kind-icon">save<wbr>State</a>
+								<a href="_persistoptions_.persistoptions.html#restorestate" class="tsd-kind-icon">restore<wbr>State</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_index_.persistoptions.html#storage" class="tsd-kind-icon">storage</a>
+								<a href="_persistoptions_.persistoptions.html#savestate" class="tsd-kind-icon">save<wbr>State</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="_index_.persistoptions.html#strictmode" class="tsd-kind-icon">strict<wbr>Mode</a>
+								<a href="_persistoptions_.persistoptions.html#storage" class="tsd-kind-icon">storage</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="_persistoptions_.persistoptions.html#strictmode" class="tsd-kind-icon">strict<wbr>Mode</a>
 							</li>
 						</ul>
 					</li>
