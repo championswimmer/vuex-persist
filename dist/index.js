@@ -155,6 +155,29 @@ var VuexPersistence = /** @class */ (function () {
                         ? merge({}, state)
                         : JSON.stringify(state)));
                 }));
+            /**
+             * Async version of plugin
+             * @param {Store<S>} store
+             */
+            this.plugin = function (store) {
+                (_this.restoreState(_this.key, _this.storage)).then(function (savedState) {
+                    /**
+                     * If in strict mode, do only via mutation
+                     */
+                    if (_this.strictMode) {
+                        store.commit('RESTORE_MUTATION', savedState);
+                    }
+                    else {
+                        store.replaceState(merge(store.state, savedState));
+                    }
+                    _this.subscriber(store)(function (mutation, state) {
+                        if (_this.filter(mutation)) {
+                            _this._mutex.enqueue(_this.saveState(_this.key, _this.reducer(state), _this.storage));
+                        }
+                    });
+                    _this.subscribed = true;
+                });
+            };
         }
         else {
             /**
@@ -180,12 +203,12 @@ var VuexPersistence = /** @class */ (function () {
                     return (storage).setItem(key, // Second argument is state _object_ if localforage, stringified otherwise
                     JSON.stringify(state));
                 }));
-        }
-        this.plugin = function (store) {
-            Promise.resolve(_this.restoreState(_this.key, _this.storage)).then(function (savedState) {
-                /**
-                 * If in strict mode, do only via mutation
-                 */
+            /**
+             * Sync version of plugin
+             * @param {Store<S>} store
+             */
+            this.plugin = function (store) {
+                var savedState = _this.restoreState(_this.key, _this.storage);
                 if (_this.strictMode) {
                     store.commit('RESTORE_MUTATION', savedState);
                 }
@@ -193,13 +216,11 @@ var VuexPersistence = /** @class */ (function () {
                     store.replaceState(merge(store.state, savedState));
                 }
                 _this.subscriber(store)(function (mutation, state) {
-                    if (_this.filter(mutation)) {
-                        _this._mutex.enqueue(Promise.resolve(_this.saveState(_this.key, _this.reducer(state), _this.storage)));
-                    }
+                    _this.saveState(_this.key, _this.reducer(state), _this.storage);
                 });
                 _this.subscribed = true;
-            });
-        };
+            };
+        }
     }
     return VuexPersistence;
 }());
