@@ -296,6 +296,46 @@ Vue.use(Vuex)
 					<li><strong>window.sessionStorage</strong> (vanishes when you close browser tab)</li>
 					<li><strong><a href="http://npmjs.com/localForage">localForage</a></strong> Uses IndexedDB from the browser</li>
 				</ul>
+				<h3 id="note-on-localforage-and-async-stores">Note on LocalForage and async stores</h3>
+				<p>There is Window.Storage API as defined by HTML5 DOM specs, which implements the following -</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">interface</span> Storage {
+    readonly length: <span class="hljs-built_in">number</span>;
+    clear(): <span class="hljs-built_in">void</span>;
+    getItem(key: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>;
+    key(index: <span class="hljs-built_in">number</span>): <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>;
+    removeItem(key: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">void</span>;
+    setItem(key: <span class="hljs-built_in">string</span>, data: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">void</span>;
+    [key: <span class="hljs-built_in">string</span>]: <span class="hljs-built_in">any</span>;
+    [index: <span class="hljs-built_in">number</span>]: <span class="hljs-built_in">string</span>;
+}
+</code></pre>
+				<p>As you can see it is an entirely synchronous storage. Also note that it
+				saves only string values. Thus objects are stringified and stored.</p>
+				<p>Now note the representative interface of Local Forage -</p>
+				<pre><code class="lang-typescript"><span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> LocalForage {
+  getItem&lt;T&gt;(key: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">Promise</span>&lt;T&gt;
+  setItem&lt;T&gt;(key: <span class="hljs-built_in">string</span>, data: T): <span class="hljs-built_in">Promise</span>&lt;T&gt;
+  removeItem(key: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt;
+  clear(): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">void</span>&gt;
+  length(): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">number</span>&gt;
+  key(keyIndex: <span class="hljs-built_in">number</span>): <span class="hljs-built_in">Promise</span>&lt;<span class="hljs-built_in">string</span>&gt;
+  _config?: {
+    name: <span class="hljs-built_in">string</span>
+  }
+}
+</code></pre>
+				<p>You can note 2 differences here -</p>
+				<ol>
+					<li>All functions are asynchronous with Promises (because WebSQL and IndexedDB are async)</li>
+					<li>It works on objects too (not just strings)</li>
+				</ol>
+				<p>I have made <code>vuex-persist</code> compatible with both types of storages, but this comes
+					at a slight cost.
+					When using asynchronous (promise-based) storages, your state will <strong>not</strong> be
+					immediately restored into vuex from localForage. It will go into the event loop
+					and will finish when the JS thread is empty. This can invoke a delay of few seconds.
+					<a href="https://github.com/championswimmer/vuex-persist/issues/15">Issue #15</a> of this repository explains
+				what you can do to <em>find out</em> when store has restored.</p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">

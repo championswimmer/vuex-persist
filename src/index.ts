@@ -202,7 +202,9 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
         }
 
         this.subscriber(store)((mutation: MutationPayload, state: S) => {
-          this.saveState(this.key, this.reducer(state), this.storage)
+          if (this.filter(mutation)) {
+            this.saveState(this.key, this.reducer(state), this.storage)
+          }
         })
 
         this.subscribed = true

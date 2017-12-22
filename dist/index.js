@@ -131,7 +131,8 @@ var VuexPersistence = /** @class */ (function () {
         if (this.asyncStorage) {
             /**
              * Async {@link #VuexPersistence.restoreState} implementation
-             * @type {((key: string, storage?: Storage) => (Promise<S> | S)) | ((key: string, storage: AsyncStorage) => Promise<any>)}
+             * @type {((key: string, storage?: Storage) =>
+             *      (Promise<S> | S)) | ((key: string, storage: AsyncStorage) => Promise<any>)}
              */
             this.restoreState = ((options.restoreState != null)
                 ? options.restoreState
@@ -145,7 +146,8 @@ var VuexPersistence = /** @class */ (function () {
                 }));
             /**
              * Async {@link #VuexPersistence.saveState} implementation
-             * @type {((key: string, state: {}, storage?: Storage) => (Promise<void> | void)) | ((key: string, state: {}, storage?: Storage) => Promise<void>)}
+             * @type {((key: string, state: {}, storage?: Storage) =>
+             *    (Promise<void> | void)) | ((key: string, state: {}, storage?: Storage) => Promise<void>)}
              */
             this.saveState = ((options.saveState != null)
                 ? options.saveState
@@ -182,20 +184,24 @@ var VuexPersistence = /** @class */ (function () {
         else {
             /**
              * Sync {@link #VuexPersistence.restoreState} implementation
-             * @type {((key: string, storage?: Storage) => (Promise<S> | S)) | ((key: string, storage: Storage) => (any | string | {}))}
+             * @type {((key: string, storage?: Storage) =>
+             *    (Promise<S> | S)) | ((key: string, storage: Storage) => (any | string | {}))}
              */
             this.restoreState = ((options.restoreState != null)
                 ? options.restoreState
                 : (function (key, storage) {
                     var value = (storage).getItem(key);
-                    if (typeof value === 'string')
+                    if (typeof value === 'string') {
                         return JSON.parse(value || '{}');
-                    else
+                    }
+                    else {
                         return (value || {});
+                    }
                 }));
             /**
              * Sync {@link #VuexPersistence.saveState} implementation
-             * @type {((key: string, state: {}, storage?: Storage) => (Promise<void> | void)) | ((key: string, state: {}, storage?: Storage) => Promise<void>)}
+             * @type {((key: string, state: {}, storage?: Storage) =>
+             *     (Promise<void> | void)) | ((key: string, state: {}, storage?: Storage) => Promise<void>)}
              */
             this.saveState = ((options.saveState != null)
                 ? options.saveState
@@ -216,7 +222,9 @@ var VuexPersistence = /** @class */ (function () {
                     store.replaceState(merge(store.state, savedState));
                 }
                 _this.subscriber(store)(function (mutation, state) {
-                    _this.saveState(_this.key, _this.reducer(state), _this.storage);
+                    if (_this.filter(mutation)) {
+                        _this.saveState(_this.key, _this.reducer(state), _this.storage);
+                    }
                 });
                 _this.subscribed = true;
             };

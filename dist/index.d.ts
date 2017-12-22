@@ -1,6 +1,6 @@
 import { Mutation, Payload, Plugin } from 'vuex';
-import MockStorage from './MockStorage';
 import { AsyncStorage } from './AsyncStorage';
+import MockStorage from './MockStorage';
 import { PersistOptions } from './PersistOptions';
 /**
  * A class that implements the vuex persistence.
