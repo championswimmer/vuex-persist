@@ -1,12 +1,20 @@
 # vuex-persist CHANGELOG
 
+## 2.0.0
+
+### 1.1.0
+
+ - in sync stores too, filter and then save
+
 ## 1.0.0
+
  - Full support for both sync and async storages
  - We can use localForage or window.localStorage as stores
  - Async stores work via promises internally
  - Sync stores **do not use** promise, so store is restored _immediately_ when plugin is added
  
 ### 0.6.0
+
  - Fix MockStorage missing
 
 ### 0.5.0
