@@ -123,7 +123,7 @@ var VuexPersistence = /** @class */ (function () {
             : (function (mutation) { return true; }));
         this.strictMode = options.strictMode || false;
         this.RESTORE_MUTATION = function RESTORE_MUTATION(state, savedState) {
-            state = merge(state, savedState);
+            this._vm.$set(state, merge(state, savedState));
         };
         this.asyncStorage = options.asyncStorage || false;
         var storageConfig = (this.storage)._config;
