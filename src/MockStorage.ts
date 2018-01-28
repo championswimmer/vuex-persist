@@ -13,7 +13,7 @@ export default class MockStorage implements Storage {
     return Object.keys(this)[index]
   }
 
-  public setItem(key: string, data: any): void {
+  public setItem(key: string, data: any, mutation?: string): void {
     this[key] = data.toString()
   }
   public getItem(key: string): string {

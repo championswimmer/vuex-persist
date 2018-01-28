@@ -6,7 +6,7 @@ export default class MockStorage implements Storage {
     [key: string]: any;
     readonly length: number;
     key(index: number): string | any;
-    setItem(key: string, data: any): void;
+    setItem(key: string, data: any, mutation?: string): void;
     getItem(key: string): string;
     removeItem(key: string): void;
     clear(): void;

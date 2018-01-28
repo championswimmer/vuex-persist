@@ -19,8 +19,9 @@ export interface PersistOptions<S> {
      * @param key
      * @param state
      * @param [storage]
+     * @param [mutation]
      */
-    saveState?: (key: string, state: {}, storage?: Storage) => Promise<void> | void;
+    saveState?: (key: string, state: {}, storage?: Storage, mutation?: string) => Promise<void> | void;
     /**
      * Function to reduce state to the object you want to save.
      * Be default, we save the entire state.

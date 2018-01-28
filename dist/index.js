@@ -22,7 +22,7 @@ var MockStorage = /** @class */ (function () {
     MockStorage.prototype.key = function (index) {
         return Object.keys(this)[index];
     };
-    MockStorage.prototype.setItem = function (key, data) {
+    MockStorage.prototype.setItem = function (key, data, mutation) {
         this[key] = data.toString();
     };
     MockStorage.prototype.getItem = function (key) {
@@ -146,16 +146,16 @@ var VuexPersistence = /** @class */ (function () {
                 }));
             /**
              * Async {@link #VuexPersistence.saveState} implementation
-             * @type {((key: string, state: {}, storage?: Storage) =>
-             *    (Promise<void> | void)) | ((key: string, state: {}, storage?: Storage) => Promise<void>)}
+             * @type {((key: string, state: {}, storage?: Storage, mutation?: string) =>
+             *    (Promise<void> | void)) | ((key: string, state: {}, storage?: Storage, mutation?: string) => Promise<void>)}
              */
             this.saveState = ((options.saveState != null)
                 ? options.saveState
-                : (function (key, state, storage) {
+                : (function (key, state, storage, mutation) {
                     return (storage).setItem(key, // Second argument is state _object_ if localforage, stringified otherwise
                     (((storage && storage._config && storage._config.name) === 'localforage')
                         ? merge({}, state)
-                        : JSON.stringify(state)));
+                        : JSON.stringify(state)), mutation);
                 }));
             /**
              * Async version of plugin
@@ -174,7 +174,7 @@ var VuexPersistence = /** @class */ (function () {
                     }
                     _this.subscriber(store)(function (mutation, state) {
                         if (_this.filter(mutation)) {
-                            _this._mutex.enqueue(_this.saveState(_this.key, _this.reducer(state), _this.storage));
+                            _this._mutex.enqueue(_this.saveState(_this.key, _this.reducer(state), _this.storage, mutation.type));
                         }
                     });
                     _this.subscribed = true;
@@ -200,14 +200,14 @@ var VuexPersistence = /** @class */ (function () {
                 }));
             /**
              * Sync {@link #VuexPersistence.saveState} implementation
-             * @type {((key: string, state: {}, storage?: Storage) =>
-             *     (Promise<void> | void)) | ((key: string, state: {}, storage?: Storage) => Promise<void>)}
+             * @type {((key: string, state: {}, storage?: Storage, mutation?: string) =>
+             *     (Promise<void> | void)) | ((key: string, state: {}, storage?: Storage, mutation?: string) => Promise<void>)}
              */
             this.saveState = ((options.saveState != null)
                 ? options.saveState
-                : (function (key, state, storage) {
+                : (function (key, state, storage, mutation) {
                     return (storage).setItem(key, // Second argument is state _object_ if localforage, stringified otherwise
-                    JSON.stringify(state));
+                    JSON.stringify(state), mutation);
                 }));
             /**
              * Sync version of plugin
@@ -223,7 +223,7 @@ var VuexPersistence = /** @class */ (function () {
                 }
                 _this.subscriber(store)(function (mutation, state) {
                     if (_this.filter(mutation)) {
-                        _this.saveState(_this.key, _this.reducer(state), _this.storage);
+                        _this.saveState(_this.key, _this.reducer(state), _this.storage, mutation.type);
                     }
                 });
                 _this.subscribed = true;
@@ -235,5 +235,5 @@ var VuexPersistence = /** @class */ (function () {
 
 exports.VuexPersistence = VuexPersistence;
 exports.MockStorage = MockStorage;
-exports['default'] = VuexPersistence;
+exports.default = VuexPersistence;
 //# sourceMappingURL=index.js.map
