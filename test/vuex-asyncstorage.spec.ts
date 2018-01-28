@@ -9,7 +9,7 @@ import VuexPersistence from '../dist'
 import { assert, expect, should } from 'chai'
 import * as localForage from 'localforage'
 
-const objectStore: { [key: string]: any } = {}
+const objectStore: { [key: string]: any } = { barn: {} }
 const MockForageStorage = {
   _driver: 'objectStorage',
   _support: true,
@@ -23,8 +23,12 @@ const MockForageStorage = {
   keys() { },
   length() { },
   removeItem() { },
-  setItem<T>(key: string, data: T): Promise<T> {
-    return Promise.resolve<T>((objectStore[key] = data))
+  setItem<T>(key: string, data: T | any, mutation: string): Promise<T> {
+    if (mutation !== 'cowMoo')
+      return Promise.resolve<T>(objectStore[key] = data)
+    else {
+      return Promise.resolve<T>(objectStore['barn'].cow = data.cow)
+    }
   }
 }
 
@@ -36,8 +40,8 @@ localForage.setDriver('objectStorage')
 const vuexPersist = new VuexPersistence<any, any>({
   storage: localForage,
   key: 'dafuq',
-  reducer: (state) => ({ dog: state.dog }),
-  filter: (mutation) => (mutation.type === 'dogBark')
+  reducer: (state) => ({ dog: state.dog, cow: state.cow }),
+  filter: (mutation) => (mutation.type !== 'catMew')
 })
 
 const store = new Store<any>({
@@ -47,6 +51,9 @@ const store = new Store<any>({
     },
     cat: {
       mews: 0
+    },
+    cow: {
+      moos: 0
     }
   },
   mutations: {
@@ -55,18 +62,26 @@ const store = new Store<any>({
     },
     catMew(state) {
       state.cat.mews++
+    },
+    cowMoo(state) {
+      state.cow.moos++
     }
   },
   plugins: [vuexPersist.plugin]
 })
 
-describe('Storage: AsyncStorage; Test: reducer, filter; Strict Mode: OFF', () => {
+describe('Storage: AsyncStorage; Test: reducer, filter, mutation; Strict Mode: OFF', () => {
   before(() => waitUntil(() => vuexPersist.subscribed))
   it('should persist reduced state', async () => {
     await waitUntil(() => vuexPersist.subscribed)
     store.commit('dogBark')
     expect(objectStore["dafuq"]).to.exist
     expect(objectStore["dafuq"].dog.barks).to.equal(1)
+  })
+  it('should handle mutation in the storage', async () => {
+    store.commit('cowMoo')
+    expect(objectStore["barn"].cow.moos).to.equal(1)
+    expect(objectStore["dafuq"].cow.moos).to.equal(0)
   })
   it('should not persist non reduced state', async () => {
     store.commit('catMew')

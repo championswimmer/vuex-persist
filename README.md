@@ -188,7 +188,7 @@ In strict mode, we cannot use `store.replaceState` so instead we use a mutation
 You'll need to keep in mind to add the **`RESTORE_MUTATION`** to your mutations
 See example below
 
-To configure with strict mode support - 
+To configure with strict mode support -
 
 ```typescript
 import Vue from 'vue'
@@ -237,7 +237,7 @@ interface Storage {
     getItem(key: string): string | null;
     key(index: number): string | null;
     removeItem(key: string): void;
-    setItem(key: string, data: string): void;
+    setItem(key: string, data: string, mutation: string): void;
     [key: string]: any;
     [index: number]: string;
 }
@@ -251,7 +251,7 @@ Now note the representative interface of Local Forage -
 ```typescript
 export interface LocalForage {
   getItem<T>(key: string): Promise<T>
-  setItem<T>(key: string, data: T): Promise<T>
+  setItem<T>(key: string, data: T, mutation: string): Promise<T>
   removeItem(key: string): Promise<void>
   clear(): Promise<void>
   length(): Promise<number>

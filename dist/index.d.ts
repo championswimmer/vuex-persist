@@ -9,7 +9,7 @@ export declare class VuexPersistence<S, P extends Payload> implements PersistOpt
     asyncStorage: boolean;
     storage: Storage | AsyncStorage;
     restoreState: (key: string, storage?: AsyncStorage | Storage) => Promise<S> | S;
-    saveState: (key: string, state: {}, storage?: AsyncStorage | Storage) => Promise<void> | void;
+    saveState: (key: string, state: {}, storage?: AsyncStorage | Storage, mutation?: string) => Promise<void> | void;
     reducer: (state: S) => {};
     key: string;
     filter: (mutation: Payload) => boolean;
