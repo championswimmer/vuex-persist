@@ -87,7 +87,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
 
     this.asyncStorage = options.asyncStorage || false
     const storageConfig = ((this.storage) as any)._config
-    this.asyncStorage = (storageConfig && storageConfig.name) === 'localforage'
+    this.asyncStorage = this.asyncStorage || (storageConfig && storageConfig.name) === 'localforage'
 
     if (this.asyncStorage) {
 
