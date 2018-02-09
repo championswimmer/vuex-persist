@@ -127,7 +127,7 @@ var VuexPersistence = /** @class */ (function () {
         };
         this.asyncStorage = options.asyncStorage || false;
         var storageConfig = (this.storage)._config;
-        this.asyncStorage = (storageConfig && storageConfig.name) === 'localforage';
+        this.asyncStorage = this.asyncStorage || (storageConfig && storageConfig.name) === 'localforage';
         if (this.asyncStorage) {
             /**
              * Async {@link #VuexPersistence.restoreState} implementation
