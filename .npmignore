@@ -114,3 +114,5 @@ fabric.properties
 docs
 src
 test
+
+!dist
