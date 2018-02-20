@@ -98,7 +98,11 @@ var VuexPersistence = /** @class */ (function () {
         this.key = ((options.key != null) ? options.key : 'vuex');
         this.subscribed = false;
         this.storage =
-            ((options.storage != null) ? options.storage : (new MockStorage()));
+            ((options.storage != null)
+                ? options.storage
+                : (typeof window === 'undefined')
+                    ? (new MockStorage())
+                    : window.localStorage);
         /**
          * How this works is -
          *  1. If there is options.reducer function, we use that, if not;

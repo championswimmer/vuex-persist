@@ -17,6 +17,7 @@
     "postdoc": "nodetouch docs/.nojekyll",
     "prebuild": "rimraf dist/**/**",
     "build": "rollup -c",
+    "prepublish": "npm run build",
     "pretest": "npm run build",
     "test": "node_modules/.bin/_mocha --require ts-node/register test/**/*.ts",
     "cover": "node_modules/.bin/nyc npm test"

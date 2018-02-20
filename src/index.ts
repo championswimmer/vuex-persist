@@ -48,7 +48,12 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
     this.subscribed = false
 
     this.storage =
-      ((options.storage != null) ? options.storage : (new MockStorage()))
+      ((options.storage != null)
+        ? options.storage
+        : (typeof window === 'undefined')
+          ? (new MockStorage())
+          : window.localStorage
+      )
 
     /**
      * How this works is -
