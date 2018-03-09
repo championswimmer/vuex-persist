@@ -116,3 +116,4 @@ src
 test
 
 !dist
+tsconfig.json
