@@ -67,6 +67,6 @@
     "lodash.merge": "^4.6.1"
   },
   "peerDependencies": {
-    "vuex": "> 2.5"
+    "vuex": ">=2.5"
   }
 }
