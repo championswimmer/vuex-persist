@@ -1,11 +1,12 @@
 /**
  * Created by championswimmer on 20/07/17.
  */
+import {assert, expect, should} from 'chai'
+import Vue = require('vue')
 import {Store} from 'vuex'
 import Vuex = require('vuex')
-import Vue = require('vue')
-import VuexPersistence, {MockStorage} from '../dist'
-import {assert, expect, should} from 'chai'
+import {MockStorage} from '../dist'
+import VuexPersistence from '../dist'
 
 Vue.use(Vuex)
 const mockStorage = new MockStorage()
@@ -44,12 +45,15 @@ const buildStore = () => new Store<any>({
 
 const store = buildStore()
 
-
 describe('Storage: MockStorage; Test: observable nested objects; Existing Data: TRUE; Strict: TRUE', () => {
   it('should keep observers in nested objects', () => {
     store.commit('addMouse', 'minnie')
+    //noinspection TsLint
+    // tslint:disable-next-line
     expect(store.state.mice.minnie.__ob__).to.not.be.undefined
     const newStore = buildStore()
+    //noinspection TsLint
+    // tslint:disable-next-line
     expect(newStore.state.mice.minnie.__ob__).to.not.be.undefined
   })
 })
