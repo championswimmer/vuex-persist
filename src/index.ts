@@ -87,7 +87,10 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
     this.strictMode = options.strictMode || false
 
     this.RESTORE_MUTATION = function RESTORE_MUTATION(state: S, savedState: any) {
-      (this as any)._vm.$set(state, merge(state, savedState))
+      const mergedState = merge({}, state, savedState)
+      for (let propertyName in mergedState) {
+        (this as any)._vm.$set(state, propertyName, mergedState[propertyName])
+      }
     }
 
     this.asyncStorage = options.asyncStorage || false
