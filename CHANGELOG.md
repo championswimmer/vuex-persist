@@ -2,6 +2,10 @@
 
 ## 2.0.0
 
+### 1.1.5
+
+ - fix reactivity loss
+
 ### 1.1.3
 
  - fix window.localStorage as default
