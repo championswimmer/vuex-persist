@@ -2,6 +2,10 @@
 
 ## 2.0.0
 
+### 1.1.1
+
+ - fix `_config not defined` error in unit tests
+
 ### 1.1.5
 
  - fix reactivity loss
