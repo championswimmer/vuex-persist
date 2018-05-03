@@ -79,6 +79,32 @@
 					<a href="https://www.codacy.com/app/championswimmer/vuex-persist?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=championswimmer/vuex-persist&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/0fdc0921591d4ab98b0c0c173ef22649" alt="Codacy Badge"></a>
 					<a href="https://codeclimate.com/github/championswimmer/vuex-persist"><img src="https://codeclimate.com/github/championswimmer/vuex-persist/badges/gpa.svg" alt="Code Climate"></a>
 				<a href="https://codecov.io/gh/championswimmer/vuex-persist"><img src="https://codecov.io/gh/championswimmer/vuex-persist/branch/master/graph/badge.svg" alt="codecov"></a></p>
+				<h4 id="table-of-contents">Table of Contents</h4>
+				<ul>
+					<li><a href="#vuex-persist">vuex-persist</a><ul>
+							<li><a href="#features">Features</a></li>
+							<li><a href="#compatibility">Compatibility</a></li>
+							<li><a href="#installation">Installation</a></li>
+							<li><a href="#usage">Usage</a><ul>
+									<li><a href="#steps">Steps</a></li>
+									<li><a href="#constructor-parameters--">Constructor Parameters -</a></li>
+								</ul>
+							</li>
+							<li><a href="#examples">Examples</a><ul>
+									<li><a href="#simple">Simple</a></li>
+									<li><a href="#detailed">Detailed</a></li>
+									<li><a href="#support-strict-mode">Support Strict Mode</a></li>
+									<li><a href="#note-on-localforage-and-async-stores">Note on LocalForage and async stores</a></li>
+								</ul>
+							</li>
+							<li><a href="#unit-testing">Unit Testing</a><ul>
+									<li><a href="#jest">Jest</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+				</ul>
+				<p><small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small></p>
 				<h2 id="features">Features</h2>
 				<ul>
 					<li>🎗 NEW IN V1.0.0<ul>
@@ -187,8 +213,44 @@
 							<td>boolean</td>
 							<td>Denotes if the store uses Promises (like localforage) or not <br><em><strong>Default: false</strong></em></td>
 						</tr>
+						<tr>
+							<td>supportCircular</td>
+							<td>boolean</td>
+							<td>Denotes if the state has any circular references to itself (state.x === state)</td>
+						</tr>
 					</tbody>
 				</table>
+				<h3 id="usage-notes">Usage Notes</h3>
+				<h4 id="reducer">Reducer</h4>
+				<p>Your reducer should not change the shape of the state.</p>
+				<pre><code class="lang-javascript"><span class="hljs-keyword">const</span> persist = <span class="hljs-keyword">new</span> VuexPersistence({
+  <span class="hljs-attr">reducer</span>: <span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> state.products,
+  ...
+})
+</code></pre>
+				<p>Above code is <strong>wrong</strong>
+				You intend to do this instead</p>
+				<pre><code class="lang-js"><span class="hljs-keyword">const</span> persist = <span class="hljs-keyword">new</span> VuexPersistence({
+  <span class="hljs-attr">reducer</span>: <span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> ({<span class="hljs-attr">products</span>: state.products}),
+  ...
+})
+</code></pre>
+				<h4 id="circular-states">Circular States</h4>
+				<p>If you have circular structures in your state</p>
+				<pre><code class="lang-js"><span class="hljs-keyword">let</span> x = {<span class="hljs-attr">a</span>:<span class="hljs-number">10</span>}
+x.x = x
+x.x === x.x.x <span class="hljs-comment">// true</span>
+x.x.x.a === x.x.x.x.a <span class="hljs-comment">//true</span>
+</code></pre>
+				<p><code>JSON.parse()</code> and <code>JSON.stringify()</code> will not work.
+				You&#39;ll need to install <code>circular-json</code></p>
+				<pre><code>npm <span class="hljs-keyword">install</span> circular-<span class="hljs-keyword">json</span>
+</code></pre><p>And when constructing the store, add <code>supportCircular</code> flag</p>
+				<pre><code class="lang-js"><span class="hljs-keyword">new</span> VuexPersistence({
+  <span class="hljs-attr">supportCircular</span>: <span class="hljs-literal">true</span>,
+  ...
+})
+</code></pre>
 				<h2 id="examples">Examples</h2>
 				<h3 id="simple">Simple</h3>
 				<p>Quick example -</p>
@@ -254,6 +316,7 @@ Vue.use(Vuex)
 })
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> store
+
 </code></pre>
 				<h3 id="support-strict-mode">Support Strict Mode</h3>
 				<p>This now supports <a href="https://vuex.vuejs.org/en/strict.html">Vuex strict mode</a>
@@ -336,6 +399,12 @@ Vue.use(Vuex)
 					and will finish when the JS thread is empty. This can invoke a delay of few seconds.
 					<a href="https://github.com/championswimmer/vuex-persist/issues/15">Issue #15</a> of this repository explains
 				what you can do to <em>find out</em> when store has restored.</p>
+				<h2 id="unit-testing">Unit Testing</h2>
+				<h3 id="jest">Jest</h3>
+				<p>When testing with Jest, you might find this error - </p>
+				<pre><code>TypeError: Cannot <span class="hljs-keyword">read</span> <span class="hljs-keyword">property</span><span class="hljs-title"> </span>'getItem' of undefined
+</code></pre><p>This is because there is no localStorage in Jest. You can add the following Jest plugins to solve this
+				<a href="https://www.npmjs.com/package/jest-localstorage-mock">https://www.npmjs.com/package/jest-localstorage-mock</a></p>
 			</div>
 		</div>
 		<div class="col-4 col-menu menu-sticky-wrap menu-highlight">
