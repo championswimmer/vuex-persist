@@ -116,4 +116,5 @@ src
 test
 
 !dist
+!README.md
 tsconfig.json
