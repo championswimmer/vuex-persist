@@ -17,6 +17,25 @@ Cookies or localStorage.
 [![Code Climate](https://codeclimate.com/github/championswimmer/vuex-persist/badges/gpa.svg)](https://codeclimate.com/github/championswimmer/vuex-persist)
 [![codecov](https://codecov.io/gh/championswimmer/vuex-persist/branch/master/graph/badge.svg)](https://codecov.io/gh/championswimmer/vuex-persist)
 
+####  Table of Contents
+- [vuex-persist](#vuex-persist)
+  * [Features](#features)
+  * [Compatibility](#compatibility)
+  * [Installation](#installation)
+  * [Usage](#usage)
+    + [Steps](#steps)
+    + [Constructor Parameters -](#constructor-parameters--)
+  * [Examples](#examples)
+    + [Simple](#simple)
+    + [Detailed](#detailed)
+    + [Support Strict Mode](#support-strict-mode)
+    + [Note on LocalForage and async stores](#note-on-localforage-and-async-stores)
+  * [Unit Testing](#unit-testing)
+    + [Jest](#jest)
+
+<small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
+
+
 ## Features
 
  - 🎗 NEW IN V1.0.0
@@ -274,3 +293,15 @@ immediately restored into vuex from localForage. It will go into the event loop
 and will finish when the JS thread is empty. This can invoke a delay of few seconds.
 [Issue #15](https://github.com/championswimmer/vuex-persist/issues/15) of this repository explains
 what you can do to _find out_ when store has restored.
+
+## Unit Testing
+
+### Jest
+When testing with Jest, you might find this error - 
+```
+TypeError: Cannot read property 'getItem' of undefined
+```
+
+This is because there is no localStorage in Jest. You can add the following Jest plugins to solve this
+https://www.npmjs.com/package/jest-localstorage-mock
+
