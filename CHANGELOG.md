@@ -2,6 +2,10 @@
 
 ## 2.0.0
 
+### 1.2.0
+
+ - \[feat\]: add support for cyclic objects
+
 ### 1.1.1
 
  - fix `_config not defined` error in unit tests
