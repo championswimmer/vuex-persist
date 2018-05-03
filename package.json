@@ -17,7 +17,7 @@
     "postdoc": "nodetouch docs/.nojekyll",
     "prebuild": "rimraf dist/**/**",
     "build": "rollup -c",
-    "prepublish": "npm run build",
+    "prepublishOnly": "npm run build",
     "pretest": "npm run build",
     "test": "node_modules/.bin/_mocha --require ts-node/register test/**/*.ts",
     "cover": "node_modules/.bin/nyc npm test"
@@ -45,6 +45,7 @@
   "homepage": "https://github.com/championswimmer/vuex-persist#readme",
   "devDependencies": {
     "@types/chai": "^4.1.2",
+    "@types/circular-json": "^0.4.0",
     "@types/lodash": "^4.14.100",
     "@types/lodash.merge": "^4.6.3",
     "@types/mocha": "^2.2.48",
@@ -67,6 +68,7 @@
     "lodash.merge": "^4.6.1"
   },
   "peerDependencies": {
+    "circular-json": "^0.5.3",
     "vuex": ">=2.5"
   }
 }

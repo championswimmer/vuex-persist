@@ -10,6 +10,7 @@ import { assert, expect, should } from 'chai'
 Vue.use(Vuex)
 const mockStorage = new MockStorage()
 const vuexPersist = new VuexPersistence<any, any>({
+  supportCircular: true,
   storage: mockStorage
 })
 

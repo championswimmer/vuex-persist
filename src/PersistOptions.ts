@@ -67,4 +67,18 @@ export interface PersistOptions<S> {
    * @default false
    */
   asyncStorage?: boolean
+
+  /**
+   * Support serializing circular json objects
+   * <pre>
+   *   let x = {a: 10}
+   *   x.b = x
+   *   console.log(x.a) // 10
+   *   console.log(x.b.a) // 10
+   *   console.log(x.b.b.a) // 10
+   * </pre>
+   * @default false
+   *
+   */
+  supportCircular?: boolean
 }

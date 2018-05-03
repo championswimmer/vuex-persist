@@ -11,7 +11,8 @@ export default {
     },
     external: [
         "lodash.merge",
-        "vuex"
+        "vuex",
+        "circular-json"
     ],
     plugins: [
         typescript()

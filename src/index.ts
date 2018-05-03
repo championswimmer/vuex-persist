@@ -1,6 +1,7 @@
 /**
  * Created by championswimmer on 18/07/17.
  */
+import * as CircularJSON from 'circular-json'
 import merge from 'lodash.merge'
 import {Mutation, MutationPayload, Payload, Plugin, Store} from 'vuex'
 import {AsyncStorage} from './AsyncStorage'
@@ -21,6 +22,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
   public filter: (mutation: Payload) => boolean
   public modules: string[]
   public strictMode: boolean
+  public supportCircular: boolean
 
   /**
    * The plugin function that can be used inside a vuex store.
@@ -46,6 +48,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
     this.key = ((options.key != null) ? options.key : 'vuex')
 
     this.subscribed = false
+    this.supportCircular = options.supportCircular || false
 
     this.storage =
       ((options.storage != null)
@@ -111,7 +114,11 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
               (storage ).getItem(key)
                 .then((value) =>
                   typeof value === 'string' // If string, parse, or else, just return
-                    ? JSON.parse(value || '{}')
+                    ? (
+                      this.supportCircular
+                        ? CircularJSON.parse(value || '{}')
+                        : JSON.parse(value || '{}')
+                    )
                     : (value || {})
                 )
           )
@@ -130,7 +137,12 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
                 key, // Second argument is state _object_ if localforage, stringified otherwise
                 (((storage && storage._config && storage._config.name) === 'localforage')
                   ? merge({}, state)
-                  : JSON.stringify(state) as any)
+                  : (
+                      this.supportCircular
+                        ? CircularJSON.stringify(state) as any
+                        : JSON.stringify(state) as any
+                    )
+                )
               )
           )
       )
@@ -173,7 +185,11 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
           : ((key: string, storage: Storage) => {
              const value = (storage).getItem(key)
              if (typeof value === 'string') {// If string, parse, or else, just return
-                return JSON.parse(value || '{}')
+                return (
+                  this.supportCircular
+                    ? CircularJSON.parse(value || '{}')
+                    : JSON.parse(value || '{}')
+                )
              } else {
                return (value || {})
              }
@@ -191,7 +207,11 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
           : ((key: string, state: {}, storage: Storage) =>
               (storage).setItem(
                 key, // Second argument is state _object_ if localforage, stringified otherwise
-                JSON.stringify(state) as any
+                (
+                  this.supportCircular
+                    ? CircularJSON.stringify(state) as any
+                    : JSON.stringify(state) as any
+                )
               )
           )
       )
