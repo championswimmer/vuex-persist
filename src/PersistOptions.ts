@@ -47,6 +47,21 @@ export interface PersistOptions<S> {
   filter?: (mutation: Payload) => boolean
 
   /**
+   * Method to filter which mutations will trigger mutation sharing
+   * Be default, we share mutations in {@link PersistOptions.sharedMutations}
+   * Check mutations using <code>mutation.type</code>
+   * @param mutation object of type {@link Payload}
+   */
+  filterShared?: (mutation: Payload) => boolean
+
+  /**
+   * Names of mutations that you want to persist.
+   * If you create your custom {@link PersistOptions.filterShared} function,
+   * then you will have to handle this argument.
+   */
+  sharedMutations?: string[]
+
+  /**
    * Names of modules that you want to persist.
    * If you create your custom {@link PersistOptions.reducer} function,
    * then that will override filter behaviour, not this argument

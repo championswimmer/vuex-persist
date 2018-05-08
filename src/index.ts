@@ -21,6 +21,8 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
   public reducer: (state: S) => {}
   public key: string
   public filter: (mutation: Payload) => boolean
+  public filterShared: (mutation: Payload) => boolean
+  public sharedMutations: string[]
   public modules: string[]
   public strictMode: boolean
   public supportCircular: boolean
@@ -94,6 +96,19 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
       (options.filter != null)
         ? options.filter
         : ((mutation) => true)
+    )
+
+    this.filterShared = (
+      (options.filterShared != null)
+        ? options.filterShared
+        : (
+          (options.sharedMutations == null)
+          ? ((mutation) => false)
+          : (
+            (mutation: Payload) =>
+              (options.sharedMutations as string[]).indexOf(mutation.type) !== -1
+          )
+        )
     )
 
     this.strictMode = options.strictMode || false
@@ -265,14 +280,17 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
           // console.log(mutation)
           if (this.committing) return
           // console.log('subscriber not committing')
-          if (this.filter(mutation)) {
-            try {
+
+          try {
+            if (this.filterShared(mutation)) {
               this.saveMutation(this.mutationKey, mutation, this.storage)
-              this.saveState(this.key, this.reducer(state), this.storage)
-            } catch (error) {
-              console.error('[vuex-persist] Unable to use setItem on localStorage');
-              console.error(error);
             }
+            if (this.filter(mutation)) {
+              this.saveState(this.key, this.reducer(state), this.storage)
+            }
+          } catch (error) {
+            console.error('[vuex-persist] Unable to use setItem on localStorage');
+            console.error(error);
           }
         })
 
