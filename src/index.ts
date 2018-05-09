@@ -282,32 +282,37 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
               this.saveState(this.key, this.reducer(state), this.storage)
             }
           } catch (error) {
-            console.error('[vuex-persist] Unable to use setItem on localStorage');
+            console.error('[vuex-persist] Unable to use setItem');
             console.error(error);
           }
         })
 
         if (options.sharedMutations != null || options.filterShared != null) {
 
-          /**
-           * localStorage version of event listener for shared mutations
-           */
-          window.addEventListener('storage', event => {
-            if (event.newValue === null) return;
-            if (event.key !== this.keyMutation) return;
+          if (typeof window === 'undefined' || !window.localStorage) {
+            console.error('[vuex-persist] Shared mutations must be used in localStorage')
+          } else {
 
-            try {
-              const mutation = JSON.parse(event.newValue)
-              this.committing = true;
-              store.commit(mutation.type, mutation.payload);
-            } catch (error) {
-              console.error('[vuex-persist] Unable to parse shared mutation data');
-              console.error(event.newValue, error);
-            } finally {
-              this.committing = false;
-            }
-          })
+            /**
+            * localStorage version of event listener for shared mutations
+            */
+            window.addEventListener('storage', event => {
+              if (event.newValue === null) return;
+              if (event.key !== this.keyMutation) return;
 
+              try {
+                const mutation = JSON.parse(event.newValue)
+                this.committing = true;
+                store.commit(mutation.type, mutation.payload);
+              } catch (error) {
+                console.error('[vuex-persist] Unable to parse shared mutation data');
+                console.error(event.newValue, error);
+              } finally {
+                this.committing = false;
+              }
+            })
+
+          }
         }
 
         this.subscribed = true
