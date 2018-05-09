@@ -272,10 +272,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
         }
 
         this.subscriber(store)((mutation: MutationPayload, state: S) => {
-          // console.log('subscriber')
-          // console.log(mutation)
           if (this.committing) return
-          // console.log('subscriber not committing')
 
           try {
             if (this.filterShared(mutation)) {
@@ -291,12 +288,13 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
         })
 
         if (options.sharedMutations != null || options.filterShared != null) {
+
+          /**
+           * localStorage version of event listener for shared mutations
+           */
           window.addEventListener('storage', event => {
             if (event.newValue === null) return;
             if (event.key !== this.keyMutation) return;
-
-            // console.log('event listener')
-            // console.log(event)
 
             try {
               const mutation = JSON.parse(event.newValue)
@@ -309,6 +307,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
               this.committing = false;
             }
           })
+
         }
 
         this.subscribed = true
