@@ -17,7 +17,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
   public storage: Storage | AsyncStorage
   public restoreState: (key: string, storage?: AsyncStorage | Storage) => Promise<S> | S
   public saveState: (key: string, state: {}, storage?: AsyncStorage | Storage) => Promise<void> | void
-  public saveMutation: (key: string, mutation: MutationPayload, storage?: AsyncStorage | Storage) => Promise<void> | void
+  public saveMutation: (key: string, mutation: MutationPayload, storage?: AsyncStorage | Storage) => void
   public reducer: (state: S) => {}
   public key: string
   public keyMutation: string
@@ -55,7 +55,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
   public constructor(options: PersistOptions<S>) {
     this.key = ((options.key != null) ? options.key : 'vuex')
 
-    this.committing = false;
+    this.committing = false
     this.keyMutation = options.keyMutation || 'vuex-shared-mutation'
 
     this.subscribed = false
@@ -242,7 +242,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
 
       /**
        * Sync {@link #VuexPersistence.saveMutation} implementation
-       * @type {((key: string, mutation: MutationPayload, storage?: Storage) => Promise<void>)}
+       * @type {((key: string, mutation: MutationPayload, storage?: Storage) => void)}
        */
       this.saveMutation = ((key: string, mutation: MutationPayload, storage: Storage) =>
           (
@@ -257,6 +257,24 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
           )
       )
 
+      const pluginSubscribeHandler = (mutation: MutationPayload, state: S) => {
+        if (this.committing) {
+          return
+        }
+
+        try {
+          if (this.filterShared(mutation)) {
+            this.saveMutation(this.keyMutation, mutation, this.storage)
+          }
+          if (this.filter(mutation)) {
+            this.saveState(this.key, this.reducer(state), this.storage)
+          }
+        } catch (error) {
+          console.error('[vuex-persist] Unable to use setItem')
+          console.error(error)
+        }
+      }
+
       /**
        * Sync version of plugin
        * @param {Store<S>} store
@@ -270,21 +288,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
           store.replaceState(merge(store.state, savedState))
         }
 
-        this.subscriber(store)((mutation: MutationPayload, state: S) => {
-          if (this.committing) return
-
-          try {
-            if (this.filterShared(mutation)) {
-              this.saveMutation(this.keyMutation, mutation, this.storage)
-            }
-            if (this.filter(mutation)) {
-              this.saveState(this.key, this.reducer(state), this.storage)
-            }
-          } catch (error) {
-            console.error('[vuex-persist] Unable to use setItem');
-            console.error(error);
-          }
-        })
+        this.subscriber(store)(pluginSubscribeHandler)
 
         if (options.sharedMutations != null || options.filterShared != null) {
 
@@ -293,21 +297,22 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
           } else {
 
             /**
-            * localStorage version of event listener for shared mutations
-            */
-            window.addEventListener('storage', event => {
-              if (event.newValue === null) return;
-              if (event.key !== this.keyMutation) return;
+             * localStorage version of event listener for shared mutations
+             */
+            window.addEventListener('storage', (event) => {
+              if (event.newValue === null || event.key !== this.keyMutation) {
+                return
+              }
 
               try {
                 const mutation = JSON.parse(event.newValue)
-                this.committing = true;
-                store.commit(mutation.type, mutation.payload);
+                this.committing = true
+                store.commit(mutation.type, mutation.payload)
               } catch (error) {
-                console.error('[vuex-persist] Unable to parse shared mutation data');
-                console.error(event.newValue, error);
+                console.error('[vuex-persist] Unable to parse shared mutation data')
+                console.error(event.newValue, error)
               } finally {
-                this.committing = false;
+                this.committing = false
               }
             })
 
