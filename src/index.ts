@@ -242,8 +242,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
 
       /**
        * Sync {@link #VuexPersistence.saveMutation} implementation
-       * @type {((key: string, mutation: MutationPayload, storage?: Storage) =>
-       *     (Promise<void> | void)) | ((key: string, mutation: MutationPayload, storage?: Storage) => Promise<void>)}
+       * @type {((key: string, mutation: MutationPayload, storage?: Storage) => Promise<void>)}
        */
       this.saveMutation = ((key: string, mutation: MutationPayload, storage: Storage) =>
           (
