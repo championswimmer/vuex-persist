@@ -255,10 +255,6 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
                   : JSON.stringify(mutation) as any
                 )
             )
-            &&
-            (storage).removeItem(
-              key
-            )
           )
       )
 
