@@ -39,6 +39,11 @@ export interface PersistOptions<S> {
   key?: string
 
   /**
+   * Key to use to save the mutation to share into the storage
+   */
+  keyMutation?: string
+
+  /**
    * Method to filter which mutations will trigger state saving
    * Be default returns true for all mutations.
    * Check mutations using <code>mutation.type</code>

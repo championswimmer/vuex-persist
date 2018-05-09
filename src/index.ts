@@ -20,6 +20,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
   public saveMutation: (key: string, mutation: MutationPayload, storage?: AsyncStorage | Storage) => Promise<void> | void
   public reducer: (state: S) => {}
   public key: string
+  public keyMutation: string
   public filter: (mutation: Payload) => boolean
   public filterShared: (mutation: Payload) => boolean
   public sharedMutations: string[]
@@ -41,7 +42,6 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
    * A boolean that verify if this is a shared commit
    */
   public committing: boolean
-  public mutationKey: string
 
   // tslint:disable-next-line:variable-name
   private _mutex = new SimplePromiseQueue()
@@ -56,7 +56,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
     this.key = ((options.key != null) ? options.key : 'vuex')
 
     this.committing = false;
-    this.mutationKey = 'vuex-shared-mutation'
+    this.keyMutation = options.keyMutation || 'vuex-shared-mutation'
 
     this.subscribed = false
     this.supportCircular = options.supportCircular || false
@@ -283,7 +283,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
 
           try {
             if (this.filterShared(mutation)) {
-              this.saveMutation(this.mutationKey, mutation, this.storage)
+              this.saveMutation(this.keyMutation, mutation, this.storage)
             }
             if (this.filter(mutation)) {
               this.saveState(this.key, this.reducer(state), this.storage)
@@ -297,7 +297,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
         if (options.sharedMutations != null || options.filterShared != null) {
           window.addEventListener('storage', event => {
             if (event.newValue === null) return;
-            if (event.key !== this.mutationKey) return;
+            if (event.key !== this.keyMutation) return;
 
             // console.log('event listener')
             // console.log(event)
