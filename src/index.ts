@@ -294,24 +294,26 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
           }
         })
 
-        window.addEventListener('storage', event => {
-          if (event.newValue === null) return;
-          if (event.key !== this.mutationKey) return;
+        if (options.sharedMutations != null || options.filterShared != null) {
+          window.addEventListener('storage', event => {
+            if (event.newValue === null) return;
+            if (event.key !== this.mutationKey) return;
 
-          // console.log('event listener')
-          // console.log(event)
+            // console.log('event listener')
+            // console.log(event)
 
-          try {
-            const mutation = JSON.parse(event.newValue)
-            this.committing = true;
-            store.commit(mutation.type, mutation.payload);
-          } catch (error) {
-            console.error('[vuex-persist] Unable to parse shared mutation data');
-            console.error(event.newValue, error);
-          } finally {
-            this.committing = false;
-          }
-        })
+            try {
+              const mutation = JSON.parse(event.newValue)
+              this.committing = true;
+              store.commit(mutation.type, mutation.payload);
+            } catch (error) {
+              console.error('[vuex-persist] Unable to parse shared mutation data');
+              console.error(event.newValue, error);
+            } finally {
+              this.committing = false;
+            }
+          })
+        }
 
         this.subscribed = true
       }
