@@ -276,6 +276,26 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
       }
 
       /**
+       * localStorage version of event listener for shared mutations
+       */
+      const storageEventListener = (store: Store<S>, event: any) => {
+        if (event.newValue === null || event.key !== this.keyMutation) {
+          return
+        }
+
+        try {
+          const mutation = JSON.parse(event.newValue)
+          this.committing = true
+          store.commit(mutation.type, mutation.payload)
+        } catch (error) {
+          console.error('[vuex-persist] Unable to parse shared mutation data')
+          console.error(event.newValue, error)
+        } finally {
+          this.committing = false
+        }
+      }
+
+      /**
        * Sync version of plugin
        * @param {Store<S>} store
        */
@@ -295,27 +315,9 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
           if (typeof window === 'undefined' || !window.localStorage) {
             console.error('[vuex-persist] Shared mutations must be used in localStorage')
           } else {
-
-            /**
-             * localStorage version of event listener for shared mutations
-             */
-            window.addEventListener('storage', (event) => {
-              if (event.newValue === null || event.key !== this.keyMutation) {
-                return
-              }
-
-              try {
-                const mutation = JSON.parse(event.newValue)
-                this.committing = true
-                store.commit(mutation.type, mutation.payload)
-              } catch (error) {
-                console.error('[vuex-persist] Unable to parse shared mutation data')
-                console.error(event.newValue, error)
-              } finally {
-                this.committing = false
-              }
+            window.addEventListener('storage', (event: any) => {
+              storageEventListener(store, event)
             })
-
           }
         }
 
