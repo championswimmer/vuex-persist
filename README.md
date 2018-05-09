@@ -4,11 +4,6 @@ A Typescript-ready [Vuex](https://vuex.vuejs.org/) plugin that enables
 you to save the state of your app to a persisted storage like
 Cookies or localStorage.
 
-This fork provide you a shared mutations system as extra feature.
-You can keep synchronized the state of your app across multiple windows
-or multiple store instances. It is really usefull when you develop
-a web extension and don't want to worry about different contexts.
-
 [![GitHub stars](https://img.shields.io/github/stars/championswimmer/vuex-persist.svg?style=social&label=%20vuex-persist)](http://github.com/championswimmer/vuex-persist)
 [![npm](https://img.shields.io/npm/v/vuex-persist.svg?colorB=dd1100)](http://npmjs.com/vuex-persist)
 [![npm](https://img.shields.io/npm/dw/vuex-persist.svg?colorB=fc4f4f)](http://npmjs.com/vuex-persist)
@@ -46,6 +41,7 @@ a web extension and don't want to worry about different contexts.
  - 🎗 NEW IN V1.0.0
     - Support localForage and other Promise based stores
     - Fix late restore of state for localStorage
+    - Share mutations across multiple windows
  - Automatically save store on mutation.
  - Choose which mutations trigger store save, and which don't, using `filter` function
  - Works perfectly with modules in store
@@ -127,6 +123,9 @@ Here are the properties, and what they mean -
 | modules        | string[]                                  | List of modules you want to persist. (Do not write your own reducer if you want to use this)      |
 | asyncStorage   | boolean                                   | Denotes if the store uses Promises (like localforage) or not <br>_**Default: false**_
 | supportCircular| boolean                                   | Denotes if the state has any circular references to itself (state.x === state) |
+| keyMutation  	 | string                             	     | The key to store the mutation to share in the storage <br>_**Default:'vuex-shared-mutation'**_                                                                           |
+| sharedMutations| string[]                                 | List of mutations you want to share with multiple stores <br>_**Restriction: shared mutations must be in a VuexPersistence instance with localStorage provider**_               |
+| filterShared 	 | function<br> (mutation) => boolean     	| Shared mutation filter. Look at `mutation.type` and return true <br>for only those ones which you want to be replicated. <br> Default returns true for all mutations in sharedMutations 	|
 
 ### Usage Notes
 
