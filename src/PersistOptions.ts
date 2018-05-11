@@ -39,12 +39,32 @@ export interface PersistOptions<S> {
   key?: string
 
   /**
+   * Key to use to save the mutation to share into the storage
+   */
+  keyMutation?: string
+
+  /**
    * Method to filter which mutations will trigger state saving
    * Be default returns true for all mutations.
    * Check mutations using <code>mutation.type</code>
    * @param mutation object of type {@link Payload}
    */
   filter?: (mutation: Payload) => boolean
+
+  /**
+   * Method to filter which mutations will trigger mutation sharing
+   * Be default, we share mutations in {@link PersistOptions.sharedMutations}
+   * Check mutations using <code>mutation.type</code>
+   * @param mutation object of type {@link Payload}
+   */
+  filterShared?: (mutation: Payload) => boolean
+
+  /**
+   * Names of mutations that you want to persist.
+   * If you create your custom {@link PersistOptions.filterShared} function,
+   * then you will have to handle this argument.
+   */
+  sharedMutations?: string[]
 
   /**
    * Names of modules that you want to persist.

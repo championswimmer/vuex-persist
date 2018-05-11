@@ -41,6 +41,7 @@ Cookies or localStorage.
  - 🎗 NEW IN V1.0.0
     - Support localForage and other Promise based stores
     - Fix late restore of state for localStorage
+    - Share mutations across multiple windows
  - Automatically save store on mutation.
  - Choose which mutations trigger store save, and which don't, using `filter` function
  - Works perfectly with modules in store
@@ -122,6 +123,9 @@ Here are the properties, and what they mean -
 | modules        | string[]                                  | List of modules you want to persist. (Do not write your own reducer if you want to use this)      |
 | asyncStorage   | boolean                                   | Denotes if the store uses Promises (like localforage) or not <br>_**Default: false**_
 | supportCircular| boolean                                   | Denotes if the state has any circular references to itself (state.x === state) |
+| keyMutation  	 | string                             	     | The key to store the mutation to share in the storage <br>_**Default:'vuex-shared-mutation'**_                                                                           |
+| sharedMutations| string[]                                 | List of mutations you want to share with multiple stores <br>_**Restriction: shared mutations must be in a VuexPersistence instance with localStorage provider**_               |
+| filterShared 	 | function<br> (mutation) => boolean     	| Shared mutation filter. Look at `mutation.type` and return true <br>for only those ones which you want to be replicated. <br> Default returns true for all mutations in sharedMutations 	|
 
 ### Usage Notes
 
@@ -257,7 +261,7 @@ In strict mode, we cannot use `store.replaceState` so instead we use a mutation
 You'll need to keep in mind to add the **`RESTORE_MUTATION`** to your mutations
 See example below
 
-To configure with strict mode support - 
+To configure with strict mode support -
 
 ```typescript
 import Vue from 'vue'
@@ -347,11 +351,10 @@ what you can do to _find out_ when store has restored.
 ## Unit Testing
 
 ### Jest
-When testing with Jest, you might find this error - 
+When testing with Jest, you might find this error -
 ```
 TypeError: Cannot read property 'getItem' of undefined
 ```
 
 This is because there is no localStorage in Jest. You can add the following Jest plugins to solve this
 https://www.npmjs.com/package/jest-localstorage-mock
-
