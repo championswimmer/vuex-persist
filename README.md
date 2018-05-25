@@ -206,6 +206,10 @@ a new item is added to nav items.
 So you can use multiple VuexPersistence instances to store different
 parts of your Vuex store into different storage providers.
 
+**Warning:** when working with modules these should be registered in
+the Vuex constructor. When using `store.registerModule` you risk the
+(restored) persisted state being overwritten with the default state
+defined in the module itself.
 
 ```typescript
 import Vue from 'vue'
