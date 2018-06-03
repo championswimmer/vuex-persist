@@ -1,7 +1,6 @@
 /**
  * Created by championswimmer on 18/07/17.
  */
-import * as CircularJSON from 'circular-json'
 import merge from 'lodash.merge'
 import {Mutation, MutationPayload, Payload, Plugin, Store} from 'vuex'
 import {AsyncStorage} from './AsyncStorage'
@@ -9,6 +8,7 @@ import MockStorage from './MockStorage'
 import {PersistOptions} from './PersistOptions'
 import SimplePromiseQueue from './SimplePromiseQueue'
 
+let CircularJSON = JSON
 /**
  * A class that implements the vuex persistence.
  */
@@ -49,6 +49,9 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
 
     this.subscribed = false
     this.supportCircular = options.supportCircular || false
+    if (this.supportCircular) {
+      CircularJSON = require('circular-json')
+    }
 
     this.storage =
       ((options.storage != null)
