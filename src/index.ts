@@ -53,6 +53,10 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
       CircularJSON = require('circular-json')
     }
 
+    if (this.supportCircular) {
+      const CircularJSON = require('circular-json')
+    }
+
     this.storage =
       ((options.storage != null)
         ? options.storage
