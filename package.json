@@ -65,10 +65,10 @@
     "vuex": "^3.0.1"
   },
   "dependencies": {
+    "circular-json": "^0.5.4",
     "lodash.merge": "^4.6.1"
   },
   "peerDependencies": {
-    "circular-json": "^0.5.3",
     "vuex": ">=2.5"
   }
 }
