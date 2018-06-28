@@ -1,6 +1,5 @@
 /**/*
 !dist/**/*
-!docs/**/*
 !CHANGELOG.md
 !LICENSE.md
 !package*.json
