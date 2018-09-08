@@ -62,15 +62,16 @@ Cookies or localStorage.
 
 ## Installation
 
+### Vue CLI Build Setup (using Webpack or some bundler)
 ```shell
 npm install --save vuex-persist
+# or 
+# yarn add vuex-persist
 ```
+### Directly in Browser
+```html
 
-or
-```shell
-yarn add vuex-persist
 ```
-
 
 ## Usage
 
