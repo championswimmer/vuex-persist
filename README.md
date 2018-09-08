@@ -40,6 +40,9 @@ Cookies or localStorage.
 
 ## Features
 
+ - 📦 NEW in v1.5
+    - distributed as esm and cjs both (via module field of package.json)
+    - better tree shaking as a result of esm
  - 🎗 NEW IN V1.0.0
     - Support localForage and other Promise based stores
     - Fix late restore of state for localStorage

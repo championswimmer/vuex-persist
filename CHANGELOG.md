@@ -2,19 +2,26 @@
 
 ## 2.0.0
 
-### 1.2.0
+### 1.5
+
+ - use Typescript 3.0
+ - use Rollup 0.65
+ - bundle as cjs and esm separately (dist/esm and dist/cjs)
+ - output es2015 (users can use their own webpack settings to turn es5)
+
+#### 1.2.0
 
  - \[feat\]: add support for cyclic objects
 
-### 1.1.1
+#### 1.1.1
 
  - fix `_config not defined` error in unit tests
 
-### 1.1.5
+#### 1.1.5
 
  - fix reactivity loss
 
-### 1.1.3
+#### 1.1.3
 
  - fix window.localStorage as default
 
