@@ -18,7 +18,11 @@ const configNode = {
     })
   ),
   external,
-  plugins: [typescript()]
+  plugins: [typescript({
+    tsconfigOverride: {
+      compilerOptions: {module: 'es2015'}
+    }
+  })]
 }
 const configBrowser = {
   input,
@@ -38,6 +42,7 @@ const configBrowser = {
       useTsconfigDeclarationDir: true,
       tsconfigOverride: {
         compilerOptions: {
+          module: 'es2015',
           declaration: true,
           declarationDir: 'dist/types',
           target: 'es5'
@@ -52,6 +57,6 @@ const configBrowserMin = merge({}, configBrowser, {
 })
 export default [
   configNode,
-  configBrowser,
+  configBrowser
   // configBrowserMin
 ]
