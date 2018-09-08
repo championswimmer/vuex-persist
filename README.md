@@ -4,14 +4,16 @@ A Typescript-ready [Vuex](https://vuex.vuejs.org/) plugin that enables
 you to save the state of your app to a persisted storage like
 Cookies or localStorage.
 
+[![Paypal Donate](https://img.shields.io/badge/Donate-Paypal-2244dd.svg)](https://paypal.me/championswimmer)
+
 [![GitHub stars](https://img.shields.io/github/stars/championswimmer/vuex-persist.svg?style=social&label=%20vuex-persist)](http://github.com/championswimmer/vuex-persist)
 [![npm](https://img.shields.io/npm/v/vuex-persist.svg?colorB=dd1100)](http://npmjs.com/vuex-persist)
 [![npm](https://img.shields.io/npm/dw/vuex-persist.svg?colorB=fc4f4f)](http://npmjs.com/vuex-persist)
 [![license](https://img.shields.io/github/license/championswimmer/vuex-persist.svg)]()
 
 [![Build Status](https://travis-ci.org/championswimmer/vuex-persist.svg?branch=master)](https://travis-ci.org/championswimmer/vuex-persist)
-[![bitHound Overall Score](https://www.bithound.io/github/championswimmer/vuex-persist/badges/score.svg)](https://www.bithound.io/github/championswimmer/vuex-persist)
-[![bitHound Dependencies](https://www.bithound.io/github/championswimmer/vuex-persist/badges/dependencies.svg)](https://www.bithound.io/github/championswimmer/vuex-persist/master/dependencies/npm)
+[![npm:size:gzip](https://img.shields.io/bundlephobia/minzip/vuex-persist.svg?label=npm:size:gzip)](https://bundlephobia.com/result?p=vuex-persist)
+[![cdn:size:gzip](https://img.badgesize.io/https://unpkg.com/vuex-persist?compression=gzip&label=cdn:size:gzip)](https://unpkg.com/vuex-persist)
 [![codebeat badge](https://codebeat.co/badges/dc97dea1-1e70-45d5-b3f1-fec2a6c3e4b0)](https://codebeat.co/projects/github-com-championswimmer-vuex-persist-master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0fdc0921591d4ab98b0c0c173ef22649)](https://www.codacy.com/app/championswimmer/vuex-persist?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=championswimmer/vuex-persist&amp;utm_campaign=Badge_Grade)
 [![Code Climate](https://codeclimate.com/github/championswimmer/vuex-persist/badges/gpa.svg)](https://codeclimate.com/github/championswimmer/vuex-persist)
