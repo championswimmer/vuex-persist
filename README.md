@@ -6,18 +6,23 @@ Cookies or localStorage.
 
 [![Paypal Donate](https://img.shields.io/badge/Donate-Paypal-2244dd.svg)](https://paypal.me/championswimmer)
 
+**Info :**
 [![GitHub stars](https://img.shields.io/github/stars/championswimmer/vuex-persist.svg?style=social&label=%20vuex-persist)](http://github.com/championswimmer/vuex-persist)
 [![npm](https://img.shields.io/npm/v/vuex-persist.svg?colorB=dd1100)](http://npmjs.com/vuex-persist)
 [![npm](https://img.shields.io/npm/dw/vuex-persist.svg?colorB=fc4f4f)](http://npmjs.com/vuex-persist)
 [![license](https://img.shields.io/github/license/championswimmer/vuex-persist.svg)]()
 
+**Status :**
 [![Build Status](https://travis-ci.org/championswimmer/vuex-persist.svg?branch=master)](https://travis-ci.org/championswimmer/vuex-persist)
-[![npm:size:gzip](https://img.shields.io/bundlephobia/minzip/vuex-persist.svg?label=npm:size:gzip)](https://bundlephobia.com/result?p=vuex-persist)
-[![cdn:size:gzip](https://img.badgesize.io/https://unpkg.com/vuex-persist?compression=gzip&label=cdn:size:gzip)](https://unpkg.com/vuex-persist)
 [![codebeat badge](https://codebeat.co/badges/dc97dea1-1e70-45d5-b3f1-fec2a6c3e4b0)](https://codebeat.co/projects/github-com-championswimmer-vuex-persist-master)
 [![Codacy Badge](https://api.codacy.com/project/badge/Grade/0fdc0921591d4ab98b0c0c173ef22649)](https://www.codacy.com/app/championswimmer/vuex-persist?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=championswimmer/vuex-persist&amp;utm_campaign=Badge_Grade)
 [![Code Climate](https://codeclimate.com/github/championswimmer/vuex-persist/badges/gpa.svg)](https://codeclimate.com/github/championswimmer/vuex-persist)
 [![codecov](https://codecov.io/gh/championswimmer/vuex-persist/branch/master/graph/badge.svg)](https://codecov.io/gh/championswimmer/vuex-persist)
+
+**Sizes :**
+[![npm:size:gzip](https://img.shields.io/bundlephobia/minzip/vuex-persist.svg?label=npm:size:gzip)](https://bundlephobia.com/result?p=vuex-persist)
+[![umd:min:gzip](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/vuex-persist/dist/umd/index.min.js?compression=gzip&label=umd:min:gzip)](https://cdn.jsdelivr.net/npm/vuex-persist/dist/umd/index.min.js)
+[![umd:min:brotli](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/vuex-persist/dist/umd/index.min.js?compression=brotli&label=umd:min:brotli)](https://cdn.jsdelivr.net/npm/vuex-persist/dist/umd/index.min.js)
 
 ####  Table of Contents
 - [vuex-persist](#vuex-persist)
@@ -270,7 +275,7 @@ In strict mode, we cannot use `store.replaceState` so instead we use a mutation
 You'll need to keep in mind to add the **`RESTORE_MUTATION`** to your mutations
 See example below
 
-To configure with strict mode support - 
+To configure with strict mode support -
 
 ```typescript
 import Vue from 'vue'
@@ -360,7 +365,7 @@ what you can do to _find out_ when store has restored.
 ## Unit Testing
 
 ### Jest
-When testing with Jest, you might find this error - 
+When testing with Jest, you might find this error -
 ```
 TypeError: Cannot read property 'getItem' of undefined
 ```
