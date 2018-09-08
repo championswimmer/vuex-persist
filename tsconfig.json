@@ -9,6 +9,7 @@
     ],
     "sourceMap": true,
     "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
     "outDir": "dist",
     "declaration": true,
     "noImplicitReturns": true,

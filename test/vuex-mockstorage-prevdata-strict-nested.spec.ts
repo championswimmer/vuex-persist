@@ -2,9 +2,9 @@
  * Created by championswimmer on 20/07/17.
  */
 import {assert, expect, should} from 'chai'
-import Vue = require('vue')
+import Vue from 'vue'
 import {Store} from 'vuex'
-import Vuex = require('vuex')
+import Vuex from 'vuex'
 import {MockStorage} from '../dist'
 import VuexPersistence from '../dist'
 

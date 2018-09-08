@@ -3,11 +3,11 @@
  */
 
 import { Store } from 'vuex'
-import Vuex = require('vuex')
-import Vue = require('vue')
+import Vuex from 'vuex'
+import Vue from 'vue'
 import VuexPersistence from '../dist'
 import { assert, expect, should } from 'chai'
-import * as localForage from 'localforage'
+import localForage from 'localforage'
 
 const objectStore: { [key: string]: any } = {}
 const MockForageStorage = {
