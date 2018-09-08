@@ -53,5 +53,5 @@ const configBrowserMin = merge({}, configBrowser, {
 export default [
   configNode,
   configBrowser,
-  configBrowserMin
+  // configBrowserMin
 ]
