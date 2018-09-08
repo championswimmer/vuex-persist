@@ -7,7 +7,7 @@ import localForage from 'localforage'
 import Vue from 'vue'
 import { Store } from 'vuex'
 import Vuex from 'vuex'
-import VuexPersistence from '../dist'
+import VuexPersistence from '../'
 
 const objectStore: { [key: string]: any } = {}
 const MockForageStorage = {

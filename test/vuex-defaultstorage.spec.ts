@@ -6,7 +6,7 @@ import { assert, expect, should } from 'chai'
 import Vue from 'vue'
 import { Store } from 'vuex'
 import Vuex from 'vuex'
-import VuexPersistence from '../dist'
+import VuexPersistence from '../'
 
 Vue.use(Vuex)
 const vuexPersist = new VuexPersistence({})

@@ -8,8 +8,8 @@ import {assert, expect, should} from 'chai'
 import Vue from 'vue'
 import {Store} from 'vuex'
 import Vuex from 'vuex'
-import VuexPersistence from '../dist'
-import MockStorage from '../dist/MockStorage'
+import VuexPersistence from '../'
+import MockStorage from '../'
 
 Vue.use(Vuex)
 const objStorage: any = {}

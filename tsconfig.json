@@ -2,7 +2,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "node",
-    "target": "es5",
+    "target": "es2015",
     "lib": [
       "es2015",
       "dom"
@@ -12,6 +12,7 @@
     "esModuleInterop": true,
     "outDir": "dist",
     "declaration": true,
+    "declarationDir": "dist/types",
     "noImplicitReturns": true,
     "noImplicitAny": true,
     "noImplicitThis": true,

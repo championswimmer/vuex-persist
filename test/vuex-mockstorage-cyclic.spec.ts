@@ -5,7 +5,7 @@ import { assert, expect, should } from 'chai'
 import Vue from 'vue'
 import { Store } from 'vuex'
 import Vuex from 'vuex'
-import VuexPersistence, { MockStorage } from '../dist'
+import VuexPersistence, { MockStorage } from '../'
 
 Vue.use(Vuex)
 const mockStorage = new MockStorage()

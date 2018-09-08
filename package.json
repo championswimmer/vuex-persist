@@ -2,9 +2,10 @@
   "name": "vuex-persist",
   "version": "1.4.4",
   "description": "A Vuex persistence plugin in Typescript",
-  "main": "dist/index.js",
-  "typings": "dist/index.d.ts",
-  "types": "dist/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "typings": "dist/types/index.d.ts",
+  "types": "dist/types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/championswimmer/vuex-persist.git"
@@ -19,8 +20,8 @@
     "build": "rollup -c",
     "prepublishOnly": "npm run build",
     "pretest": "npm run build",
-    "test": "node_modules/.bin/_mocha --require ts-node/register test/**/*.ts",
-    "cover": "node_modules/.bin/nyc npm test"
+    "test": "mocha --require ts-node/register test/**/*.ts",
+    "cover": "nyc npm test"
   },
   "nyc": {
     "extension": [
@@ -55,8 +56,8 @@
     "mocha": "^5.2.0",
     "nyc": "^13.0.1",
     "rimraf": "^2.6.2",
-    "rollup": "^0.55.3",
-    "rollup-plugin-typescript2": "^0.11.0",
+    "rollup": "^0.65.2",
+    "rollup-plugin-typescript2": "^0.17.0",
     "touch": "^3.1.0",
     "ts-node": "^7.0.1",
     "typedoc": "^0.12.0",
