@@ -2,12 +2,12 @@
  * Created by richicoder on 31/10/17.
  */
 
-import { Store } from 'vuex'
-import Vuex from 'vuex'
-import Vue from 'vue'
-import VuexPersistence from '../dist'
 import { assert, expect, should } from 'chai'
 import localForage from 'localforage'
+import Vue from 'vue'
+import { Store } from 'vuex'
+import Vuex from 'vuex'
+import VuexPersistence from '../dist'
 
 const objectStore: { [key: string]: any } = {}
 const MockForageStorage = {
@@ -65,21 +65,21 @@ describe('Storage: AsyncStorage; Test: reducer, filter; Strict Mode: OFF', () =>
   it('should persist reduced state', async () => {
     await waitUntil(() => vuexPersist.subscribed)
     store.commit('dogBark')
-    expect(objectStore["dafuq"]).to.exist
-    expect(objectStore["dafuq"].dog.barks).to.equal(1)
+    expect(objectStore['dafuq']).to.exist
+    expect(objectStore['dafuq'].dog.barks).to.equal(1)
   })
   it('should not persist non reduced state', async () => {
     store.commit('catMew')
-    expect(objectStore["dafuq"].cat).to.be.undefined
+    expect(objectStore['dafuq'].cat).to.be.undefined
   })
 })
 
 function waitUntil(condition: () => boolean): Promise<void> {
-  return new Promise(async resolve => {
-    let tries = 0;
+  return new Promise(async (resolve) => {
+    let tries = 0
     while (!condition() && tries < 30) {
-      await new Promise(_ => setTimeout(_, 10))
-      tries++;
+      await new Promise((_) => setTimeout(_, 10))
+      tries++
     }
     resolve()
   })

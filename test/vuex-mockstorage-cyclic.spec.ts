@@ -1,11 +1,11 @@
 /**
  * Created by rossng on 02/04/2018.
  */
+import { assert, expect, should } from 'chai'
+import Vue from 'vue'
 import { Store } from 'vuex'
 import Vuex from 'vuex'
-import Vue from 'vue'
 import VuexPersistence, { MockStorage } from '../dist'
-import { assert, expect, should } from 'chai'
 
 Vue.use(Vuex)
 const mockStorage = new MockStorage()
@@ -29,7 +29,7 @@ const getSavedStore = () => JSON.parse(mockStorage.getItem('vuex'))
 
 describe('Storage: MockStorage, Test: cyclic object', () => {
   it('should persist cyclic object', () => {
-    let cyclicObject: any = { foo: 10 }
+    const cyclicObject: any = { foo: 10 }
     cyclicObject.bar = cyclicObject
     store.commit('storeCyclicObject', cyclicObject)
     expect(getSavedStore().cyclicObject.foo).to.equal(10)

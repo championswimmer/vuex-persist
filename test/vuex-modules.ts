@@ -2,11 +2,11 @@
  * Created by championswimmer on 23/07/17.
  */
 
+import { assert, expect, should } from 'chai'
+import Vue from 'vue'
 import { Store } from 'vuex'
 import Vuex from 'vuex'
-import Vue from 'vue'
 import VuexPersistence from '../dist'
-import { assert, expect, should } from 'chai'
 
 Vue.use(Vuex)
 const vuexPersist = new VuexPersistence({

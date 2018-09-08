@@ -1,11 +1,11 @@
 /**
  * Created by championswimmer on 20/07/17.
  */
+import { assert, expect, should } from 'chai'
+import Vue from 'vue'
 import { Store } from 'vuex'
 import Vuex from 'vuex'
-import Vue from 'vue'
 import VuexPersistence, { MockStorage } from '../dist'
-import { assert, expect, should } from 'chai'
 
 Vue.use(Vuex)
 const mockStorage = new MockStorage()
