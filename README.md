@@ -70,7 +70,9 @@ npm install --save vuex-persist
 ```
 ### Directly in Browser
 ```html
-
+<!-- We need lodash.merge so get lodash first -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuex-persist/dist/umd/index.min.js"></script>
 ```
 
 ## Usage
@@ -81,6 +83,7 @@ Import it
 ```js
 import VuexPersistence from 'vuex-persist'
 ```
+> NOTE: In browsers, you can directly use `window.VuexPersistence`
 
 Create an object
 

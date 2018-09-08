@@ -25,7 +25,7 @@ const configBrowser = {
   output: {
     file: 'dist/umd/index.js',
     format: 'umd',
-    name: 'VuexPersist',
+    name: 'VuexPersistence',
     sourcemap: true,
     exports: 'named',
     globals: {
