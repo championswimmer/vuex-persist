@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
+    "module": "es2015",
     "moduleResolution": "node",
     "target": "es2015",
     "lib": [
@@ -11,6 +11,7 @@
     "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
     "outDir": "dist",
+    "declarationDir": "dist/types",
     "noImplicitReturns": true,
     "noImplicitAny": true,
     "noImplicitThis": true,
