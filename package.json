@@ -23,7 +23,7 @@
     "build": "rollup -c build/rollup.config.js",
     "prepublishOnly": "npm run build",
     "pretest": "npm run build",
-    "test": "mocha -r ts-node/register test/*.spec.ts",
+    "test": "cd test && mocha -r ts-node/register *.ts",
     "cover": "nyc npm test"
   },
   "nyc": {

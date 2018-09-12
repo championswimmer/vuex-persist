@@ -54,7 +54,16 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
       CircularJSON = require('circular-json')
     }
 
-    this.storage = options.storage || (window && window.localStorage) || new MockStorage()
+    // @ts-ignore
+    if (process.env.NODE_ENV === 'production') {
+      this.storage = options.storage ||  window.localStorage
+    } else {
+      if (typeof window !== 'undefined') {
+        this.storage = options.storage || window.localStorage
+      } else {
+        this.storage = options.storage || new MockStorage()
+      }
+    }
 
     /**
      * How this works is -
