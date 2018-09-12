@@ -21,8 +21,8 @@ Cookies or localStorage.
 
 **Sizes :**
 [![npm:size:gzip](https://img.shields.io/bundlephobia/minzip/vuex-persist.svg?label=npm:size:gzip)](https://bundlephobia.com/result?p=vuex-persist)
-[![umd:min:gzip](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/vuex-persist/dist/umd/index.min.js?compression=gzip&label=umd:min:gzip)](https://cdn.jsdelivr.net/npm/vuex-persist/dist/umd/index.min.js)
-[![umd:min:brotli](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/vuex-persist/dist/umd/index.min.js?compression=brotli&label=umd:min:brotli)](https://cdn.jsdelivr.net/npm/vuex-persist/dist/umd/index.min.js)
+[![umd:min:gzip](https://img.badgesize.io/https://unpkg.com/vuex-persist?compression=gzip&label=umd:min:gzip)](https://unpkg.com/vuex-persist)
+[![umd:min:brotli](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/vuex-persist?compression=brotli&label=umd:min:brotli)](https://cdn.jsdelivr.net/npm/vuex-persist)
 
 ####  Table of Contents
 - [vuex-persist](#vuex-persist)
@@ -77,7 +77,7 @@ npm install --save vuex-persist
 ```html
 <!-- We need lodash.merge so get lodash first -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/vuex-persist/dist/umd/index.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/vuex-persist"></script>
 ```
 
 ## Usage

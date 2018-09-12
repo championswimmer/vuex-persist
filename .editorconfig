@@ -1,0 +1,5 @@
+root = true
+
+[src/**.ts]
+indent_style = space
+indent_size = 2

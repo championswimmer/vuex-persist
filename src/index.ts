@@ -9,6 +9,7 @@ import {PersistOptions} from './PersistOptions'
 import SimplePromiseQueue from './SimplePromiseQueue'
 
 let CircularJSON = JSON
+
 /**
  * A class that implements the vuex persistence.
  */
@@ -53,13 +54,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
       CircularJSON = require('circular-json')
     }
 
-    this.storage =
-      ((options.storage != null)
-        ? options.storage
-        : (typeof window === 'undefined')
-          ? (new MockStorage())
-          : window.localStorage
-      )
+    this.storage = options.storage || (window && window.localStorage) || new MockStorage()
 
     /**
      * How this works is -
@@ -79,16 +74,12 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
             : (
               (state: any) =>
                 (options.modules as string[]).reduce((a, i) =>
-                  merge(a, { [i]: state[i] }), {})
+                  merge(a, {[i]: state[i]}), {})
             )
         )
     )
 
-    this.filter = (
-      (options.filter != null)
-        ? options.filter
-        : ((mutation) => true)
-    )
+    this.filter = options.filter || ((mutation) => true)
 
     this.strictMode = options.strictMode || false
 
@@ -114,7 +105,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
         (options.restoreState != null)
           ? options.restoreState
           : ((key: string, storage: AsyncStorage) =>
-              (storage ).getItem(key)
+              (storage).getItem(key)
                 .then((value) =>
                   typeof value === 'string' // If string, parse, or else, just return
                     ? (
@@ -139,8 +130,8 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
               (storage).setItem(
                 key, // Second argument is state _object_ if localforage, stringified otherwise
                 (((storage && storage._config && storage._config.name) === 'localforage')
-                  ? merge({}, state)
-                  : (
+                    ? merge({}, state)
+                    : (
                       this.supportCircular
                         ? CircularJSON.stringify(state) as any
                         : JSON.stringify(state) as any
@@ -186,16 +177,16 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
         (options.restoreState != null)
           ? options.restoreState
           : ((key: string, storage: Storage) => {
-             const value = (storage).getItem(key)
-             if (typeof value === 'string') {// If string, parse, or else, just return
-                return (
-                  this.supportCircular
-                    ? CircularJSON.parse(value || '{}')
-                    : JSON.parse(value || '{}')
-                )
-             } else {
-               return (value || {})
-             }
+            const value = (storage).getItem(key)
+            if (typeof value === 'string') {// If string, parse, or else, just return
+              return (
+                this.supportCircular
+                  ? CircularJSON.parse(value || '{}')
+                  : JSON.parse(value || '{}')
+              )
+            } else {
+              return (value || {})
+            }
           })
       )
 
