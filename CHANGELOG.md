@@ -2,6 +2,10 @@
 
 ## 2.0.0
 
+#### 1.5.4
+
+ - remove `MockStorage` from umd builds (as it was only for NodeJS mocking)
+
 ### 1.5
 
  - use Typescript 3.0
