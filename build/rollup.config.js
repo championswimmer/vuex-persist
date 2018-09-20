@@ -25,6 +25,9 @@ const genPlugins = (configOpts) => {
       'process.env.NODE_ENV': JSON.stringify(configOpts.env)
     }))
   }
+  plugins.push(replace({
+    'process.env.MODULE_FORMAT': JSON.stringify(configOpts.format)
+  }))
   if (configOpts.plugins && configOpts.plugins.pre) {
     plugins.push(...configOpts.plugins.pre)
   }

@@ -2,7 +2,7 @@
  * Created by championswimmer on 22/07/17.
  */
 import { assert, expect, should } from 'chai'
-import { MockStorage } from '..'
+import { MockStorage } from '../dist/cjs'
 
 const mockStorage = new MockStorage()
 

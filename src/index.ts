@@ -4,7 +4,7 @@
 import merge from 'lodash.merge'
 import {Mutation, MutationPayload, Payload, Plugin, Store} from 'vuex'
 import {AsyncStorage} from './AsyncStorage'
-import MockStorage from './MockStorage'
+import { MockStorage } from './MockStorage'
 import {PersistOptions} from './PersistOptions'
 import SimplePromiseQueue from './SimplePromiseQueue'
 
@@ -58,10 +58,11 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
     if (process.env.NODE_ENV === 'production') {
       this.storage = options.storage ||  window.localStorage
     } else {
-      if (typeof window !== 'undefined') {
-        this.storage = options.storage || window.localStorage
+      // @ts-ignore
+      if (process.env.MODULE_FORMAT !== 'umd') {
+        this.storage = options.storage || (typeof window !== 'undefined' ? window.localStorage : new MockStorage!())
       } else {
-        this.storage = options.storage || new MockStorage()
+        this.storage = options.storage || window.localStorage
       }
     }
 
