@@ -5,14 +5,14 @@ export default {
     output: 'dist/umd/index.js',
     format: 'umd',
     target: 'es5',
-    globals: {'lodash.merge': '_.merge'},
+    globals: {deepmerge: 'deepmerge'},
     env: 'development'
   },
   umdMin: {
     output: 'dist/umd/index.min.js',
     format: 'umd',
     target: 'es5',
-    globals: {'lodash.merge': '_.merge'},
+    globals: {deepmerge: 'deepmerge'},
     plugins: {
       post: [uglify()]
     },

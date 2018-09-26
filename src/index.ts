@@ -1,7 +1,7 @@
 /**
  * Created by championswimmer on 18/07/17.
  */
-import merge from 'lodash.merge'
+import merge from 'deepmerge'
 import {Mutation, MutationPayload, Payload, Plugin, Store} from 'vuex'
 import {AsyncStorage} from './AsyncStorage'
 import { MockStorage } from './MockStorage'
@@ -84,7 +84,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
             : (
               (state: any) =>
                 (options.modules as string[]).reduce((a, i) =>
-                  merge(a, {[i]: state[i]}), {})
+                  merge(a, {[i]: state[i]} || {}), {/* start empty accumulator*/})
             )
         )
     )
@@ -94,7 +94,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
     this.strictMode = options.strictMode || false
 
     this.RESTORE_MUTATION = function RESTORE_MUTATION(state: S, savedState: any) {
-      const mergedState = merge({}, state, savedState)
+      const mergedState = merge(state, savedState || {})
       for (const propertyName of Object.keys(mergedState)) {
         (this as any)._vm.$set(state, propertyName, mergedState[propertyName])
       }
@@ -140,7 +140,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
               (storage).setItem(
                 key, // Second argument is state _object_ if localforage, stringified otherwise
                 (((storage && storage._config && storage._config.name) === 'localforage')
-                    ? merge({}, state)
+                    ? merge({}, state || {})
                     : (
                       this.supportCircular
                         ? CircularJSON.stringify(state) as any
@@ -163,7 +163,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
           if (this.strictMode) {
             store.commit('RESTORE_MUTATION', savedState)
           } else {
-            store.replaceState(merge(store.state, savedState))
+            store.replaceState(merge(store.state, savedState || {}))
           }
 
           this.subscriber(store)((mutation: MutationPayload, state: S) => {
@@ -230,7 +230,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
         if (this.strictMode) {
           store.commit('RESTORE_MUTATION', savedState)
         } else {
-          store.replaceState(merge(store.state, savedState))
+          store.replaceState(merge(store.state, savedState || {}))
         }
 
         this.subscriber(store)((mutation: MutationPayload, state: S) => {

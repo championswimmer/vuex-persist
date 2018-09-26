@@ -3,7 +3,7 @@ import typescript from 'rollup-plugin-typescript2'
 import configs from './configs'
 
 const externals = [
-  'lodash.merge',
+  'deepmerge',
   'vuex',
   'circular-json'
 ]

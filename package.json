@@ -4,7 +4,10 @@
   "description": "A Vuex persistence plugin in Typescript",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "browser": "dist/umd/index.js",
+  "browser": {
+    "./dist/cjs/index.js": "./dist/umd/index.js",
+    "./dist/esm/index.js": "./dist/esm/index.js"
+  },
   "unpkg": "dist/umd/index.min.js",
   "jsdelivr": "dist/umd/index.min.js",
   "typings": "dist/types/index.d.ts",
@@ -50,8 +53,7 @@
   "devDependencies": {
     "@types/chai": "^4.1.4",
     "@types/circular-json": "^0.4.0",
-    "@types/lodash": "^4.14.116",
-    "@types/lodash.merge": "^4.6.4",
+    "@types/deepmerge": "^2.1.0",
     "@types/mocha": "^5.2.5",
     "chai": "^4.1.2",
     "localforage": "^1.7.2",
@@ -72,7 +74,7 @@
   },
   "dependencies": {
     "circular-json": "^0.5.5",
-    "lodash.merge": "^4.6.1"
+    "deepmerge": "^2.1.1"
   },
   "peerDependencies": {
     "vuex": ">=2.5"
