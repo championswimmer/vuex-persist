@@ -2,6 +2,12 @@
 
 ## 2.0.0
 
+### 1.7
+
+#### 1.6.1
+
+- fix deepmerge to overwrite arrays (and not concat)
+
 ### 1.6
 
 - replace `lodash.merge` with `deepmerge` (reduces size)
