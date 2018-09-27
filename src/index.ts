@@ -1,7 +1,7 @@
 /**
  * Created by championswimmer on 18/07/17.
  */
-import merge from 'deepmerge'
+import {merge} from './utils'
 import {Mutation, MutationPayload, Payload, Plugin, Store} from 'vuex'
 import {AsyncStorage} from './AsyncStorage'
 import { MockStorage } from './MockStorage'

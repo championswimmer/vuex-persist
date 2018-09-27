@@ -44,7 +44,8 @@ const getSavedStore = () => JSON.parse(mockStorage.getItem('vuex'))
 describe('Storage: MockStorage, Test: reducer, filter, Existing Data: TRUE', () => {
   it('should persist reduced state', () => {
     store.commit('addDogColor')
-    expect(getSavedStore().dog.colors.length).to.equal(3)
+    expect(getSavedStore().dog.colors.length).to.equal(2)
+    expect(getSavedStore().dog.colors).to.deep.equal(['black', 'grey'])
   })
   it('should not persist non reduced state', () => {
     store.commit('addCatColor')
