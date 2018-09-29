@@ -1,12 +1,12 @@
 /**
  * Created by championswimmer on 18/07/17.
  */
-import {merge} from './utils'
 import {Mutation, MutationPayload, Payload, Plugin, Store} from 'vuex'
 import {AsyncStorage} from './AsyncStorage'
 import { MockStorage } from './MockStorage'
 import {PersistOptions} from './PersistOptions'
 import SimplePromiseQueue from './SimplePromiseQueue'
+import {merge} from './utils'
 
 let CircularJSON = JSON
 
@@ -84,7 +84,7 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
             : (
               (state: any) =>
                 (options.modules as string[]).reduce((a, i) =>
-                  merge(a, {[i]: state[i]} || {}), {/* start empty accumulator*/})
+                  merge(a, {[i]: state[i]}), {/* start empty accumulator*/})
             )
         )
     )

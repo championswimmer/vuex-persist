@@ -1,7 +1,5 @@
-import deepmerge, {Options} from 'deepmerge'
+import lodashMerge from 'lodash.merge'
 
-export const merge = (dest: any, src: any) =>
-  deepmerge(dest, src, {
-    arrayMerge: (dest, src) => src
-  })
-
+export function merge(into: any, from: any) {
+  return lodashMerge(into, from)
+}
