@@ -13,7 +13,7 @@ let CircularJSON = JSON
 /**
  * A class that implements the vuex persistence.
  */
-export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> {
+export class VuexPersistence<S extends Store<any>, P extends Payload> implements PersistOptions<S> {
   public asyncStorage: boolean
   public storage: Storage | AsyncStorage
   public restoreState: (key: string, storage?: AsyncStorage | Storage) => Promise<S> | S
@@ -45,7 +45,8 @@ export class VuexPersistence<S, P extends Payload> implements PersistOptions<S> 
    * Vuex plugin.
    * @param {PersistOptions} options
    */
-  public constructor(options: PersistOptions<S>) {
+  public constructor(options?: PersistOptions<S>) {
+    if (typeof options === 'undefined') options = {} as PersistOptions<S>
     this.key = ((options.key != null) ? options.key : 'vuex')
 
     this.subscribed = false

@@ -2,7 +2,15 @@
 
 ## 2.0.0
 
+### 1.8
+
+#### 1.7.1
+
+- allow constructing without options object
+
 ### 1.7
+
+- revert to lodash.merge as deepmerge has issues
 
 #### 1.6.1
 
