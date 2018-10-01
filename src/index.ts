@@ -84,7 +84,7 @@ export class VuexPersistence<S extends Store<any>, P extends Payload> implements
             ? ((state: S) => state)
             : (
               (state: any) =>
-                (options.modules as string[]).reduce((a, i) =>
+                (options!.modules as string[]).reduce((a, i) =>
                   merge(a, {[i]: state[i]}), {/* start empty accumulator*/})
             )
         )
