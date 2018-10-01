@@ -9,6 +9,7 @@ import {MockStorage} from '..'
 import VuexPersistence from '..'
 
 Vue.use(Vuex)
+// @ts-ignore
 const mockStorage = new MockStorage()
 mockStorage.setItem('vuex', JSON.stringify({
   mice: {
@@ -17,7 +18,7 @@ mockStorage.setItem('vuex', JSON.stringify({
     }
   }
 }))
-const vuexPersist = new VuexPersistence<any, any>({
+const vuexPersist = new VuexPersistence<any>({
   strictMode: true,
   storage: mockStorage,
 })

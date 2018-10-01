@@ -13,7 +13,7 @@ import MockStorage from '..'
 
 Vue.use(Vuex)
 const objStorage: any = {}
-const vuexPersist = new VuexPersistence<any, any>({
+const vuexPersist = new VuexPersistence<any>({
   key: 'dafuq',
   restoreState: (key) => objStorage[key],
   saveState: (key, state) => { objStorage[key] = state },

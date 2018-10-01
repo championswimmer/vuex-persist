@@ -33,7 +33,7 @@ Vue.use(Vuex)
 localForage.defineDriver(MockForageStorage as any)
 localForage.setDriver('objectStorage')
 
-const vuexPersist = new VuexPersistence<any, any>({
+const vuexPersist = new VuexPersistence<any>({
   storage: localForage,
   key: 'dafuq',
   reducer: (state) => ({ dog: state.dog }),

@@ -8,8 +8,9 @@ import Vuex from 'vuex'
 import VuexPersistence, { MockStorage } from '..'
 
 Vue.use(Vuex)
+// @ts-ignore
 const mockStorage = new MockStorage()
-const vuexPersist = new VuexPersistence<any, any>({
+const vuexPersist = new VuexPersistence<any>({
   supportCircular: true,
   storage: mockStorage
 })
@@ -25,7 +26,7 @@ const store = new Store<any>({
   },
   plugins: [vuexPersist.plugin]
 })
-const getSavedStore = () => JSON.parse(mockStorage.getItem('vuex'))
+const getSavedStore = () => JSON.parse(mockStorage.getItem('vuex') || '')
 
 describe('Storage: MockStorage, Test: cyclic object', () => {
   it('should persist cyclic object', () => {

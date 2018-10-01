@@ -2,11 +2,12 @@
  * Created by championswimmer on 22/07/17.
  */
 import { assert, expect, should } from 'chai'
-import { MockStorage } from '../dist/cjs'
+import { MockStorage } from '..'
 
+// @ts-ignore
 const mockStorage = new MockStorage()
 
-mockStorage.setItem('a', 1)
+mockStorage.setItem('a', 1 as any)
 mockStorage.setItem('b', '20')
 
 describe('MockStorage', () => {
