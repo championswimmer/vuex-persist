@@ -9,7 +9,7 @@ import Vuex from 'vuex'
 import VuexPersistence from '..'
 
 Vue.use(Vuex)
-const vuexPersist = new VuexPersistence({})
+const vuexPersist = new VuexPersistence()
 
 const store = new Store<any>({
   state: {

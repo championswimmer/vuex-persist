@@ -12,13 +12,14 @@ let CircularJSON = JSON
 
 /**
  * A class that implements the vuex persistence.
+ * @type S type of the 'state' inside the store (default: any)
  */
-export class VuexPersistence<S extends Store<any>, P extends Payload> implements PersistOptions<S> {
+export class VuexPersistence<S> implements PersistOptions<S> {
   public asyncStorage: boolean
   public storage: Storage | AsyncStorage
   public restoreState: (key: string, storage?: AsyncStorage | Storage) => Promise<S> | S
   public saveState: (key: string, state: {}, storage?: AsyncStorage | Storage) => Promise<void> | void
-  public reducer: (state: S) => {}
+  public reducer: (state: S) => Partial<S>
   public key: string
   public filter: (mutation: Payload) => boolean
   public modules: string[]
