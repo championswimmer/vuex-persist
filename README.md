@@ -15,7 +15,7 @@ Cookies or localStorage.
 **Status :**
 [![Build Status](https://travis-ci.org/championswimmer/vuex-persist.svg?branch=master)](https://travis-ci.org/championswimmer/vuex-persist)
 [![codebeat badge](https://codebeat.co/badges/dc97dea1-1e70-45d5-b3f1-fec2a6c3e4b0)](https://codebeat.co/projects/github-com-championswimmer-vuex-persist-master)
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0fdc0921591d4ab98b0c0c173ef22649)](https://www.codacy.com/app/championswimmer/vuex-persist?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=championswimmer/vuex-persist&amp;utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/0fdc0921591d4ab98b0c0c173ef22649)](https://www.codacy.com/app/championswimmer/vuex-persist?utm_source=github.com&utm_medium=referral&utm_content=championswimmer/vuex-persist&utm_campaign=Badge_Grade)
 [![Code Climate](https://codeclimate.com/github/championswimmer/vuex-persist/badges/gpa.svg)](https://codeclimate.com/github/championswimmer/vuex-persist)
 [![codecov](https://codecov.io/gh/championswimmer/vuex-persist/branch/master/graph/badge.svg)](https://codecov.io/gh/championswimmer/vuex-persist)
 
@@ -24,60 +24,94 @@ Cookies or localStorage.
 [![umd:min:gzip](https://img.badgesize.io/https://unpkg.com/vuex-persist?compression=gzip&label=umd:min:gzip)](https://unpkg.com/vuex-persist)
 [![umd:min:brotli](https://img.badgesize.io/https://cdn.jsdelivr.net/npm/vuex-persist?compression=brotli&label=umd:min:brotli)](https://cdn.jsdelivr.net/npm/vuex-persist)
 
-####  Table of Contents
+#### Table of Contents
+
 - [vuex-persist](#vuex-persist)
-  * [Features](#features)
-  * [Compatibility](#compatibility)
-  * [Installation](#installation)
-  * [Usage](#usage)
-    + [Steps](#steps)
-    + [Constructor Parameters -](#constructor-parameters--)
-  * [Examples](#examples)
-    + [Simple](#simple)
-    + [Detailed](#detailed)
-    + [Support Strict Mode](#support-strict-mode)
-    + [Note on LocalForage and async stores](#note-on-localforage-and-async-stores)
-  * [Unit Testing](#unit-testing)
-    + [Jest](#jest)
+      - [Table of Contents](#table-of-contents)
+  - [Features](#features)
+  - [Compatibility](#compatibility)
+  - [Installation](#installation)
+    - [Vue CLI Build Setup (using Webpack or some bundler)](#vue-cli-build-setup-using-webpack-or-some-bundler)
+    - [Directly in Browser](#directly-in-browser)
+    - [Tips for NUXT](#tips-for-nuxt)
+  - [Usage](#usage)
+    - [Steps](#steps)
+    - [Constructor Parameters -](#constructor-parameters--)
+    - [Usage Notes](#usage-notes)
+      - [Reducer](#reducer)
+      - [Circular States](#circular-states)
+  - [Examples](#examples)
+    - [Simple](#simple)
+    - [Detailed](#detailed)
+    - [Support Strict Mode](#support-strict-mode)
+    - [Note on LocalForage and async stores](#note-on-localforage-and-async-stores)
+  - [Unit Testing](#unit-testing)
+    - [Jest](#jest)
 
 <small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small>
 
-
 ## Features
 
- - 📦 NEW in v1.5
-    - distributed as esm and cjs both (via module field of package.json)
-    - better tree shaking as a result of esm
- - 🎗 NEW IN V1.0.0
-    - Support localForage and other Promise based stores
-    - Fix late restore of state for localStorage
- - Automatically save store on mutation.
- - Choose which mutations trigger store save, and which don't, using `filter` function
- - Works perfectly with modules in store
- - Ability to save partial store, using a `reducer` function
- - Automatically restores store when app loads
- - You can create mulitple VuexPersistence instances if you want to -
-    - Save some parts of the store to localStorage, some to sessionStorage
-    - Trigger saving to localStorage on data download, saving to cookies on authentication result
+- 📦 NEW in v1.5
+  - distributed as esm and cjs both (via module field of package.json)
+  - better tree shaking as a result of esm
+- 🎗 NEW IN V1.0.0
+  - Support localForage and other Promise based stores
+  - Fix late restore of state for localStorage
+- Automatically save store on mutation.
+- Choose which mutations trigger store save, and which don't, using `filter` function
+- Works perfectly with modules in store
+- Ability to save partial store, using a `reducer` function
+- Automatically restores store when app loads
+- You can create mulitple VuexPersistence instances if you want to -
+  - Save some parts of the store to localStorage, some to sessionStorage
+  - Trigger saving to localStorage on data download, saving to cookies on authentication result
 
 ## Compatibility
 
- - [VueJS](http://vuejs.org) - v2.0 and above
- - [Vuex](http://vuex.vuejs.org) - v2.1 and above
+- [VueJS](http://vuejs.org) - v2.0 and above
+- [Vuex](http://vuex.vuejs.org) - v2.1 and above
 
 ## Installation
 
 ### Vue CLI Build Setup (using Webpack or some bundler)
+
 ```shell
 npm install --save vuex-persist
-# or 
+# or
 # yarn add vuex-persist
 ```
+
 ### Directly in Browser
+
 ```html
 <!-- We need lodash.merge so get lodash first -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/vuex-persist"></script>
+```
+
+### Tips for NUXT
+
+This is a plugin that works [only on the client side](https://nuxtjs.org/guide/plugins/#client-side-only).
+So we'll register it as a ssr-free plugin.
+
+```js
+// Inside - nuxt.config.js
+export default {
+  plugins: [
+    { src: '~/plugins/vuex-persist', ssr: false }
+  ]
+}
+```
+
+```js
+// ~/plugins/vuex-persist.js
+import store from '~/store/'
+import VuexPersistence from 'vuex-persist'
+
+new VuexPersistence({
+  /* your options */
+}).plugin(store)
 ```
 
 ## Usage
@@ -85,16 +119,18 @@ npm install --save vuex-persist
 ### Steps
 
 Import it
+
 ```js
 import VuexPersistence from 'vuex-persist'
 ```
+
 > NOTE: In browsers, you can directly use `window.VuexPersistence`
 
 Create an object
 
 ```js
 const vuexLocal = new VuexPersistence({
-    storage: window.localStorage
+  storage: window.localStorage
 })
 ```
 
@@ -110,6 +146,7 @@ const store = new Vuex.Store<State>({
 ```
 
 (or in Javascript)
+
 ```js
 const store = {
   state: { ... },
@@ -125,21 +162,22 @@ When creating the VuexPersistence object, we pass an `options` object
 of type `PersistOptions`.
 Here are the properties, and what they mean -
 
-| Property     	 | Type                               	| Description                                                                                                                        	|
-|--------------	 |------------------------------------	|------------------------------------------------------------------------------------------------------------------------------------	|
-| key          	 | string                             	| The key to store the state in the storage <br>_**Default: 'vuex'**_                                                                                          	|
-| storage      	 | Storage (Web API)                  	| localStorage, sessionStorage, localforage or your custom Storage object. <br>Must implement getItem, setItem, clear etc. <br> _**Default: window.localStorage**_                           	|
-| saveState    	 | function<br> (key, state[, storage])   	| If not using storage, this custom function handles <br>saving state to persistence                                                     	|
-| restoreState 	 | function<br> (key[, storage]) => state 	| If not using storage, this custom function handles <br>retrieving state from storage                                                   	|
-| reducer      	 | function<br> (state) => object         	| State reducer. reduces state to only those values you want to save. <br>By default, saves entire state                                 	|
-| filter       	 | function<br> (mutation) => boolean     	| Mutation filter. Look at `mutation.type` and return true <br>for only those ones which you want a persistence write to be triggered for. <br> Default returns true for all mutations 	|
-| modules        | string[]                                  | List of modules you want to persist. (Do not write your own reducer if you want to use this)      |
-| asyncStorage   | boolean                                   | Denotes if the store uses Promises (like localforage) or not <br>_**Default: false**_
-| supportCircular| boolean                                   | Denotes if the state has any circular references to itself (state.x === state) |
+| Property        | Type                                   | Description                                                                                                                                                                          |
+| --------------- | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| key             | string                                 | The key to store the state in the storage <br>_**Default: 'vuex'**_                                                                                                                  |
+| storage         | Storage (Web API)                      | localStorage, sessionStorage, localforage or your custom Storage object. <br>Must implement getItem, setItem, clear etc. <br> _**Default: window.localStorage**_                     |
+| saveState       | function<br> (key, state[, storage])   | If not using storage, this custom function handles <br>saving state to persistence                                                                                                   |
+| restoreState    | function<br> (key[, storage]) => state | If not using storage, this custom function handles <br>retrieving state from storage                                                                                                 |
+| reducer         | function<br> (state) => object         | State reducer. reduces state to only those values you want to save. <br>By default, saves entire state                                                                               |
+| filter          | function<br> (mutation) => boolean     | Mutation filter. Look at `mutation.type` and return true <br>for only those ones which you want a persistence write to be triggered for. <br> Default returns true for all mutations |
+| modules         | string[]                               | List of modules you want to persist. (Do not write your own reducer if you want to use this)                                                                                         |
+| asyncStorage    | boolean                                | Denotes if the store uses Promises (like localforage) or not <br>_**Default: false**_                                                                                                |
+| supportCircular | boolean                                | Denotes if the state has any circular references to itself (state.x === state)                                                                                                       |
 
 ### Usage Notes
 
 #### Reducer
+
 Your reducer should not change the shape of the state.
 
 ```javascript
@@ -159,11 +197,12 @@ const persist = new VuexPersistence({
 })
 ```
 
-
 #### Circular States
+
 If you have circular structures in your state
+
 ```js
-let x = {a:10}
+let x = { a: 10 }
 x.x = x
 x.x === x.x.x // true
 x.x.x.a === x.x.x.x.a //true
@@ -185,7 +224,6 @@ new VuexPersistence({
 })
 ```
 
-
 ## Examples
 
 ### Simple
@@ -197,15 +235,14 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
 
-
 Vue.use(Vuex)
 
 const store = new Vuex.Store<State>({
   state: {
-    user: {name: 'Arnav'},
-    navigation: {path: '/home'}
+    user: { name: 'Arnav' },
+    navigation: { path: '/home' }
   },
-  plugins: [(new VuexPersistence()).plugin]
+  plugins: [new VuexPersistence().plugin]
 })
 
 export default store
@@ -227,32 +264,32 @@ defined in the module itself.
 
 ```typescript
 import Vue from 'vue'
-import Vuex, {Payload, Store} from 'vuex'
+import Vuex, { Payload, Store } from 'vuex'
 import VuexPersistence from 'vuex-persist'
 import Cookies from 'js-cookie'
-import {module as userModule, UserState} from './user'
-import navModule, {NavigationState} from './navigation'
+import { module as userModule, UserState } from './user'
+import navModule, { NavigationState } from './navigation'
 
 export interface State {
-  user: UserState,
+  user: UserState
   navigation: NavigationState
 }
-
 
 Vue.use(Vuex)
 
 const vuexCookie = new VuexPersistence<State, Payload>({
   restoreState: (key, storage) => Cookies.getJSON(key),
-  saveState: (key, state, storage) => Cookies.set(key, state, {
-    expires: 3
-  }),
+  saveState: (key, state, storage) =>
+    Cookies.set(key, state, {
+      expires: 3
+    }),
   modules: ['user'], //only save user module
-  filter: (mutation) => (mutation.type == 'logIn' || mutation.type == 'logOut')
+  filter: (mutation) => mutation.type == 'logIn' || mutation.type == 'logOut'
 })
-const vuexLocal = new VuexPersistence<State, Payload> ({
+const vuexLocal = new VuexPersistence<State, Payload>({
   storage: window.localStorage,
-  reducer: state => ({navigation: state.navigation}), //only save navigation module
-  filter: mutation => (mutation.type == 'addNavItem')
+  reducer: (state) => ({ navigation: state.navigation }), //only save navigation module
+  filter: (mutation) => mutation.type == 'addNavItem'
 })
 
 const store = new Vuex.Store<State>({
@@ -264,10 +301,10 @@ const store = new Vuex.Store<State>({
 })
 
 export default store
-
 ```
 
 ### Support Strict Mode
+
 This now supports [Vuex strict mode](https://vuex.vuejs.org/en/strict.html)
 (Keep in mind, **NOT** to use strict mode in production)
 In strict mode, we cannot use `store.replaceState` so instead we use a mutation
@@ -279,14 +316,14 @@ To configure with strict mode support -
 
 ```typescript
 import Vue from 'vue'
-import Vuex, {Payload, Store} from 'vuex'
+import Vuex, { Payload, Store } from 'vuex'
 import VuexPersistence from 'vuex-persist'
 
 const vuexPersist = new VuexPersistence<any, any>({
   strictMode: true, // This **MUST** be set to true
   storage: localStorage,
   reducer: (state) => ({ dog: state.dog }),
-  filter: (mutation) => (mutation.type === 'dogBark')
+  filter: (mutation) => mutation.type === 'dogBark'
 })
 
 const store = new Vuex.Store<State>({
@@ -308,10 +345,10 @@ const store = new Vuex.Store<State>({
 
 Some of the most popular ways to persist your store would be -
 
- - **[js-cookie](https://npmjs.com/js-cookie)** to use browser Cookies
- - **window.localStorage** (remains, across PC reboots, untill you clear browser data)
- - **window.sessionStorage** (vanishes when you close browser tab)
- - **[localForage](http://npmjs.com/localForage)** Uses IndexedDB from the browser
+- **[js-cookie](https://npmjs.com/js-cookie)** to use browser Cookies
+- **window.localStorage** (remains, across PC reboots, untill you clear browser data)
+- **window.sessionStorage** (vanishes when you close browser tab)
+- **[localForage](http://npmjs.com/localForage)** Uses IndexedDB from the browser
 
 ### Note on LocalForage and async stores
 
@@ -319,14 +356,14 @@ There is Window.Storage API as defined by HTML5 DOM specs, which implements the 
 
 ```typescript
 interface Storage {
-    readonly length: number;
-    clear(): void;
-    getItem(key: string): string | null;
-    key(index: number): string | null;
-    removeItem(key: string): void;
-    setItem(key: string, data: string): void;
-    [key: string]: any;
-    [index: number]: string;
+  readonly length: number
+  clear(): void
+  getItem(key: string): string | null
+  key(index: number): string | null
+  removeItem(key: string): void
+  setItem(key: string, data: string): void
+  [key: string]: any
+  [index: number]: string
 }
 ```
 
@@ -365,11 +402,12 @@ what you can do to _find out_ when store has restored.
 ## Unit Testing
 
 ### Jest
+
 When testing with Jest, you might find this error -
+
 ```
 TypeError: Cannot read property 'getItem' of undefined
 ```
 
 This is because there is no localStorage in Jest. You can add the following Jest plugins to solve this
 https://www.npmjs.com/package/jest-localstorage-mock
-
