@@ -106,12 +106,13 @@ export default {
 
 ```js
 // ~/plugins/vuex-persist.js
-import store from '~/store/'
 import VuexPersistence from 'vuex-persist'
 
-new VuexPersistence({
-  /* your options */
-}).plugin(store)
+export default ({store}) => {
+    return new VuexPersistence({
+        /* your options */
+    }).plugin(store);
+}
 ```
 
 ## Usage
