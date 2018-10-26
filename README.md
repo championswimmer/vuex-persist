@@ -32,6 +32,7 @@ Cookies or localStorage.
   - [Compatibility](#compatibility)
   - [Installation](#installation)
     - [Vue CLI Build Setup (using Webpack or some bundler)](#vue-cli-build-setup-using-webpack-or-some-bundler)
+    - [Transpile for `target: es5`](#transpile-for-target-es5)
     - [Directly in Browser](#directly-in-browser)
     - [Tips for NUXT](#tips-for-nuxt)
   - [Usage](#usage)
@@ -78,8 +79,34 @@ Cookies or localStorage.
 
 ```shell
 npm install --save vuex-persist
-# or
-# yarn add vuex-persist
+```
+
+or
+
+```shell
+yarn add vuex-persist
+```
+
+### Transpile for `target: es5`
+This module is distributed in 3 formats
+
+ - umd build `/dist/umd/index.js` in **es5** format
+ - commonjs build `/dist/cjs/index.js` in **es2015** format
+ - esm build `/dist/esm/index.js` in **es2015** format
+
+When using with Webpack (or Vue CLI 3), the esm file gets used by default.
+If your project has a `es6` or `es2015` target, you're good, but if
+for backwards compatibility, you are compiling your project to `es5` then
+this module also needs to be transpiled.
+
+To enable transpilation of this module
+
+```js
+// in your vue.config.js
+module.exports = {
+  /* ... other config ... */
+  transpileDependencies: ['vuex-persist']
+}
 ```
 
 ### Directly in Browser
