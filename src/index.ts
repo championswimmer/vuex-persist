@@ -238,10 +238,12 @@ export class VuexPersistence<S> implements PersistOptions<S> {
 
         this.subscriber(store)((mutation: MutationPayload, state: S) => {
           const result = this.filter(mutation)
-          const promise = <Promise<boolean>>result
-          if(promise.then) {
-            promise.then(val => {
-              if(val) this.saveState(this.key, this.reducer(state), this.storage)
+          const promise = result as Promise<boolean>
+          if (promise.then) {
+            promise.then((val) => {
+              if (val) {
+                this.saveState(this.key, this.reducer(state), this.storage)
+              }
             })
           } else if (this.filter(mutation)) {
             this.saveState(this.key, this.reducer(state), this.storage)
