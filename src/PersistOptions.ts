@@ -44,7 +44,7 @@ export interface PersistOptions<S> {
    * Check mutations using <code>mutation.type</code>
    * @param mutation object of type {@link Payload}
    */
-  filter: (mutation: Payload) => Promise<boolean> | boolean
+  filter?: (mutation: Payload) => Promise<boolean> | boolean
 
   /**
    * Names of modules that you want to persist.
