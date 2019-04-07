@@ -1,12 +1,12 @@
 /**
  * Created by championswimmer on 18/07/17.
  */
-import { Mutation, MutationPayload, Payload, Plugin, Store } from 'vuex'
-import { AsyncStorage } from './AsyncStorage'
+import {Mutation, MutationPayload, Payload, Plugin, Store} from 'vuex'
+import {AsyncStorage} from './AsyncStorage'
 import { MockStorage } from './MockStorage'
-import { PersistOptions } from './PersistOptions'
+import {PersistOptions} from './PersistOptions'
 import SimplePromiseQueue from './SimplePromiseQueue'
-import { merge } from './utils'
+import {merge} from './utils'
 
 let CircularJSON = JSON
 
@@ -58,7 +58,7 @@ export class VuexPersistence<S> implements PersistOptions<S> {
 
     // @ts-ignore
     if (process.env.NODE_ENV === 'production') {
-      this.storage = options.storage || window.localStorage
+      this.storage = options.storage ||  window.localStorage
     } else {
       // @ts-ignore
       if (process.env.MODULE_FORMAT !== 'umd') {
@@ -87,7 +87,7 @@ export class VuexPersistence<S> implements PersistOptions<S> {
             : (
               (state: any) =>
                 (options!.modules as string[]).reduce((a, i) =>
-                  merge(a, { [i]: state[i] }), {/* start empty accumulator*/ })
+                  merge(a, {[i]: state[i]}), {/* start empty accumulator*/})
             )
         )
     )
@@ -118,16 +118,16 @@ export class VuexPersistence<S> implements PersistOptions<S> {
         (options.restoreState != null)
           ? options.restoreState
           : ((key: string, storage: AsyncStorage) =>
-            (storage).getItem(key)
-              .then((value) =>
-                typeof value === 'string' // If string, parse, or else, just return
-                  ? (
-                    this.supportCircular
-                      ? CircularJSON.parse(value || '{}')
-                      : JSON.parse(value || '{}')
-                  )
-                  : (value || {})
-              )
+              (storage).getItem(key)
+                .then((value) =>
+                  typeof value === 'string' // If string, parse, or else, just return
+                    ? (
+                      this.supportCircular
+                        ? CircularJSON.parse(value || '{}')
+                        : JSON.parse(value || '{}')
+                    )
+                    : (value || {})
+                )
           )
       )
 
@@ -140,17 +140,17 @@ export class VuexPersistence<S> implements PersistOptions<S> {
         (options.saveState != null)
           ? options.saveState
           : ((key: string, state: {}, storage: AsyncStorage) =>
-            (storage).setItem(
-              key, // Second argument is state _object_ if localforage, stringified otherwise
-              (((storage && storage._config && storage._config.name) === 'localforage')
-                ? merge({}, state || {})
-                : (
-                  this.supportCircular
-                    ? CircularJSON.stringify(state) as any
-                    : JSON.stringify(state) as any
+              (storage).setItem(
+                key, // Second argument is state _object_ if localforage, stringified otherwise
+                (((storage && storage._config && storage._config.name) === 'localforage')
+                    ? merge({}, state || {})
+                    : (
+                      this.supportCircular
+                        ? CircularJSON.stringify(state) as any
+                        : JSON.stringify(state) as any
+                    )
                 )
               )
-            )
           )
       )
 
@@ -168,18 +168,6 @@ export class VuexPersistence<S> implements PersistOptions<S> {
           } else {
             store.replaceState(merge(store.state, savedState || {}))
           }
-
-          /**
-           * Notify the app that the state has been restored, and
-           * set the flag that can be used to prevent state restores
-           * from happening on other pages. (Note: this is oen of 
-           * those rare cases when semicolon is necessary since ASI
-           * won't insert one between two lines that end and begin
-           * with parentheses.)
-           * @since 2.1.0
-           */
-          (store as any)._vm.$root.$emit('vuexPersistStateRestored');
-          (store as any)._vm.$root.$data['vuexPersistStateRestored'] = true
 
           this.subscriber(store)((mutation: MutationPayload, state: S) => {
             if (this.filter(mutation)) {
@@ -224,14 +212,14 @@ export class VuexPersistence<S> implements PersistOptions<S> {
         (options.saveState != null)
           ? options.saveState
           : ((key: string, state: {}, storage: Storage) =>
-            (storage).setItem(
-              key, // Second argument is state _object_ if localforage, stringified otherwise
-              (
-                this.supportCircular
-                  ? CircularJSON.stringify(state) as any
-                  : JSON.stringify(state) as any
+              (storage).setItem(
+                key, // Second argument is state _object_ if localforage, stringified otherwise
+                (
+                  this.supportCircular
+                    ? CircularJSON.stringify(state) as any
+                    : JSON.stringify(state) as any
+                )
               )
-            )
           )
       )
 
