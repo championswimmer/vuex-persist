@@ -46,6 +46,7 @@ Cookies or localStorage.
     - [Detailed](#detailed)
     - [Support Strict Mode](#support-strict-mode)
     - [Note on LocalForage and async stores](#note-on-localforage-and-async-stores)
+    - [How to know when async store has been replaced](#how-to-know-when-async-store-has-been-replaced)
   - [Unit Testing](#unit-testing)
     - [Jest](#jest)
 
@@ -426,8 +427,53 @@ at a slight cost.
 When using asynchronous (promise-based) storages, your state will **not** be
 immediately restored into vuex from localForage. It will go into the event loop
 and will finish when the JS thread is empty. This can invoke a delay of few seconds.
-[Issue #15](https://github.com/championswimmer/vuex-persist/issues/15) of this repository explains
-what you can do to _find out_ when store has restored.
+
+### How to know when async store has been replaced
+
+As noted above, the store is not immediately restored from asnyc stores like localForage. This
+can have the unfortunate side effect of overwriting mutations to the store that happen before
+`vuex-persist` has a chance to do its thing. In strict mode, you can create a plugin to
+subscribe to **`RESTORE_MUTATION`** so that you tell your app to wait until the state has been
+restored before committing any further mutations. ([Issue #15 demonstrates how to write such a
+plugin.](https://github.com/championswimmer/vuex-persist/issues/15)) However, since you should
+turn strict mode off in production, and since [`vuex` doesn't currently provide any kind of
+notification when `replaceState()` has been called](https://github.com/vuejs/vuex/issues/1316),
+starting with `v2.1.0` `vuex-persist` will emit a `vuexPersistStateRestored` event and also set
+as `vuexPersistStateRestored` flag to let you know the state has been restored and that it is
+now safe to commit any mutations that modify the stored state.
+
+Here's an example of a `beforeEach()` hook in `vuex-router` that will cause your app to wait
+for `vuex-persist` to restore the state before taking any further actions:
+
+```js
+// in src/router.js
+import Vue from 'vue'
+import Router from 'vue-router'
+import { store } from '@/store' // ...or wherever your `vuex` store is defined
+
+Vue.use(Router)
+
+const router = new Router({
+  // define your router as you normally would
+})
+
+const waitForStorageToBeReady = (to, from, next) => {
+  if (!store._vm.$root.$data['vuexPersistStateRestored']) {
+    store._vm.$root.$on('vuexPersistStateRestored', () => {
+      next()
+    })
+  } else {
+    next()
+  }
+}
+router.beforeEach(waitForStorageToBeReady)
+
+export default router
+```
+
+Note that `store._vm.$root.$data['vuexPersistStateRestored']` will be `undefined` and therefore
+"falsy" prior to being set to `true` by the `vuex-persist` plugin. There should be no need
+to explicitly give it a value at any point.
 
 ## Unit Testing
 
