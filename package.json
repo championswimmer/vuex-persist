@@ -28,8 +28,7 @@
     "pretest": "npm run build",
     "test": "cd test && mocha -r ts-node/register *.ts",
     "test:dirty": "cd test && mocha -r ts-node/register *.ts",
-    "cover": "nyc npm test",
-    "postinstall": "npm run build"
+    "cover": "nyc npm test"
   },
   "nyc": {
     "extension": [
