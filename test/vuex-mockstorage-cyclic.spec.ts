@@ -2,11 +2,11 @@
  * Created by rossng on 02/04/2018.
  */
 import { assert, expect, should } from 'chai'
+import { parse } from 'flatted'
 import Vue from 'vue'
 import { Store } from 'vuex'
 import Vuex from 'vuex'
 import VuexPersistence, { MockStorage } from '..'
-import { parse } from 'flatted';
 
 Vue.use(Vuex)
 // @ts-ignore
