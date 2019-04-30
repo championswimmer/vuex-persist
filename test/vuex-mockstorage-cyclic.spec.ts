@@ -6,6 +6,7 @@ import Vue from 'vue'
 import { Store } from 'vuex'
 import Vuex from 'vuex'
 import VuexPersistence, { MockStorage } from '..'
+import { parse } from 'flatted';
 
 Vue.use(Vuex)
 // @ts-ignore
@@ -26,7 +27,7 @@ const store = new Store<any>({
   },
   plugins: [vuexPersist.plugin]
 })
-const getSavedStore = () => JSON.parse(mockStorage.getItem('vuex') || '')
+const getSavedStore = () => parse(mockStorage.getItem('vuex') || '')
 
 describe('Storage: MockStorage, Test: cyclic object', () => {
   it('should persist cyclic object', () => {

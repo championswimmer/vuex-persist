@@ -5,7 +5,7 @@ import configs from './configs'
 const externals = [
   'lodash.merge',
   'vuex',
-  'circular-json'
+  'flatted'
 ]
 
 const genTsPlugin = (configOpts) => typescript({

@@ -239,10 +239,10 @@ x.x.x.a === x.x.x.x.a //true
 ```
 
 `JSON.parse()` and `JSON.stringify()` will not work.
-You'll need to install `circular-json`
+You'll need to install `flatted`
 
 ```
-npm install circular-json
+npm install flatted
 ```
 
 And when constructing the store, add `supportCircular` flag
