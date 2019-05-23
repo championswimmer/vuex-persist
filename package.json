@@ -53,7 +53,6 @@
   "homepage": "https://github.com/championswimmer/vuex-persist#readme",
   "devDependencies": {
     "@types/chai": "^4.1.4",
-    "@types/circular-json": "^0.4.0",
     "@types/lodash.merge": "^4.6.4",
     "@types/mocha": "^5.2.5",
     "chai": "^4.1.2",
@@ -74,7 +73,7 @@
     "vuex": "^3.0.1"
   },
   "dependencies": {
-    "circular-json": "^0.5.5",
+    "flatted": "^2.0.0",
     "lodash.merge": "^4.6.1"
   },
   "peerDependencies": {

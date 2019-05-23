@@ -16,7 +16,7 @@ cache:
 install:
   - npm install -g codecov nyc mocha ts-node typescript
   - npm install -D
-  - npm install --no-save circular-json
+  - npm install --no-save flatted
 script: 'npm run cover'
 after_success:
   - codecov

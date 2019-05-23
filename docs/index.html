@@ -68,26 +68,42 @@
 				<p>A Typescript-ready <a href="https://vuex.vuejs.org/">Vuex</a> plugin that enables
 					you to save the state of your app to a persisted storage like
 				Cookies or localStorage.</p>
-				<p><a href="http://github.com/championswimmer/vuex-persist"><img src="https://img.shields.io/github/stars/championswimmer/vuex-persist.svg?style=social&label=%20vuex-persist" alt="GitHub stars"></a>
+				<p><a href="https://paypal.me/championswimmer"><img src="https://img.shields.io/badge/Donate-Paypal-2244dd.svg" alt="Paypal Donate"></a></p>
+				<p><strong>Info :</strong>
+					<a href="http://github.com/championswimmer/vuex-persist"><img src="https://img.shields.io/github/stars/championswimmer/vuex-persist.svg?style=social&label=%20vuex-persist" alt="GitHub stars"></a>
 					<a href="http://npmjs.com/vuex-persist"><img src="https://img.shields.io/npm/v/vuex-persist.svg?colorB=dd1100" alt="npm"></a>
 					<a href="http://npmjs.com/vuex-persist"><img src="https://img.shields.io/npm/dw/vuex-persist.svg?colorB=fc4f4f" alt="npm"></a>
 				<a href=""><img src="https://img.shields.io/github/license/championswimmer/vuex-persist.svg" alt="license"></a></p>
-				<p><a href="https://travis-ci.org/championswimmer/vuex-persist"><img src="https://travis-ci.org/championswimmer/vuex-persist.svg?branch=master" alt="Build Status"></a>
-					<a href="https://www.bithound.io/github/championswimmer/vuex-persist"><img src="https://www.bithound.io/github/championswimmer/vuex-persist/badges/score.svg" alt="bitHound Overall Score"></a>
-					<a href="https://www.bithound.io/github/championswimmer/vuex-persist/master/dependencies/npm"><img src="https://www.bithound.io/github/championswimmer/vuex-persist/badges/dependencies.svg" alt="bitHound Dependencies"></a>
+				<p><strong>Status :</strong>
+					<a href="https://travis-ci.org/championswimmer/vuex-persist"><img src="https://travis-ci.org/championswimmer/vuex-persist.svg?branch=master" alt="Build Status"></a>
 					<a href="https://codebeat.co/projects/github-com-championswimmer-vuex-persist-master"><img src="https://codebeat.co/badges/dc97dea1-1e70-45d5-b3f1-fec2a6c3e4b0" alt="codebeat badge"></a>
 					<a href="https://www.codacy.com/app/championswimmer/vuex-persist?utm_source=github.com&amp;utm_medium=referral&amp;utm_content=championswimmer/vuex-persist&amp;utm_campaign=Badge_Grade"><img src="https://api.codacy.com/project/badge/Grade/0fdc0921591d4ab98b0c0c173ef22649" alt="Codacy Badge"></a>
 					<a href="https://codeclimate.com/github/championswimmer/vuex-persist"><img src="https://codeclimate.com/github/championswimmer/vuex-persist/badges/gpa.svg" alt="Code Climate"></a>
 				<a href="https://codecov.io/gh/championswimmer/vuex-persist"><img src="https://codecov.io/gh/championswimmer/vuex-persist/branch/master/graph/badge.svg" alt="codecov"></a></p>
+				<p><strong>Sizes :</strong>
+					<a href="https://bundlephobia.com/result?p=vuex-persist"><img src="https://img.shields.io/bundlephobia/minzip/vuex-persist.svg?label=npm:size:gzip" alt="npm:size:gzip"></a>
+					<a href="https://unpkg.com/vuex-persist"><img src="https://img.badgesize.io/https://unpkg.com/vuex-persist?compression=gzip&label=umd:min:gzip" alt="umd:min:gzip"></a>
+				<a href="https://cdn.jsdelivr.net/npm/vuex-persist"><img src="https://img.badgesize.io/https://cdn.jsdelivr.net/npm/vuex-persist?compression=brotli&label=umd:min:brotli" alt="umd:min:brotli"></a></p>
 				<h4 id="table-of-contents">Table of Contents</h4>
 				<ul>
-					<li><a href="#vuex-persist">vuex-persist</a><ul>
+					<li><a href="#vuex-persist">vuex-persist</a><pre><code><span class="hljs-bullet">- </span>[<span class="hljs-string">Table of Contents</span>](<span class="hljs-link">#table-of-contents</span>)</code></pre><ul>
 							<li><a href="#features">Features</a></li>
 							<li><a href="#compatibility">Compatibility</a></li>
-							<li><a href="#installation">Installation</a></li>
+							<li><a href="#installation">Installation</a><ul>
+									<li><a href="#vue-cli-build-setup-using-webpack-or-some-bundler">Vue CLI Build Setup (using Webpack or some bundler)</a></li>
+									<li><a href="#transpile-for-target-es5">Transpile for <code>target: es5</code></a></li>
+									<li><a href="#directly-in-browser">Directly in Browser</a></li>
+									<li><a href="#tips-for-nuxt">Tips for NUXT</a></li>
+								</ul>
+							</li>
 							<li><a href="#usage">Usage</a><ul>
 									<li><a href="#steps">Steps</a></li>
 									<li><a href="#constructor-parameters--">Constructor Parameters -</a></li>
+									<li><a href="#usage-notes">Usage Notes</a><ul>
+											<li><a href="#reducer">Reducer</a></li>
+											<li><a href="#circular-states">Circular States</a></li>
+										</ul>
+									</li>
 								</ul>
 							</li>
 							<li><a href="#examples">Examples</a><ul>
@@ -107,6 +123,11 @@
 				<p><small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small></p>
 				<h2 id="features">Features</h2>
 				<ul>
+					<li>📦 NEW in v1.5<ul>
+							<li>distributed as esm and cjs both (via module field of package.json)</li>
+							<li>better tree shaking as a result of esm</li>
+						</ul>
+					</li>
 					<li>🎗 NEW IN V1.0.0<ul>
 							<li>Support localForage and other Promise based stores</li>
 							<li>Fix late restore of state for localStorage</li>
@@ -129,16 +150,60 @@
 					<li><a href="http://vuex.vuejs.org">Vuex</a> - v2.1 and above</li>
 				</ul>
 				<h2 id="installation">Installation</h2>
+				<h3 id="vue-cli-build-setup-using-webpack-or-some-bundler-">Vue CLI Build Setup (using Webpack or some bundler)</h3>
 				<pre><code class="language-shell">npm install --save vuex-persist</code></pre>
 				<p>or</p>
 				<pre><code class="language-shell">yarn add vuex-persist</code></pre>
+				<h3 id="transpile-for-target-es5">Transpile for <code>target: es5</code></h3>
+				<p>This module is distributed in 3 formats</p>
+				<ul>
+					<li>umd build <code>/dist/umd/index.js</code> in <strong>es5</strong> format</li>
+					<li>commonjs build <code>/dist/cjs/index.js</code> in <strong>es2015</strong> format</li>
+					<li>esm build <code>/dist/esm/index.js</code> in <strong>es2015</strong> format</li>
+				</ul>
+				<p>When using with Webpack (or Vue CLI 3), the esm file gets used by default.
+					If your project has a <code>es6</code> or <code>es2015</code> target, you&#39;re good, but if
+					for backwards compatibility, you are compiling your project to <code>es5</code> then
+				this module also needs to be transpiled.</p>
+				<p>To enable transpilation of this module</p>
+				<pre><code class="language-js"><span class="hljs-comment">// in your vue.config.js</span>
+<span class="hljs-built_in">module</span>.exports = {
+  <span class="hljs-comment">/* ... other config ... */</span>
+  transpileDependencies: [<span class="hljs-string">'vuex-persist'</span>]
+}</code></pre>
+				<h3 id="directly-in-browser">Directly in Browser</h3>
+				<pre><code class="language-html"><span class="hljs-comment">&lt;!-- We need lodash.merge so get lodash first --&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/vuex-persist"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+				<h3 id="tips-for-nuxt">Tips for NUXT</h3>
+				<p>This is a plugin that works <a href="https://nuxtjs.org/guide/plugins/#client-side-only">only on the client side</a>.
+				So we&#39;ll register it as a ssr-free plugin.</p>
+				<pre><code class="language-js"><span class="hljs-comment">// Inside - nuxt.config.js</span>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> {
+  <span class="hljs-attr">plugins</span>: [
+    { <span class="hljs-attr">src</span>: <span class="hljs-string">'~/plugins/vuex-persist'</span>, <span class="hljs-attr">ssr</span>: <span class="hljs-literal">false</span> }
+  ]
+}</code></pre>
+				<pre><code class="language-js"><span class="hljs-comment">// ~/plugins/vuex-persist.js</span>
+<span class="hljs-keyword">import</span> VuexPersistence <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex-persist'</span>
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> ({ store }) =&gt; {
+  <span class="hljs-built_in">window</span>.onNuxtReady(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
+    <span class="hljs-keyword">new</span> VuexPersistence({
+    <span class="hljs-comment">/* your options */</span>
+    }).plugin(store);
+  });
+}</code></pre>
 				<h2 id="usage">Usage</h2>
 				<h3 id="steps">Steps</h3>
 				<p>Import it</p>
 				<pre><code class="language-js"><span class="hljs-keyword">import</span> VuexPersistence <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex-persist'</span></code></pre>
+				<blockquote>
+					<p>NOTE: In browsers, you can directly use <code>window.VuexPersistence</code></p>
+				</blockquote>
 				<p>Create an object</p>
 				<pre><code class="language-js"><span class="hljs-keyword">const</span> vuexLocal = <span class="hljs-keyword">new</span> VuexPersistence({
-    <span class="hljs-attr">storage</span>: <span class="hljs-built_in">window</span>.localStorage
+  <span class="hljs-attr">storage</span>: <span class="hljs-built_in">window</span>.localStorage
 })</code></pre>
 				<p>Use it as Vue plugin. (in typescript)</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> store = <span class="hljs-keyword">new</span> Vuex.Store&lt;State&gt;({
@@ -227,13 +292,13 @@
 })</code></pre>
 				<h4 id="circular-states">Circular States</h4>
 				<p>If you have circular structures in your state</p>
-				<pre><code class="language-js"><span class="hljs-keyword">let</span> x = {<span class="hljs-attr">a</span>:<span class="hljs-number">10</span>}
+				<pre><code class="language-js"><span class="hljs-keyword">let</span> x = { <span class="hljs-attr">a</span>: <span class="hljs-number">10</span> }
 x.x = x
 x.x === x.x.x <span class="hljs-comment">// true</span>
 x.x.x.a === x.x.x.x.a <span class="hljs-comment">//true</span></code></pre>
 				<p><code>JSON.parse()</code> and <code>JSON.stringify()</code> will not work.
-				You&#39;ll need to install <code>circular-json</code></p>
-				<pre><code>npm <span class="hljs-keyword">install</span> circular-<span class="hljs-keyword">json</span></code></pre><p>And when constructing the store, add <code>supportCircular</code> flag</p>
+				You&#39;ll need to install <code>flatted</code></p>
+				<pre><code>npm <span class="hljs-keyword">install</span> flatted</code></pre><p>And when constructing the store, add <code>supportCircular</code> flag</p>
 				<pre><code class="language-js"><span class="hljs-keyword">new</span> VuexPersistence({
   <span class="hljs-attr">supportCircular</span>: <span class="hljs-literal">true</span>,
   ...
@@ -245,15 +310,14 @@ x.x.x.a === x.x.x.x.a <span class="hljs-comment">//true</span></code></pre>
 <span class="hljs-keyword">import</span> Vuex <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex'</span>
 <span class="hljs-keyword">import</span> VuexPersistence <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex-persist'</span>
 
-
 Vue.use(Vuex)
 
 <span class="hljs-keyword">const</span> store = <span class="hljs-keyword">new</span> Vuex.Store&lt;State&gt;({
   state: {
-    user: {name: <span class="hljs-string">'Arnav'</span>},
-    navigation: {path: <span class="hljs-string">'/home'</span>}
+    user: { name: <span class="hljs-string">'Arnav'</span> },
+    navigation: { path: <span class="hljs-string">'/home'</span> }
   },
-  plugins: [(<span class="hljs-keyword">new</span> VuexPersistence()).plugin]
+  plugins: [<span class="hljs-keyword">new</span> VuexPersistence().plugin]
 })
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> store</code></pre>
@@ -269,32 +333,32 @@ Vue.use(Vuex)
 					(restored) persisted state being overwritten with the default state
 				defined in the module itself.</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> Vue <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>
-<span class="hljs-keyword">import</span> Vuex, {Payload, Store} <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex'</span>
+<span class="hljs-keyword">import</span> Vuex, { Payload, Store } <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex'</span>
 <span class="hljs-keyword">import</span> VuexPersistence <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex-persist'</span>
 <span class="hljs-keyword">import</span> Cookies <span class="hljs-keyword">from</span> <span class="hljs-string">'js-cookie'</span>
-<span class="hljs-keyword">import</span> {<span class="hljs-keyword">module</span> as userModule, UserState} from './user'
-import navModule, {NavigationState} <span class="hljs-keyword">from</span> <span class="hljs-string">'./navigation'</span>
+<span class="hljs-keyword">import</span> { <span class="hljs-keyword">module</span> as userModule, UserState } from './user'
+import navModule, { NavigationState } <span class="hljs-keyword">from</span> <span class="hljs-string">'./navigation'</span>
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">interface</span> State {
-  user: UserState,
+  user: UserState
   navigation: NavigationState
 }
-
 
 Vue.use(Vuex)
 
 <span class="hljs-keyword">const</span> vuexCookie = <span class="hljs-keyword">new</span> VuexPersistence&lt;State, Payload&gt;({
   restoreState: <span class="hljs-function">(<span class="hljs-params">key, storage</span>) =&gt;</span> Cookies.getJSON(key),
-  saveState: <span class="hljs-function">(<span class="hljs-params">key, state, storage</span>) =&gt;</span> Cookies.set(key, state, {
-    expires: <span class="hljs-number">3</span>
-  }),
+  saveState: <span class="hljs-function">(<span class="hljs-params">key, state, storage</span>) =&gt;</span>
+    Cookies.set(key, state, {
+      expires: <span class="hljs-number">3</span>
+    }),
   modules: [<span class="hljs-string">'user'</span>], <span class="hljs-comment">//only save user module</span>
-  filter: <span class="hljs-function">(<span class="hljs-params">mutation</span>) =&gt;</span> (mutation.type == <span class="hljs-string">'logIn'</span> || mutation.type == <span class="hljs-string">'logOut'</span>)
+  filter: <span class="hljs-function">(<span class="hljs-params">mutation</span>) =&gt;</span> mutation.type == <span class="hljs-string">'logIn'</span> || mutation.type == <span class="hljs-string">'logOut'</span>
 })
-<span class="hljs-keyword">const</span> vuexLocal = <span class="hljs-keyword">new</span> VuexPersistence&lt;State, Payload&gt; ({
+<span class="hljs-keyword">const</span> vuexLocal = <span class="hljs-keyword">new</span> VuexPersistence&lt;State, Payload&gt;({
   storage: <span class="hljs-built_in">window</span>.localStorage,
-  reducer: <span class="hljs-function"><span class="hljs-params">state</span> =&gt;</span> ({navigation: state.navigation}), <span class="hljs-comment">//only save navigation module</span>
-  filter: <span class="hljs-function"><span class="hljs-params">mutation</span> =&gt;</span> (mutation.type == <span class="hljs-string">'addNavItem'</span>)
+  reducer: <span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> ({ navigation: state.navigation }), <span class="hljs-comment">//only save navigation module</span>
+  filter: <span class="hljs-function">(<span class="hljs-params">mutation</span>) =&gt;</span> mutation.type == <span class="hljs-string">'addNavItem'</span>
 })
 
 <span class="hljs-keyword">const</span> store = <span class="hljs-keyword">new</span> Vuex.Store&lt;State&gt;({
@@ -305,24 +369,23 @@ Vue.use(Vuex)
   plugins: [vuexCookie.plugin, vuexLocal.plugin]
 })
 
-<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> store
-</code></pre>
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> store</code></pre>
 				<h3 id="support-strict-mode">Support Strict Mode</h3>
 				<p>This now supports <a href="https://vuex.vuejs.org/en/strict.html">Vuex strict mode</a>
 					(Keep in mind, <strong>NOT</strong> to use strict mode in production)
 				In strict mode, we cannot use <code>store.replaceState</code> so instead we use a mutation</p>
 				<p>You&#39;ll need to keep in mind to add the <strong><code>RESTORE_MUTATION</code></strong> to your mutations
 				See example below</p>
-				<p>To configure with strict mode support - </p>
+				<p>To configure with strict mode support -</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> Vue <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>
-<span class="hljs-keyword">import</span> Vuex, {Payload, Store} <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex'</span>
+<span class="hljs-keyword">import</span> Vuex, { Payload, Store } <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex'</span>
 <span class="hljs-keyword">import</span> VuexPersistence <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex-persist'</span>
 
 <span class="hljs-keyword">const</span> vuexPersist = <span class="hljs-keyword">new</span> VuexPersistence&lt;<span class="hljs-built_in">any</span>, <span class="hljs-built_in">any</span>&gt;({
   strictMode: <span class="hljs-literal">true</span>, <span class="hljs-comment">// This **MUST** be set to true</span>
   storage: localStorage,
   reducer: <span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> ({ dog: state.dog }),
-  filter: <span class="hljs-function">(<span class="hljs-params">mutation</span>) =&gt;</span> (mutation.type === <span class="hljs-string">'dogBark'</span>)
+  filter: <span class="hljs-function">(<span class="hljs-params">mutation</span>) =&gt;</span> mutation.type === <span class="hljs-string">'dogBark'</span>
 })
 
 <span class="hljs-keyword">const</span> store = <span class="hljs-keyword">new</span> Vuex.Store&lt;State&gt;({
@@ -350,14 +413,14 @@ Vue.use(Vuex)
 				<h3 id="note-on-localforage-and-async-stores">Note on LocalForage and async stores</h3>
 				<p>There is Window.Storage API as defined by HTML5 DOM specs, which implements the following -</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">interface</span> Storage {
-    readonly length: <span class="hljs-built_in">number</span>;
-    clear(): <span class="hljs-built_in">void</span>;
-    getItem(key: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>;
-    key(index: <span class="hljs-built_in">number</span>): <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>;
-    removeItem(key: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">void</span>;
-    setItem(key: <span class="hljs-built_in">string</span>, data: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">void</span>;
-    [key: <span class="hljs-built_in">string</span>]: <span class="hljs-built_in">any</span>;
-    [index: <span class="hljs-built_in">number</span>]: <span class="hljs-built_in">string</span>;
+  readonly length: <span class="hljs-built_in">number</span>
+  clear(): <span class="hljs-built_in">void</span>
+  getItem(key: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>
+  key(index: <span class="hljs-built_in">number</span>): <span class="hljs-built_in">string</span> | <span class="hljs-literal">null</span>
+  removeItem(key: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">void</span>
+  setItem(key: <span class="hljs-built_in">string</span>, data: <span class="hljs-built_in">string</span>): <span class="hljs-built_in">void</span>
+  [key: <span class="hljs-built_in">string</span>]: <span class="hljs-built_in">any</span>
+  [index: <span class="hljs-built_in">number</span>]: <span class="hljs-built_in">string</span>
 }</code></pre>
 				<p>As you can see it is an entirely synchronous storage. Also note that it
 				saves only string values. Thus objects are stringified and stored.</p>
@@ -387,7 +450,7 @@ Vue.use(Vuex)
 				what you can do to <em>find out</em> when store has restored.</p>
 				<h2 id="unit-testing">Unit Testing</h2>
 				<h3 id="jest">Jest</h3>
-				<p>When testing with Jest, you might find this error - </p>
+				<p>When testing with Jest, you might find this error -</p>
 				<pre><code>TypeError: Cannot <span class="hljs-keyword">read</span> <span class="hljs-keyword">property</span><span class="hljs-title"> </span>'getItem' of undefined</code></pre><p>This is because there is no localStorage in Jest. You can add the following Jest plugins to solve this
 				<a href="https://www.npmjs.com/package/jest-localstorage-mock">https://www.npmjs.com/package/jest-localstorage-mock</a></p>
 			</div>
@@ -412,6 +475,9 @@ Vue.use(Vuex)
 					</li>
 					<li class=" tsd-kind-external-module">
 						<a href="modules/_index_.html">"index"</a>
+					</li>
+					<li class=" tsd-kind-external-module">
+						<a href="modules/_utils_.html">"utils"</a>
 					</li>
 				</ul>
 			</nav>
