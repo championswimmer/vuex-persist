@@ -172,7 +172,7 @@ export class VuexPersistence<S> implements PersistOptions<S> {
           /**
            * Notify the app that the state has been restored, and
            * set a flag that can be used to prevent state restores
-           * from happening on other pages. (Note: this is one of 
+           * from happening on other pages. (Note: this is one of
            * those rare cases when semicolon is necessary since ASI
            * won't insert one between two lines that end and begin
            * with parentheses.)
