@@ -169,6 +169,18 @@ export class VuexPersistence<S> implements PersistOptions<S> {
             store.replaceState(merge(store.state, savedState || {}))
           }
 
+          /**
+           * Notify the app that the state has been restored, and
+           * set a flag that can be used to prevent state restores
+           * from happening on other pages. (Note: this is one of 
+           * those rare cases when semicolon is necessary since ASI
+           * won't insert one between two lines that end and begin
+           * with parentheses.)
+           * @since 2.1.0
+           */
+          (store as any)._vm.$root.$data['vuexPersistStateRestored'] = true;
+          (store as any)._vm.$root.$emit('vuexPersistStateRestored')
+
           this.subscriber(store)((mutation: MutationPayload, state: S) => {
             if (this.filter(mutation)) {
               this._mutex.enqueue(
