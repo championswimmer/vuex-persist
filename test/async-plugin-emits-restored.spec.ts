@@ -46,7 +46,7 @@ const storeOpts = {
     count: 0
   },
   mutations: {
-    increment (state) {
+    increment(state) {
       state.count++
     }
   },
@@ -62,7 +62,9 @@ describe('Storage: AsyncStorage; Test: emit/flag on restore; Strict Mode: OFF', 
   it('should set the `vuexPersistStateRestored` flag when async state restored', (done) => {
     const store = new Vuex.Store<any>(storeOpts);
     (store as any)._vm.$root.$on('vuexPersistStateRestored', () => {
+      /* tslint:disable:no-unused-expression */
       expect((store as any)._vm.$root.$data['vuexPersistStateRestored']).to.be.true
+      /* tslint:enable:no-unused-expression */
       done()
     })
   })
