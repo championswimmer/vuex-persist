@@ -54,7 +54,7 @@ const storeOpts = {
 
 describe('Storage: AsyncStorage; Test: set `restored` on store; Strict Mode: OFF', () => {
   it('connects the `store.restored` property to the Promise returned by `restoreState()`', (done) => {
-    const store: any = new Vuex.Store<any>(storeOpts);
+    const store: any = new Vuex.Store<any>(storeOpts)
     store.restored.then(done)
   })
 })
