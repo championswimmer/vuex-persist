@@ -428,7 +428,7 @@ and will finish when the JS thread is empty. This can invoke a delay of few seco
 
 ### How to know when async store has been replaced
 
-As noted above, the store is not immediately restored from async stores like localForage. This can have the unfortunate side effect of overwriting mutations to the store that happen before `vuex-persist` has a chance to do its thing. In strict mode, you can create a plugin to subscribe to **`RESTORE_MUTATION`** so that you tell your app to wait until the state has been restored before committing any further mutations. ([Issue #15 demonstrates how to write such a plugin.](https://github.com/championswimmer/vuex-persist/issues/15)) However, since you should turn strict mode off in production, and since [`vuex` doesn't currently provide any kind of notification when `replaceState()` has been called](https://github.com/vuejs/vuex/issues/1316), starting with `v2.1.0` `vuex-persist` will emit a `vuexPersistStateRestored` event and also set as `vuexPersistStateRestored` flag to let you know the state has been restored and that it is now safe to commit any mutations that modify the stored state.
+As noted above, the store is not immediately restored from async stores like localForage. This can have the unfortunate side effect of overwriting mutations to the store that happen before `vuex-persist` has a chance to do its thing. In strict mode, you can create a plugin to subscribe to **`RESTORE_MUTATION`** so that you tell your app to wait until the state has been restored before committing any further mutations. ([Issue #15 demonstrates how to write such a plugin.](https://github.com/championswimmer/vuex-persist/issues/15)) However, since you should turn strict mode off in production, and since [`vuex` doesn't currently provide any kind of notification when `replaceState()` has been called](https://github.com/vuejs/vuex/issues/1316), starting with `v2.1.0` `vuex-persist` will add a `restored` property to the `store` object to let you know the state has been restored and that it is now safe to commit any mutations that modify the stored state. `store.restored` will contain the Promise returned by calling the async version of `restoreState()`.
 
 Here's an example of a `beforeEach()` hook in `vuex-router` that will cause your app to wait for `vuex-persist` to restore the state before taking any further actions:
 
@@ -444,21 +444,16 @@ const router = new Router({
   // define your router as you normally would
 })
 
-const waitForStorageToBeReady = (to, from, next) => {
-  if (!store._vm.$root.$data['vuexPersistStateRestored']) {
-    store._vm.$root.$on('vuexPersistStateRestored', () => {
-      next()
-    })
-  } else {
-    next()
-  }
+const waitForStorageToBeReady = async (to, from, next) => {
+  await store.restored
+  next()
 }
 router.beforeEach(waitForStorageToBeReady)
 
 export default router
 ```
 
-Note that `store._vm.$root.$data['vuexPersistStateRestored']` will be `undefined` and therefore "falsy" prior to being set to `true` by the `vuex-persist` plugin. There should be no need to explicitly give it a value at any point.
+Note that on the 2nd and subsequent router requests to your app, the Promise in `store.restored` should already be in a "resolved" state, so the hook will _not_ force your app to wait for additional calls to `restoreState()`.
 
 ## Unit Testing
 

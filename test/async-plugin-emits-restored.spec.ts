@@ -1,8 +1,7 @@
 /**
- * Created by morphatic on 23/05/19.
+ * Created by morphatic on 23/05/19. Updated 12/06/19.
  */
 
-import { expect } from 'chai'
 import localForage from 'localforage'
 import Vue from 'vue'
 import Vuex from 'vuex'
@@ -35,7 +34,7 @@ localForage.defineDriver(MockForageStorage as any)
 localForage.setDriver('objectStorage')
 
 const vuexPersist = new VuexPersistence<any>({
-  key: 'emit_test',
+  key: 'restored_test',
   asyncStorage: true,
   storage: localForage,
   reducer: (state) => ({ count: state.count })
@@ -53,19 +52,9 @@ const storeOpts = {
   plugins: [vuexPersist.plugin]
 }
 
-describe('Storage: AsyncStorage; Test: emit/flag on restore; Strict Mode: OFF', () => {
-  it('should emit `vuexPersistStateRestored` when async state is restored', (done) => {
-    const store = new Vuex.Store<any>(storeOpts);
-    (store as any)._vm.$root.$on('vuexPersistStateRestored', done)
-  })
-
-  it('should set the `vuexPersistStateRestored` flag when async state restored', (done) => {
-    const store = new Vuex.Store<any>(storeOpts);
-    (store as any)._vm.$root.$on('vuexPersistStateRestored', () => {
-      /* tslint:disable:no-unused-expression */
-      expect((store as any)._vm.$root.$data['vuexPersistStateRestored']).to.be.true
-      /* tslint:enable:no-unused-expression */
-      done()
-    })
+describe('Storage: AsyncStorage; Test: set `restored` on store; Strict Mode: OFF', () => {
+  it('connects the `store.restored` property to the Promise returned by `restoreState()`', (done) => {
+    const store: any = new Vuex.Store<any>(storeOpts);
+    store.restored.then(done)
   })
 })
