@@ -74,7 +74,7 @@
   },
   "dependencies": {
     "flatted": "^2.0.0",
-    "lodash.merge": "^4.6.1"
+    "lodash.merge": "^4.6.2"
   },
   "peerDependencies": {
     "vuex": ">=2.5"
