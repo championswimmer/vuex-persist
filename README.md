@@ -158,10 +158,17 @@ import VuexPersistence from 'vuex-persist'
 
 Create an object
 
-```js
+```ts
 const vuexLocal = new VuexPersistence({
   storage: window.localStorage
 })
+
+// or in Typescript
+
+const vuexLocal = new VuexPersistence<RootState>({
+  storage: window.localStorage
+})
+
 ```
 
 Use it as Vue plugin. (in typescript)
