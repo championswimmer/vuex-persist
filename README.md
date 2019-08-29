@@ -378,7 +378,7 @@ Some of the most popular ways to persist your store would be -
 - **[js-cookie](https://npmjs.com/js-cookie)** to use browser Cookies
 - **window.localStorage** (remains, across PC reboots, untill you clear browser data)
 - **window.sessionStorage** (vanishes when you close browser tab)
-- **[localForage](http://npmjs.com/localForage)** Uses IndexedDB from the browser
+- **[localForage](http://npmjs.com/localforage)** Uses IndexedDB from the browser
 
 ### Note on LocalForage and async stores
 
