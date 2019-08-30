@@ -428,13 +428,39 @@ You can note 2 differences here -
 1. All functions are asynchronous with Promises (because WebSQL and IndexedDB are async)
 2. It works on objects too (not just strings)
 
-I have made `vuex-persist` compatible with both types of storages, but this comes
-at a slight cost.
+I have made `vuex-persist` compatible with both types of storages, but this comes at a slight cost.
 When using asynchronous (promise-based) storages, your state will **not** be
 immediately restored into vuex from localForage. It will go into the event loop
 and will finish when the JS thread is empty. This can invoke a delay of few seconds.
-[Issue #15](https://github.com/championswimmer/vuex-persist/issues/15) of this repository explains
-what you can do to _find out_ when store has restored.
+
+### How to know when async store has been replaced
+
+As noted above, the store is not immediately restored from async stores like localForage. This can have the unfortunate side effect of overwriting mutations to the store that happen before `vuex-persist` has a chance to do its thing. In strict mode, you can create a plugin to subscribe to **`RESTORE_MUTATION`** so that you tell your app to wait until the state has been restored before committing any further mutations. ([Issue #15 demonstrates how to write such a plugin.](https://github.com/championswimmer/vuex-persist/issues/15)) However, since you should turn strict mode off in production, and since [`vuex` doesn't currently provide any kind of notification when `replaceState()` has been called](https://github.com/vuejs/vuex/issues/1316), starting with `v2.1.0` `vuex-persist` will add a `restored` property to the `store` object to let you know the state has been restored and that it is now safe to commit any mutations that modify the stored state. `store.restored` will contain the Promise returned by calling the async version of `restoreState()`.
+
+Here's an example of a `beforeEach()` hook in `vuex-router` that will cause your app to wait for `vuex-persist` to restore the state before taking any further actions:
+
+```js
+// in src/router.js
+import Vue from 'vue'
+import Router from 'vue-router'
+import { store } from '@/store' // ...or wherever your `vuex` store is defined
+
+Vue.use(Router)
+
+const router = new Router({
+  // define your router as you normally would
+})
+
+const waitForStorageToBeReady = async (to, from, next) => {
+  await store.restored
+  next()
+}
+router.beforeEach(waitForStorageToBeReady)
+
+export default router
+```
+
+Note that on the 2nd and subsequent router requests to your app, the Promise in `store.restored` should already be in a "resolved" state, so the hook will _not_ force your app to wait for additional calls to `restoreState()`.
 
 ## Unit Testing
 

@@ -159,7 +159,16 @@ export class VuexPersistence<S> implements PersistOptions<S> {
        * @param {Store<S>} store
        */
       this.plugin = (store: Store<S>) => {
-        ((this.restoreState(this.key, this.storage)) as Promise<S>).then((savedState) => {
+        /**
+         * For async stores, we're capturing the Promise returned
+         * by the `restoreState()` function in a `restored` property
+         * on the store itself. This would allow app developers to
+         * determine when and if the store's state has indeed been
+         * refreshed. This approach was suggested by GitHub user @hotdogee.
+         * See https://github.com/championswimmer/vuex-persist/pull/118#issuecomment-500914963
+         * @since 2.1.0
+         */
+        (store as any).restored = ((this.restoreState(this.key, this.storage)) as Promise<S>).then((savedState) => {
           /**
            * If in strict mode, do only via mutation
            */
@@ -168,7 +177,6 @@ export class VuexPersistence<S> implements PersistOptions<S> {
           } else {
             store.replaceState(merge(store.state, savedState || {}))
           }
-
           this.subscriber(store)((mutation: MutationPayload, state: S) => {
             if (this.filter(mutation)) {
               this._mutex.enqueue(
