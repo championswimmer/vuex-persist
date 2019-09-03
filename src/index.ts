@@ -143,19 +143,23 @@ export class VuexPersistence<S> implements PersistOptions<S> {
       this.saveState = (
         (options.saveState != null)
           ? options.saveState
-          : ((key: string, state: {}, storage: AsyncStorage) =>
-              (storage).setItem(
+          : ((key: string, state: {}, storage: AsyncStorage) => {
+              const isLocalforage =
+                storage &&
+                  storage.constructor &&
+                  storage.constructor.name &&
+                  storage.constructor.name.toLowerCase() === 'localforage'
+              return (storage).setItem(
                 key, // Second argument is state _object_ if localforage, stringified otherwise
-                (((storage && storage.constructor && storage.constructor.name.toLowerCase()) === 'localforage')
-                    ? merge({}, state || {})
-                    : (
-                      this.supportCircular
-                        ? FlattedJSON.stringify(state) as any
-                        : JSON.stringify(state) as any
-                    )
-                )
+                isLocalforage
+                  ? merge({}, state || {})
+                  : (
+                    this.supportCircular
+                      ? FlattedJSON.stringify(state) as any
+                      : JSON.stringify(state) as any
+                  )
               )
-          )
+          })
       )
 
       /**
