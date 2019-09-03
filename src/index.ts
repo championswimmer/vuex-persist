@@ -104,7 +104,11 @@ export class VuexPersistence<S> implements PersistOptions<S> {
     }
 
     this.asyncStorage = options.asyncStorage || false
-    const storageConstructor = this.storage && this.storage.constructor && this.storage.constructor.name.toLowerCase()
+    const storageConstructor =
+      this.storage &&
+        this.storage.constructor &&
+        this.storage.constructor.name &&
+        this.storage.constructor.name.toLowerCase()
     this.asyncStorage = this.asyncStorage || storageConstructor === 'localforage'
 
     if (this.asyncStorage) {
