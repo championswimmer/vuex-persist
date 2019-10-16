@@ -63,7 +63,7 @@ export interface PersistOptions<S> {
   /**
    * If your storage is async
    * i.e., if setItem(), getItem() etc return Promises
-   * (Should be used for storages like LocalForage)
+   * (Must be used for asynchronous storages like LocalForage)
    * @default false
    */
   asyncStorage?: boolean

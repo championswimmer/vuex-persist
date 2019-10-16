@@ -104,8 +104,6 @@ export class VuexPersistence<S> implements PersistOptions<S> {
     }
 
     this.asyncStorage = options.asyncStorage || false
-    const storageConstructor = this.storage && this.storage.constructor && this.storage.constructor.name.toLowerCase()
-    this.asyncStorage = this.asyncStorage || storageConstructor === 'localforage'
 
     if (this.asyncStorage) {
 
@@ -141,8 +139,9 @@ export class VuexPersistence<S> implements PersistOptions<S> {
           ? options.saveState
           : ((key: string, state: {}, storage: AsyncStorage) =>
               (storage).setItem(
-                key, // Second argument is state _object_ if localforage, stringified otherwise
-                (((storage && storage.constructor && storage.constructor.name.toLowerCase()) === 'localforage')
+                key, // Second argument is state _object_ if asyc storage, stringified otherwise
+                // do not stringify the state if the storage type is async
+                (this.asyncStorage
                     ? merge({}, state || {})
                     : (
                       this.supportCircular
