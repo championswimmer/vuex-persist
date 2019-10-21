@@ -35,6 +35,7 @@ localForage.setDriver('objectStorage')
 
 const vuexPersist = new VuexPersistence<any>({
   storage: localForage,
+  asyncStorage: true,
   key: 'dafuq',
   reducer: (state) => ({ dog: state.dog }),
   filter: (mutation) => (mutation.type === 'dogBark')
