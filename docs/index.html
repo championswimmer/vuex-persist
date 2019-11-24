@@ -98,7 +98,7 @@
 							</li>
 							<li><a href="#usage">Usage</a><ul>
 									<li><a href="#steps">Steps</a></li>
-									<li><a href="#constructor-parameters--">Constructor Parameters -</a></li>
+									<li><a href="#constructor-parameters">Constructor Parameters -</a></li>
 									<li><a href="#usage-notes">Usage Notes</a><ul>
 											<li><a href="#reducer">Reducer</a></li>
 											<li><a href="#circular-states">Circular States</a></li>
@@ -111,6 +111,7 @@
 									<li><a href="#detailed">Detailed</a></li>
 									<li><a href="#support-strict-mode">Support Strict Mode</a></li>
 									<li><a href="#note-on-localforage-and-async-stores">Note on LocalForage and async stores</a></li>
+									<li><a href="#how-to-know-when-async-store-has-been-replaced">How to know when async store has been replaced</a></li>
 								</ul>
 							</li>
 							<li><a href="#unit-testing">Unit Testing</a><ul>
@@ -169,12 +170,12 @@
 				<pre><code class="language-js"><span class="hljs-comment">// in your vue.config.js</span>
 <span class="hljs-built_in">module</span>.exports = {
   <span class="hljs-comment">/* ... other config ... */</span>
-  transpileDependencies: [<span class="hljs-string">'vuex-persist'</span>]
+  <span class="hljs-attr">transpileDependencies</span>: [<span class="hljs-string">'vuex-persist'</span>]
 }</code></pre>
 				<h3 id="directly-in-browser">Directly in Browser</h3>
 				<pre><code class="language-html"><span class="hljs-comment">&lt;!-- We need lodash.merge so get lodash first --&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
-<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/vuex-persist"</span>&gt;</span><span class="undefined"></span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
+<span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/vuex-persist"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
 				<h3 id="tips-for-nuxt">Tips for NUXT</h3>
 				<p>This is a plugin that works <a href="https://nuxtjs.org/guide/plugins/#client-side-only">only on the client side</a>.
 				So we&#39;ll register it as a ssr-free plugin.</p>
@@ -202,9 +203,16 @@
 					<p>NOTE: In browsers, you can directly use <code>window.VuexPersistence</code></p>
 				</blockquote>
 				<p>Create an object</p>
-				<pre><code class="language-js"><span class="hljs-keyword">const</span> vuexLocal = <span class="hljs-keyword">new</span> VuexPersistence({
-  <span class="hljs-attr">storage</span>: <span class="hljs-built_in">window</span>.localStorage
-})</code></pre>
+				<pre><code class="language-ts"><span class="hljs-keyword">const</span> vuexLocal = <span class="hljs-keyword">new</span> VuexPersistence({
+  storage: <span class="hljs-built_in">window</span>.localStorage
+})
+
+<span class="hljs-comment">// or in Typescript</span>
+
+<span class="hljs-keyword">const</span> vuexLocal = <span class="hljs-keyword">new</span> VuexPersistence&lt;RootState&gt;({
+  storage: <span class="hljs-built_in">window</span>.localStorage
+})
+</code></pre>
 				<p>Use it as Vue plugin. (in typescript)</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">const</span> store = <span class="hljs-keyword">new</span> Vuex.Store&lt;State&gt;({
   state: { ... },
@@ -269,12 +277,12 @@
 						<tr>
 							<td>asyncStorage</td>
 							<td>boolean</td>
-							<td>Denotes if the store uses Promises (like localforage) or not <br><em><strong>Default: false</strong></em></td>
+							<td>Denotes if the store uses Promises (like localforage) or not (you must set this to true when suing something like localforage) <br><em><strong>Default: false</strong></em></td>
 						</tr>
 						<tr>
 							<td>supportCircular</td>
 							<td>boolean</td>
-							<td>Denotes if the state has any circular references to itself (state.x === state)</td>
+							<td>Denotes if the state has any circular references to itself (state.x === state) <br><em><strong>Default: false</strong></em></td>
 						</tr>
 				</tbody></table>
 				<h3 id="usage-notes">Usage Notes</h3>
@@ -408,7 +416,7 @@ Vue.use(Vuex)
 					<li><strong><a href="https://npmjs.com/js-cookie">js-cookie</a></strong> to use browser Cookies</li>
 					<li><strong>window.localStorage</strong> (remains, across PC reboots, untill you clear browser data)</li>
 					<li><strong>window.sessionStorage</strong> (vanishes when you close browser tab)</li>
-					<li><strong><a href="http://npmjs.com/localForage">localForage</a></strong> Uses IndexedDB from the browser</li>
+					<li><strong><a href="http://npmjs.com/localforage">localForage</a></strong> Uses IndexedDB from the browser</li>
 				</ul>
 				<h3 id="note-on-localforage-and-async-stores">Note on LocalForage and async stores</h3>
 				<p>There is Window.Storage API as defined by HTML5 DOM specs, which implements the following -</p>
@@ -441,13 +449,32 @@ Vue.use(Vuex)
 					<li>All functions are asynchronous with Promises (because WebSQL and IndexedDB are async)</li>
 					<li>It works on objects too (not just strings)</li>
 				</ol>
-				<p>I have made <code>vuex-persist</code> compatible with both types of storages, but this comes
-					at a slight cost.
+				<p>I have made <code>vuex-persist</code> compatible with both types of storages, but this comes at a slight cost.
 					When using asynchronous (promise-based) storages, your state will <strong>not</strong> be
 					immediately restored into vuex from localForage. It will go into the event loop
-					and will finish when the JS thread is empty. This can invoke a delay of few seconds.
-					<a href="https://github.com/championswimmer/vuex-persist/issues/15">Issue #15</a> of this repository explains
-				what you can do to <em>find out</em> when store has restored.</p>
+				and will finish when the JS thread is empty. This can invoke a delay of few seconds.</p>
+				<h3 id="how-to-know-when-async-store-has-been-replaced">How to know when async store has been replaced</h3>
+				<p>As noted above, the store is not immediately restored from async stores like localForage. This can have the unfortunate side effect of overwriting mutations to the store that happen before <code>vuex-persist</code> has a chance to do its thing. In strict mode, you can create a plugin to subscribe to <strong><code>RESTORE_MUTATION</code></strong> so that you tell your app to wait until the state has been restored before committing any further mutations. (<a href="https://github.com/championswimmer/vuex-persist/issues/15">Issue #15 demonstrates how to write such a plugin.</a>) However, since you should turn strict mode off in production, and since <a href="https://github.com/vuejs/vuex/issues/1316"><code>vuex</code> doesn&#39;t currently provide any kind of notification when <code>replaceState()</code> has been called</a>, starting with <code>v2.1.0</code> <code>vuex-persist</code> will add a <code>restored</code> property to the <code>store</code> object to let you know the state has been restored and that it is now safe to commit any mutations that modify the stored state. <code>store.restored</code> will contain the Promise returned by calling the async version of <code>restoreState()</code>.</p>
+				<p>Here&#39;s an example of a <code>beforeEach()</code> hook in <code>vuex-router</code> that will cause your app to wait for <code>vuex-persist</code> to restore the state before taking any further actions:</p>
+				<pre><code class="language-js"><span class="hljs-comment">// in src/router.js</span>
+<span class="hljs-keyword">import</span> Vue <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>
+<span class="hljs-keyword">import</span> Router <span class="hljs-keyword">from</span> <span class="hljs-string">'vue-router'</span>
+<span class="hljs-keyword">import</span> { store } <span class="hljs-keyword">from</span> <span class="hljs-string">'@/store'</span> <span class="hljs-comment">// ...or wherever your `vuex` store is defined</span>
+
+Vue.use(Router)
+
+<span class="hljs-keyword">const</span> router = <span class="hljs-keyword">new</span> Router({
+  <span class="hljs-comment">// define your router as you normally would</span>
+})
+
+<span class="hljs-keyword">const</span> waitForStorageToBeReady = <span class="hljs-keyword">async</span> (to, <span class="hljs-keyword">from</span>, next) =&gt; {
+  <span class="hljs-keyword">await</span> store.restored
+  next()
+}
+router.beforeEach(waitForStorageToBeReady)
+
+<span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> router</code></pre>
+				<p>Note that on the 2nd and subsequent router requests to your app, the Promise in <code>store.restored</code> should already be in a &quot;resolved&quot; state, so the hook will <em>not</em> force your app to wait for additional calls to <code>restoreState()</code>.</p>
 				<h2 id="unit-testing">Unit Testing</h2>
 				<h3 id="jest">Jest</h3>
 				<p>When testing with Jest, you might find this error -</p>
