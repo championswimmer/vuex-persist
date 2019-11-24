@@ -64,7 +64,9 @@
 	<div class="row">
 		<div class="col-8 col-content">
 			<div class="tsd-panel tsd-typography">
-				<h1 id="vuex-persist">vuex-persist</h1>
+				<a href="#vuex-persist" id="vuex-persist" style="color: inherit; text-decoration: none;">
+					<h1>vuex-persist</h1>
+				</a>
 				<p>A Typescript-ready <a href="https://vuex.vuejs.org/">Vuex</a> plugin that enables
 					you to save the state of your app to a persisted storage like
 				Cookies or localStorage.</p>
@@ -84,7 +86,9 @@
 					<a href="https://bundlephobia.com/result?p=vuex-persist"><img src="https://img.shields.io/bundlephobia/minzip/vuex-persist.svg?label=npm:size:gzip" alt="npm:size:gzip"></a>
 					<a href="https://unpkg.com/vuex-persist"><img src="https://img.badgesize.io/https://unpkg.com/vuex-persist?compression=gzip&label=umd:min:gzip" alt="umd:min:gzip"></a>
 				<a href="https://cdn.jsdelivr.net/npm/vuex-persist"><img src="https://img.badgesize.io/https://cdn.jsdelivr.net/npm/vuex-persist?compression=brotli&label=umd:min:brotli" alt="umd:min:brotli"></a></p>
-				<h4 id="table-of-contents">Table of Contents</h4>
+				<a href="#table-of-contents" id="table-of-contents" style="color: inherit; text-decoration: none;">
+					<h4>Table of Contents</h4>
+				</a>
 				<ul>
 					<li><a href="#vuex-persist">vuex-persist</a><pre><code><span class="hljs-bullet">- </span>[<span class="hljs-string">Table of Contents</span>](<span class="hljs-link">#table-of-contents</span>)</code></pre><ul>
 							<li><a href="#features">Features</a></li>
@@ -122,7 +126,9 @@
 					</li>
 				</ul>
 				<p><small><i><a href='http://ecotrust-canada.github.io/markdown-toc/'>Table of contents generated with markdown-toc</a></i></small></p>
-				<h2 id="features">Features</h2>
+				<a href="#features" id="features" style="color: inherit; text-decoration: none;">
+					<h2>Features</h2>
+				</a>
 				<ul>
 					<li>📦 NEW in v1.5<ul>
 							<li>distributed as esm and cjs both (via module field of package.json)</li>
@@ -145,17 +151,25 @@
 						</ul>
 					</li>
 				</ul>
-				<h2 id="compatibility">Compatibility</h2>
+				<a href="#compatibility" id="compatibility" style="color: inherit; text-decoration: none;">
+					<h2>Compatibility</h2>
+				</a>
 				<ul>
 					<li><a href="http://vuejs.org">VueJS</a> - v2.0 and above</li>
 					<li><a href="http://vuex.vuejs.org">Vuex</a> - v2.1 and above</li>
 				</ul>
-				<h2 id="installation">Installation</h2>
-				<h3 id="vue-cli-build-setup-using-webpack-or-some-bundler-">Vue CLI Build Setup (using Webpack or some bundler)</h3>
+				<a href="#installation" id="installation" style="color: inherit; text-decoration: none;">
+					<h2>Installation</h2>
+				</a>
+				<a href="#vue-cli-build-setup-using-webpack-or-some-bundler" id="vue-cli-build-setup-using-webpack-or-some-bundler" style="color: inherit; text-decoration: none;">
+					<h3>Vue CLI Build Setup (using Webpack or some bundler)</h3>
+				</a>
 				<pre><code class="language-shell">npm install --save vuex-persist</code></pre>
 				<p>or</p>
 				<pre><code class="language-shell">yarn add vuex-persist</code></pre>
-				<h3 id="transpile-for-target-es5">Transpile for <code>target: es5</code></h3>
+				<a href="#transpile-for-codetarget-es5code" id="transpile-for-codetarget-es5code" style="color: inherit; text-decoration: none;">
+					<h3>Transpile for <code>target: es5</code></h3>
+				</a>
 				<p>This module is distributed in 3 formats</p>
 				<ul>
 					<li>umd build <code>/dist/umd/index.js</code> in <strong>es5</strong> format</li>
@@ -172,11 +186,15 @@
   <span class="hljs-comment">/* ... other config ... */</span>
   <span class="hljs-attr">transpileDependencies</span>: [<span class="hljs-string">'vuex-persist'</span>]
 }</code></pre>
-				<h3 id="directly-in-browser">Directly in Browser</h3>
+				<a href="#directly-in-browser" id="directly-in-browser" style="color: inherit; text-decoration: none;">
+					<h3>Directly in Browser</h3>
+				</a>
 				<pre><code class="language-html"><span class="hljs-comment">&lt;!-- We need lodash.merge so get lodash first --&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.10/lodash.min.js"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span>
 <span class="hljs-tag">&lt;<span class="hljs-name">script</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"https://cdn.jsdelivr.net/npm/vuex-persist"</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">script</span>&gt;</span></code></pre>
-				<h3 id="tips-for-nuxt">Tips for NUXT</h3>
+				<a href="#tips-for-nuxt" id="tips-for-nuxt" style="color: inherit; text-decoration: none;">
+					<h3>Tips for NUXT</h3>
+				</a>
 				<p>This is a plugin that works <a href="https://nuxtjs.org/guide/plugins/#client-side-only">only on the client side</a>.
 				So we&#39;ll register it as a ssr-free plugin.</p>
 				<pre><code class="language-js"><span class="hljs-comment">// Inside - nuxt.config.js</span>
@@ -195,8 +213,12 @@
     }).plugin(store);
   });
 }</code></pre>
-				<h2 id="usage">Usage</h2>
-				<h3 id="steps">Steps</h3>
+				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
+					<h2>Usage</h2>
+				</a>
+				<a href="#steps" id="steps" style="color: inherit; text-decoration: none;">
+					<h3>Steps</h3>
+				</a>
 				<p>Import it</p>
 				<pre><code class="language-js"><span class="hljs-keyword">import</span> VuexPersistence <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex-persist'</span></code></pre>
 				<blockquote>
@@ -227,7 +249,9 @@
   <span class="hljs-attr">actions</span>: { ... },
   <span class="hljs-attr">plugins</span>: [vuexLocal.plugin]
 }</code></pre>
-				<h3 id="constructor-parameters-">Constructor Parameters -</h3>
+				<a href="#constructor-parameters--" id="constructor-parameters--" style="color: inherit; text-decoration: none;">
+					<h3>Constructor Parameters -</h3>
+				</a>
 				<p>When creating the VuexPersistence object, we pass an <code>options</code> object
 					of type <code>PersistOptions</code>.
 				Here are the properties, and what they mean -</p>
@@ -285,8 +309,12 @@
 							<td>Denotes if the state has any circular references to itself (state.x === state) <br><em><strong>Default: false</strong></em></td>
 						</tr>
 				</tbody></table>
-				<h3 id="usage-notes">Usage Notes</h3>
-				<h4 id="reducer">Reducer</h4>
+				<a href="#usage-notes" id="usage-notes" style="color: inherit; text-decoration: none;">
+					<h3>Usage Notes</h3>
+				</a>
+				<a href="#reducer" id="reducer" style="color: inherit; text-decoration: none;">
+					<h4>Reducer</h4>
+				</a>
 				<p>Your reducer should not change the shape of the state.</p>
 				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> persist = <span class="hljs-keyword">new</span> VuexPersistence({
   <span class="hljs-attr">reducer</span>: <span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> state.products,
@@ -298,7 +326,9 @@
   <span class="hljs-attr">reducer</span>: <span class="hljs-function">(<span class="hljs-params">state</span>) =&gt;</span> ({<span class="hljs-attr">products</span>: state.products}),
   ...
 })</code></pre>
-				<h4 id="circular-states">Circular States</h4>
+				<a href="#circular-states" id="circular-states" style="color: inherit; text-decoration: none;">
+					<h4>Circular States</h4>
+				</a>
 				<p>If you have circular structures in your state</p>
 				<pre><code class="language-js"><span class="hljs-keyword">let</span> x = { <span class="hljs-attr">a</span>: <span class="hljs-number">10</span> }
 x.x = x
@@ -311,8 +341,12 @@ x.x.x.a === x.x.x.x.a <span class="hljs-comment">//true</span></code></pre>
   <span class="hljs-attr">supportCircular</span>: <span class="hljs-literal">true</span>,
   ...
 })</code></pre>
-				<h2 id="examples">Examples</h2>
-				<h3 id="simple">Simple</h3>
+				<a href="#examples" id="examples" style="color: inherit; text-decoration: none;">
+					<h2>Examples</h2>
+				</a>
+				<a href="#simple" id="simple" style="color: inherit; text-decoration: none;">
+					<h3>Simple</h3>
+				</a>
 				<p>Quick example -</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">import</span> Vue <span class="hljs-keyword">from</span> <span class="hljs-string">'vue'</span>
 <span class="hljs-keyword">import</span> Vuex <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex'</span>
@@ -329,7 +363,9 @@ Vue.use(Vuex)
 })
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> store</code></pre>
-				<h3 id="detailed">Detailed</h3>
+				<a href="#detailed" id="detailed" style="color: inherit; text-decoration: none;">
+					<h3>Detailed</h3>
+				</a>
 				<p>Here is an example store that has 2 modules, <code>user</code> and <code>navigation</code>
 					We are going to save user details into a Cookie <em>(using js-cookie)</em>
 					And, we will save the navigation state into <em>localStorage</em> whenever
@@ -378,7 +414,9 @@ Vue.use(Vuex)
 })
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> store</code></pre>
-				<h3 id="support-strict-mode">Support Strict Mode</h3>
+				<a href="#support-strict-mode" id="support-strict-mode" style="color: inherit; text-decoration: none;">
+					<h3>Support Strict Mode</h3>
+				</a>
 				<p>This now supports <a href="https://vuex.vuejs.org/en/strict.html">Vuex strict mode</a>
 					(Keep in mind, <strong>NOT</strong> to use strict mode in production)
 				In strict mode, we cannot use <code>store.replaceState</code> so instead we use a mutation</p>
@@ -418,7 +456,9 @@ Vue.use(Vuex)
 					<li><strong>window.sessionStorage</strong> (vanishes when you close browser tab)</li>
 					<li><strong><a href="http://npmjs.com/localforage">localForage</a></strong> Uses IndexedDB from the browser</li>
 				</ul>
-				<h3 id="note-on-localforage-and-async-stores">Note on LocalForage and async stores</h3>
+				<a href="#note-on-localforage-and-async-stores" id="note-on-localforage-and-async-stores" style="color: inherit; text-decoration: none;">
+					<h3>Note on LocalForage and async stores</h3>
+				</a>
 				<p>There is Window.Storage API as defined by HTML5 DOM specs, which implements the following -</p>
 				<pre><code class="language-typescript"><span class="hljs-keyword">interface</span> Storage {
   readonly length: <span class="hljs-built_in">number</span>
@@ -453,7 +493,9 @@ Vue.use(Vuex)
 					When using asynchronous (promise-based) storages, your state will <strong>not</strong> be
 					immediately restored into vuex from localForage. It will go into the event loop
 				and will finish when the JS thread is empty. This can invoke a delay of few seconds.</p>
-				<h3 id="how-to-know-when-async-store-has-been-replaced">How to know when async store has been replaced</h3>
+				<a href="#how-to-know-when-async-store-has-been-replaced" id="how-to-know-when-async-store-has-been-replaced" style="color: inherit; text-decoration: none;">
+					<h3>How to know when async store has been replaced</h3>
+				</a>
 				<p>As noted above, the store is not immediately restored from async stores like localForage. This can have the unfortunate side effect of overwriting mutations to the store that happen before <code>vuex-persist</code> has a chance to do its thing. In strict mode, you can create a plugin to subscribe to <strong><code>RESTORE_MUTATION</code></strong> so that you tell your app to wait until the state has been restored before committing any further mutations. (<a href="https://github.com/championswimmer/vuex-persist/issues/15">Issue #15 demonstrates how to write such a plugin.</a>) However, since you should turn strict mode off in production, and since <a href="https://github.com/vuejs/vuex/issues/1316"><code>vuex</code> doesn&#39;t currently provide any kind of notification when <code>replaceState()</code> has been called</a>, starting with <code>v2.1.0</code> <code>vuex-persist</code> will add a <code>restored</code> property to the <code>store</code> object to let you know the state has been restored and that it is now safe to commit any mutations that modify the stored state. <code>store.restored</code> will contain the Promise returned by calling the async version of <code>restoreState()</code>.</p>
 				<p>Here&#39;s an example of a <code>beforeEach()</code> hook in <code>vuex-router</code> that will cause your app to wait for <code>vuex-persist</code> to restore the state before taking any further actions:</p>
 				<pre><code class="language-js"><span class="hljs-comment">// in src/router.js</span>
@@ -475,8 +517,12 @@ router.beforeEach(waitForStorageToBeReady)
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> router</code></pre>
 				<p>Note that on the 2nd and subsequent router requests to your app, the Promise in <code>store.restored</code> should already be in a &quot;resolved&quot; state, so the hook will <em>not</em> force your app to wait for additional calls to <code>restoreState()</code>.</p>
-				<h2 id="unit-testing">Unit Testing</h2>
-				<h3 id="jest">Jest</h3>
+				<a href="#unit-testing" id="unit-testing" style="color: inherit; text-decoration: none;">
+					<h2>Unit Testing</h2>
+				</a>
+				<a href="#jest" id="jest" style="color: inherit; text-decoration: none;">
+					<h3>Jest</h3>
+				</a>
 				<p>When testing with Jest, you might find this error -</p>
 				<pre><code>TypeError: Cannot <span class="hljs-keyword">read</span> <span class="hljs-keyword">property</span><span class="hljs-title"> </span>'getItem' of undefined</code></pre><p>This is because there is no localStorage in Jest. You can add the following Jest plugins to solve this
 				<a href="https://www.npmjs.com/package/jest-localstorage-mock">https://www.npmjs.com/package/jest-localstorage-mock</a></p>
@@ -489,22 +535,22 @@ router.beforeEach(waitForStorageToBeReady)
 						<a href="globals.html"><em>Globals</em></a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_asyncstorage_.html">"<wbr>Async<wbr>Storage"</a>
+						<a href="modules/_asyncstorage_.html">&quot;<wbr>Async<wbr>Storage&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_mockstorage_.html">"<wbr>Mock<wbr>Storage"</a>
+						<a href="modules/_mockstorage_.html">&quot;<wbr>Mock<wbr>Storage&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_persistoptions_.html">"<wbr>Persist<wbr>Options"</a>
+						<a href="modules/_persistoptions_.html">&quot;<wbr>Persist<wbr>Options&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_simplepromisequeue_.html">"<wbr>Simple<wbr>Promise<wbr>Queue"</a>
+						<a href="modules/_simplepromisequeue_.html">&quot;<wbr>Simple<wbr>Promise<wbr>Queue&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_index_.html">"index"</a>
+						<a href="modules/_index_.html">&quot;index&quot;</a>
 					</li>
 					<li class=" tsd-kind-external-module">
-						<a href="modules/_utils_.html">"utils"</a>
+						<a href="modules/_utils_.html">&quot;utils&quot;</a>
 					</li>
 				</ul>
 			</nav>
@@ -527,6 +573,7 @@ router.beforeEach(waitForStorageToBeReady)
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-index-signature"><span class="tsd-kind-icon">Index signature</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
@@ -575,7 +622,7 @@ router.beforeEach(waitForStorageToBeReady)
 	</div>
 </footer>
 <div class="container tsd-generator">
-	<p>Generated using <a href="http://typedoc.org/" target="_blank">TypeDoc</a></p>
+	<p>Generated using <a href="https://typedoc.org/" target="_blank">TypeDoc</a></p>
 </div>
 <div class="overlay"></div>
 <script src="assets/js/main.js"></script>
