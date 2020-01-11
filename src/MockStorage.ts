@@ -27,7 +27,7 @@ if (process.env.MODULE_FORMAT !== 'umd') {
       delete this[key]
     }
     public clear(): void {
-      for (const key of Object.keys(this)) {
+      for (let key of Object.keys(this)) {
         delete this[key]
       }
     }
