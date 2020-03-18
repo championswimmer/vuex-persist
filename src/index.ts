@@ -167,7 +167,8 @@ export class VuexPersistence<S> implements PersistOptions<S> {
          * See https://github.com/championswimmer/vuex-persist/pull/118#issuecomment-500914963
          * @since 2.1.0
          */
-        (store as any).restored = ((this.restoreState(this.key, this.storage)) as Promise<S>).then((savedState) => {
+        (store as any).restoredAll = (store as any).restoredAll || [];
+        (store as any).restoredAll.push((this.restoreState(this.key, this.storage) as Promise<S>).then(savedState => {
           /**
            * If in strict mode, do only via mutation
            */
@@ -184,7 +185,8 @@ export class VuexPersistence<S> implements PersistOptions<S> {
             }
           })
           this.subscribed = true
-        })
+        }));
+        (store as any).restored = Promise.all((store as any).restoredAll);
       }
     } else {
 
