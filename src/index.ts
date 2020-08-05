@@ -57,15 +57,15 @@ export class VuexPersistence<S> implements PersistOptions<S> {
     }
 
     // @ts-ignore
-    if (process.env.NODE_ENV === 'production' && MockStorage) {
-      this.storage = new MockStorage()
+    if (process.env.NODE_ENV === 'production') {
+      this.storage = options.storage ||  window.localStorage
     } else {
       // @ts-ignore
       if (process.env.MODULE_FORMAT !== 'umd') {
         this.storage = options.storage || (typeof window !== 'undefined' ? window.localStorage : new MockStorage!())
       } else {
         // If UMD module, then we will only be having localStorage
-        this.storage = options.storage || window.localStorage
+        this.storage = options.storage || window.localStorage || MockStorage && new MockStorage()
       }
     }
 
