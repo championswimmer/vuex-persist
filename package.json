@@ -53,7 +53,7 @@
   "homepage": "https://github.com/championswimmer/vuex-persist#readme",
   "devDependencies": {
     "@types/chai": "^4.1.4",
-    "@types/lodash.merge": "^4.6.4",
+    "@types/lodash": "^4.6.4",
     "@types/mocha": "^5.2.5",
     "chai": "^4.1.2",
     "localforage": "^1.7.2",
@@ -74,7 +74,7 @@
   },
   "dependencies": {
     "flatted": "^2.0.0",
-    "lodash.merge": "^4.6.2"
+    "lodash": "^4.17.19"
   },
   "peerDependencies": {
     "vuex": ">=2.5"
