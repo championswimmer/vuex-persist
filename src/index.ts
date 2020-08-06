@@ -56,17 +56,20 @@ export class VuexPersistence<S> implements PersistOptions<S> {
       FlattedJSON = require('flatted')
     }
 
-    // @ts-ignore
-    if (process.env.NODE_ENV === 'production') {
-      this.storage = options.storage ||  window.localStorage
+    let localStorageLitmus = true
+
+    try {
+      window.localStorage
+    } catch (err) {
+      localStorageLitmus = false
+    }
+
+    const storage = options.storage || localStorageLitmus && window.localStorage || MockStorage && new MockStorage()
+
+    if (storage) {
+      this.storage = storage
     } else {
-      // @ts-ignore
-      if (process.env.MODULE_FORMAT !== 'umd') {
-        this.storage = options.storage || (typeof window !== 'undefined' ? window.localStorage : new MockStorage!())
-      } else {
-        // If UMD module, then we will only be having localStorage
-        this.storage = options.storage || window.localStorage || MockStorage && new MockStorage()
-      }
+      throw new Error('No storage options available')
     }
 
     /**
