@@ -16,7 +16,7 @@ let FlattedJSON = JSON
  */
 export class VuexPersistence<S> implements PersistOptions<S> {
   public asyncStorage: boolean
-  public storage: Storage | AsyncStorage
+  public storage: Storage | AsyncStorage | undefined
   public restoreState: (key: string, storage?: AsyncStorage | Storage) => Promise<S> | S
   public saveState: (key: string, state: {}, storage?: AsyncStorage | Storage) => Promise<void> | void
   public reducer: (state: S) => Partial<S>
@@ -59,18 +59,12 @@ export class VuexPersistence<S> implements PersistOptions<S> {
     let localStorageLitmus = true
 
     try {
-      window.localStorage
+      window.localStorage.getItem('')
     } catch (err) {
       localStorageLitmus = false
     }
 
-    const storage = options.storage || localStorageLitmus && window.localStorage || MockStorage && new MockStorage()
-
-    if (storage) {
-      this.storage = storage
-    } else {
-      throw new Error('No storage options available')
-    }
+    this.storage = options.storage || localStorageLitmus && window.localStorage || MockStorage && new MockStorage()
 
     /**
      * How this works is -
@@ -101,7 +95,7 @@ export class VuexPersistence<S> implements PersistOptions<S> {
 
     this.RESTORE_MUTATION = function RESTORE_MUTATION(state: S, savedState: any) {
       const mergedState = merge(state, savedState || {})
-      for (let propertyName of Object.keys(mergedState)) {
+      for (const propertyName of Object.keys(mergedState)) {
         (this as any)._vm.$set(state, propertyName, mergedState[propertyName])
       }
     }
