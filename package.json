@@ -1,6 +1,6 @@
 {
   "name": "vuex-persist",
-  "version": "2.3.0",
+  "version": "3.0.0",
   "description": "A Vuex persistence plugin in Typescript",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
