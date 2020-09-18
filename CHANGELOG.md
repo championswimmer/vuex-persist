@@ -1,5 +1,14 @@
 # vuex-persist CHANGELOG
 
+## 3.0.0
+
+- **BREAKING**: replaced `lodash.merge` with `deepmerge` 
+    (this can cause difference in behaviour on how you expect old state and new state to be merged (especially arrays))
+
+### 2.3.0 
+
+- fix localstorage init errors
+
 ## 2.0.0
 
 ### 1.8
