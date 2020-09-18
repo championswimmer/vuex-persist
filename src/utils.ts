@@ -1,5 +1,10 @@
-import {merge as lodashMerge} from 'lodash'
+import deepmerge from 'deepmerge'
 
-export function merge(into: any, from: any) {
-  return lodashMerge({}, into, from)
+const mergeOptions: deepmerge.Options = {
+  // replacing arrays
+  arrayMerge: (destinationArray, sourceArray, options) => sourceArray
+}
+
+export function merge<I, F>(into: Partial<I>, from: Partial<F>): I & F {
+  return deepmerge(into, from)
 }

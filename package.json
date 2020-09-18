@@ -73,8 +73,8 @@
     "vuex": "^3.0.1"
   },
   "dependencies": {
-    "flatted": "^2.0.0",
-    "lodash": "^4.17.19"
+    "deepmerge": "^4.2.2",
+    "flatted": "^2.0.0"
   },
   "peerDependencies": {
     "vuex": ">=2.5"
