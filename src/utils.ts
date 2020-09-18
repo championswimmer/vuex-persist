@@ -5,6 +5,6 @@ const mergeOptions: deepmerge.Options = {
   arrayMerge: (destinationArray, sourceArray, options) => sourceArray
 }
 
-export function merge<I, F>(into: Partial<I>, from: Partial<F>): I & F {
+export function merge<I, F>(into: Partial<I>, from: Partial<F>): I & F & {} {
   return deepmerge(into, from)
 }

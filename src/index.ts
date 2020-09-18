@@ -95,8 +95,8 @@ export class VuexPersistence<S> implements PersistOptions<S> {
 
     this.RESTORE_MUTATION = function RESTORE_MUTATION(state: S, savedState: any) {
       const mergedState = merge(state, savedState || {})
-      for (const propertyName of Object.keys(mergedState)) {
-        (this as any)._vm.$set(state, propertyName, mergedState[propertyName])
+      for (const propertyName of Object.keys(mergedState as {})) {
+        (this as any)._vm.$set(state, propertyName, (mergedState as any)[propertyName])
       }
     }
 
@@ -171,7 +171,7 @@ export class VuexPersistence<S> implements PersistOptions<S> {
           if (this.strictMode) {
             store.commit('RESTORE_MUTATION', savedState)
           } else {
-            store.replaceState(merge(store.state, savedState || {}))
+            store.replaceState(merge(store.state, savedState || {}) as S)
           }
           this.subscriber(store)((mutation: MutationPayload, state: S) => {
             if (this.filter(mutation)) {
@@ -237,7 +237,7 @@ export class VuexPersistence<S> implements PersistOptions<S> {
         if (this.strictMode) {
           store.commit('RESTORE_MUTATION', savedState)
         } else {
-          store.replaceState(merge(store.state, savedState || {}))
+          store.replaceState(merge(store.state, savedState || {}) as S)
         }
 
         this.subscriber(store)((mutation: MutationPayload, state: S) => {
