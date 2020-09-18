@@ -207,11 +207,9 @@
 <span class="hljs-keyword">import</span> VuexPersistence <span class="hljs-keyword">from</span> <span class="hljs-string">'vuex-persist'</span>
 
 <span class="hljs-keyword">export</span> <span class="hljs-keyword">default</span> ({ store }) =&gt; {
-  <span class="hljs-built_in">window</span>.onNuxtReady(<span class="hljs-function"><span class="hljs-params">()</span> =&gt;</span> {
-    <span class="hljs-keyword">new</span> VuexPersistence({
-    <span class="hljs-comment">/* your options */</span>
-    }).plugin(store);
-  });
+  <span class="hljs-keyword">new</span> VuexPersistence({
+  <span class="hljs-comment">/* your options */</span>
+  }).plugin(store);
 }</code></pre>
 				<a href="#usage" id="usage" style="color: inherit; text-decoration: none;">
 					<h2>Usage</h2>
