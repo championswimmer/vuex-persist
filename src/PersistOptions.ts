@@ -3,6 +3,7 @@
  */
 import { Payload } from 'vuex'
 import { AsyncStorage } from './AsyncStorage'
+import { MergeOptionType } from './utils'
 
 export interface PersistOptions<S> {
   /**
@@ -81,4 +82,11 @@ export interface PersistOptions<S> {
    *
    */
   supportCircular?: boolean
+
+  /**
+   * Whether to replace or concat arrays when merging
+   * saved state with restored state
+   * defaults to replacing arrays
+   */
+  mergeOption?: MergeOptionType
 }
