@@ -64,7 +64,16 @@ export class VuexPersistence<S> implements PersistOptions<S> {
       localStorageLitmus = false
     }
 
-    this.storage = options.storage || localStorageLitmus && window.localStorage || MockStorage && new MockStorage()
+    /**
+     * 1. First, prefer storage sent in optinos
+     * 2. Otherwise, use window.localStorage if available
+     * 3. Finally, try to use MockStorage
+     * 4. None of above? Well we gotta fail.
+     */
+    if (options.storage) { this.storage = options.storage }
+    else if (localStorageLitmus) { this.storage = window.localStorage }
+    else if (MockStorage) { this.storage = new MockStorage() }
+    else { throw new Error("Neither 'window' is defined, nor 'MockStorage' is available") }
 
     /**
      * How this works is -
