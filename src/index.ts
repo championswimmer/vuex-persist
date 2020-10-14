@@ -21,11 +21,22 @@ export class VuexPersistence<S> implements PersistOptions<S> {
   public saveState: (key: string, state: {}, storage?: AsyncStorage | Storage) => Promise<void> | void
   public reducer: (state: S) => Partial<S>
   public key: string
+  public keySuffix: string
   public filter: (mutation: Payload) => boolean
   public modules: string[]
   public strictMode: boolean
   public supportCircular: boolean
   public mergeOption: MergeOptionType
+  public restore!: () => any
+  public store!: () => any
+
+  get useKey() {
+    if (this.keySuffix.length > 0) {
+      return `${this.key}.${this.keySuffix}`
+    } else {
+      return this.key
+    }
+  }
 
   /**
    * The plugin function that can be used inside a vuex store.
@@ -50,6 +61,7 @@ export class VuexPersistence<S> implements PersistOptions<S> {
   public constructor(options?: PersistOptions<S>) {
     if (typeof options === 'undefined') options = {} as PersistOptions<S>
     this.key = ((options.key != null) ? options.key : 'vuex')
+    this.keySuffix = '';
 
     this.subscribed = false
     this.supportCircular = options.supportCircular || false
@@ -175,19 +187,20 @@ export class VuexPersistence<S> implements PersistOptions<S> {
          * See https://github.com/championswimmer/vuex-persist/pull/118#issuecomment-500914963
          * @since 2.1.0
          */
-        (store as any).restored = ((this.restoreState(this.key, this.storage)) as Promise<S>).then((savedState) => {
+        (store as any).restored = ((this.restoreState(this.useKey, this.storage)) as Promise<S>).then((savedState) => {
           /**
            * If in strict mode, do only via mutation
            */
           if (this.strictMode) {
-            store.commit('RESTORE_MUTATION', savedState)
+            this.restore = () => store.commit('RESTORE_MUTATION', savedState)
           } else {
-            store.replaceState(merge(store.state, savedState || {}, this.mergeOption) as S)
+            this.restore = () => store.replaceState(merge(store.state, savedState || {}, this.mergeOption) as S)
           }
+          this.restore()
           this.subscriber(store)((mutation: MutationPayload, state: S) => {
             if (this.filter(mutation)) {
               this._mutex.enqueue(
-                this.saveState(this.key, this.reducer(state), this.storage) as Promise<void>
+                this.saveState(this.useKey, this.reducer(state), this.storage) as Promise<void>
               )
             }
           })
@@ -243,23 +256,35 @@ export class VuexPersistence<S> implements PersistOptions<S> {
        * @param {Store<S>} store
        */
       this.plugin = (store: Store<S>) => {
-        const savedState = this.restoreState(this.key, this.storage) as S
+        const savedState = this.restoreState(this.useKey, this.storage) as S
 
         if (this.strictMode) {
-          store.commit('RESTORE_MUTATION', savedState)
+          this.restore = () => {
+            const savedState = this.restoreState(this.useKey, this.storage) as S
+            store.commit('RESTORE_MUTATION', savedState)
+          }
         } else {
-          store.replaceState(merge(store.state, savedState || {}, this.mergeOption) as S)
+          this.restore = () => {
+            const savedState = this.restoreState(this.useKey, this.storage) as S
+            store.replaceState(merge(store.state, savedState || {}, this.mergeOption) as S)
+          }
         }
+        this.restore()
 
         this.subscriber(store)((mutation: MutationPayload, state: S) => {
           if (this.filter(mutation)) {
-            this.saveState(this.key, this.reducer(state), this.storage)
+            this.saveState(this.useKey, this.reducer(state), this.storage)
           }
         })
 
         this.subscribed = true
       }
     }
+  }
+
+  public setKeySuffix(key: string | null) {
+    this.keySuffix = key ?? ''
+    this.restore()
   }
 
   /**
