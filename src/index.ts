@@ -67,7 +67,7 @@ export class VuexPersistence<S> implements PersistOptions<S> {
     }
 
     /**
-     * 1. First, prefer storage sent in optinos
+     * 1. First, prefer storage sent in options
      * 2. Otherwise, use window.localStorage if available
      * 3. Finally, try to use MockStorage
      * 4. None of above? Well we gotta fail.
