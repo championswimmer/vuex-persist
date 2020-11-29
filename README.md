@@ -451,7 +451,7 @@ const router = new Router({
 })
 
 const waitForStorageToBeReady = async (to, from, next) => {
-  await store.restored
+  await Promise.all(store.restored)
   next()
 }
 router.beforeEach(waitForStorageToBeReady)
