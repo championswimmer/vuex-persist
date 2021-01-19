@@ -1,7 +1,7 @@
 /**
  * Options to be used to construct a {@link VuexPersistence} object
  */
-import { Payload } from 'vuex'
+import { Payload, Store } from 'vuex'
 import { AsyncStorage } from './AsyncStorage'
 import { MergeOptionType } from './utils'
 
@@ -25,6 +25,13 @@ export interface PersistOptions<S> {
    * @param [storage]
    */
   saveState?: (key: string, state: {}, storage?: Storage) => Promise<void> | void
+
+  /**
+   * Method to commit saved state to store
+   * @param store
+   * @param savedState
+   */
+  replaceState?: (store: Store<S>, savedState: S) => void
 
   /**
    * Function to reduce state to the object you want to save.

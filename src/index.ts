@@ -26,6 +26,7 @@ export class VuexPersistence<S> implements PersistOptions<S> {
   public strictMode: boolean
   public supportCircular: boolean
   public mergeOption: MergeOptionType
+  public replaceState?: (store: Store<S>,state: S) => void
 
   /**
    * The plugin function that can be used inside a vuex store.
@@ -111,6 +112,8 @@ export class VuexPersistence<S> implements PersistOptions<S> {
       }
     }
 
+    this.replaceState = options.replaceState
+
     this.asyncStorage = options.asyncStorage || false
 
     if (this.asyncStorage) {
@@ -177,9 +180,12 @@ export class VuexPersistence<S> implements PersistOptions<S> {
          */
         (store as any).restored = ((this.restoreState(this.key, this.storage)) as Promise<S>).then((savedState) => {
           /**
-           * If in strict mode, do only via mutation
+           * If a replaceState function is provided, use that.
+           * Else check if in strict mode, do only via mutation
            */
-          if (this.strictMode) {
+          if (this.replaceState) {
+            this.replaceState(store, savedState)
+          } else if (this.strictMode) {
             store.commit('RESTORE_MUTATION', savedState)
           } else {
             store.replaceState(merge(store.state, savedState || {}, this.mergeOption) as S)
@@ -245,7 +251,9 @@ export class VuexPersistence<S> implements PersistOptions<S> {
       this.plugin = (store: Store<S>) => {
         const savedState = this.restoreState(this.key, this.storage) as S
 
-        if (this.strictMode) {
+        if (this.replaceState) {
+          this.replaceState(store, savedState)
+        } else if (this.strictMode) {
           store.commit('RESTORE_MUTATION', savedState)
         } else {
           store.replaceState(merge(store.state, savedState || {}, this.mergeOption) as S)
