@@ -37,7 +37,7 @@ Cookies or localStorage.
     - [Tips for NUXT](#tips-for-nuxt)
   - [Usage](#usage)
     - [Steps](#steps)
-    - [Constructor Parameters -](#constructor-parameters)
+    - [Constructor Parameters](#constructor-parameters)
     - [Usage Notes](#usage-notes)
       - [Reducer](#reducer)
       - [Circular States](#circular-states)
@@ -192,7 +192,7 @@ const store = {
 }
 ```
 
-### Constructor Parameters -
+### Constructor Parameters
 
 When creating the VuexPersistence object, we pass an `options` object
 of type `PersistOptions`.
