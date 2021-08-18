@@ -1,7 +1,7 @@
 /**
  * Created by championswimmer on 18/07/17.
  */
-import { Mutation, MutationPayload, Payload, Plugin, Store } from 'vuex'
+import { Mutation, MutationPayload, Plugin, Store } from 'vuex'
 import { AsyncStorage } from './AsyncStorage'
 import { MockStorage } from './MockStorage'
 import { PersistOptions } from './PersistOptions'
@@ -21,7 +21,7 @@ export class VuexPersistence<S> implements PersistOptions<S> {
   public saveState: (key: string, state: {}, storage?: AsyncStorage | Storage) => Promise<void> | void
   public reducer: (state: S) => Partial<S>
   public key: string
-  public filter: (mutation: Payload) => boolean
+  public filter: (mutation: MutationPayload) => boolean
   public modules: string[]
   public strictMode: boolean
   public supportCircular: boolean
