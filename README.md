@@ -184,12 +184,12 @@ const store = new Vuex.Store<State>({
 (or in Javascript)
 
 ```js
-const store = {
+const store = new Vuex.Store({
   state: { ... },
   mutations: { ... },
   actions: { ... },
   plugins: [vuexLocal.plugin]
-}
+})
 ```
 
 ### Constructor Parameters -
