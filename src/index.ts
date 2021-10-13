@@ -104,7 +104,7 @@ export class VuexPersistence<S> implements PersistOptions<S> {
 
     this.strictMode = options.strictMode || false
 
-    var _this = this
+    const _this = this
     this.RESTORE_MUTATION = function RESTORE_MUTATION(state: S, savedState: any) {
       const mergedState = merge(state, savedState || {}, _this.mergeOption)
       for (const propertyName of Object.keys(mergedState as {})) {
