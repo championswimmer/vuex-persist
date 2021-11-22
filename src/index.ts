@@ -21,7 +21,7 @@ export class VuexPersistence<S> implements PersistOptions<S> {
   public saveState: (key: string, state: {}, storage?: AsyncStorage | Storage) => Promise<void> | void
   public reducer: (state: S) => Partial<S>
   public key: string
-  public filter: (mutation: Payload) => boolean
+  public filter: (mutation: Payload) => Promise<boolean> | boolean
   public modules: string[]
   public strictMode: boolean
   public supportCircular: boolean
@@ -253,7 +253,15 @@ export class VuexPersistence<S> implements PersistOptions<S> {
         }
 
         this.subscriber(store)((mutation: MutationPayload, state: S) => {
-          if (this.filter(mutation)) {
+          const result = this.filter(mutation)
+          const promise = result as Promise<boolean>
+          if (promise.then) {
+            promise.then((val) => {
+              if (val) {
+                this.saveState(this.key, this.reducer(state), this.storage)
+              }
+            })
+          } else if (this.filter(mutation)) {
             this.saveState(this.key, this.reducer(state), this.storage)
           }
         })
