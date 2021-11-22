@@ -1,7 +1,7 @@
 /**
  * Options to be used to construct a {@link VuexPersistence} object
  */
-import { Payload } from 'vuex'
+import { MutationPayload } from 'vuex'
 import { AsyncStorage } from './AsyncStorage'
 import { MergeOptionType } from './utils'
 
@@ -43,9 +43,9 @@ export interface PersistOptions<S> {
    * Method to filter which mutations will trigger state saving
    * Be default returns true for all mutations.
    * Check mutations using <code>mutation.type</code>
-   * @param mutation object of type {@link Payload}
+   * @param mutation object of type {@link MutationPayload}
    */
-  filter?: (mutation: Payload) => boolean
+  filter?: (mutation: MutationPayload) => boolean
 
   /**
    * Names of modules that you want to persist.
