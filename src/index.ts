@@ -108,7 +108,13 @@ export class VuexPersistence<S> implements PersistOptions<S> {
     this.RESTORE_MUTATION = function RESTORE_MUTATION(state: S, savedState: any) {
       const mergedState = merge(state, savedState || {}, _this.mergeOption)
       for (const propertyName of Object.keys(mergedState as {})) {
-        (this as any)._vm.$set(state, propertyName, (mergedState as any)[propertyName])
+        // Maintain support for vue 2
+        if ((this as any)._vm !== undefined && (this as any)._vm.$set !== undefined) {
+          (this as any)._vm.$set(state, propertyName, (mergedState as any)[propertyName])
+          continue
+        }
+
+        (state as any)[propertyName] = (mergedState as any)[propertyName]
       }
     }
 
