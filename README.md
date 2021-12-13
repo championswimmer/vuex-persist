@@ -126,9 +126,7 @@ So we'll register it as a ssr-free plugin.
 ```js
 // Inside - nuxt.config.js
 export default {
-  plugins: [
-    { src: '~/plugins/vuex-persist', ssr: false }
-  ]
+   plugins: [{ src: '~/plugins/vuex-persist.js', mode: 'client' }],
 }
 ```
 
