@@ -207,6 +207,7 @@ Here are the properties, and what they mean -
 | modules         | string[]                               | List of modules you want to persist. (Do not write your own reducer if you want to use this)                                                                                         |
 | asyncStorage    | boolean                                | Denotes if the store uses Promises (like localforage) or not (you must set this to true when using something like localforage) <br>_**Default: false**_                                                                                                |
 | supportCircular | boolean                                | Denotes if the state has any circular references to itself (state.x === state) <br>_**Default: false**_                                                                                                       |
+| mergeOption     | String or deepmerge Options | By default, when merging previous state with the new state, arrays are replaced. <br>You can pass 'concatArrays' to concatenate them instead.<br>Additionally, you can pass through whatever deepmerge.Options you want. <br>_**Default: 'replaceArrays'**_                                                                                                       |
 
 ### Usage Notes
 
@@ -255,6 +256,35 @@ And when constructing the store, add `supportCircular` flag
 new VuexPersistence({
   supportCircular: true,
   ...
+})
+```
+
+#### Non-Plain objects in the store
+
+If you have non-plain objects in your store, you need to provide a way to identify them via the `mergeOption`.
+
+Otherwise, they will be turned into plain objects.
+
+```js
+import Vue from 'vue'
+import Vuex from 'vuex'
+import VuexPersistence from 'vuex-persist'
+import { replaceArrays } from 'vuex-persist'
+import { isPlainObject } from 'is-plain-object';
+
+Vue.use(Vuex)
+
+var store = new Vuex.Store({
+  state: {
+    user: new User('arny'), 
+    navigation: { path: '/home' }
+  },
+  plugins: [new VuexPersistence({
+    mergeOption: {
+      isMergeableObject: isPlainObject,
+      arrayMerge: replaceArrays  
+    }
+  }).plugin]
 })
 ```
 

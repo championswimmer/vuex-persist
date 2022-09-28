@@ -6,7 +6,7 @@ import { AsyncStorage } from './AsyncStorage'
 import { MockStorage } from './MockStorage'
 import { PersistOptions } from './PersistOptions'
 import SimplePromiseQueue from './SimplePromiseQueue'
-import { merge, MergeOptionType } from './utils'
+import { merge, MergeOptionType, replaceArrays, concatArrays } from './utils'
 
 let FlattedJSON = JSON
 
@@ -279,7 +279,7 @@ export class VuexPersistence<S> implements PersistOptions<S> {
 }
 
 export {
-  MockStorage, AsyncStorage, PersistOptions
+  MockStorage, AsyncStorage, PersistOptions, MergeOptionType, replaceArrays, concatArrays
 }
 
 export default VuexPersistence
