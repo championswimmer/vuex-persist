@@ -1,21 +1,23 @@
 import deepmerge from 'deepmerge'
 
-export type MergeOptionType = 'replaceArrays' | 'concatArrays'
+export type MergeOptionType = 'replaceArrays' | 'concatArrays' | deepmerge.Options
 
-const options: {[k in MergeOptionType]: deepmerge.Options} = {
+export const replaceArrays = (destinationArray: any[], sourceArray: any[], options:deepmerge.Options) => sourceArray
+export const concatArrays = (target: any[], source: any[], options:deepmerge.Options) => target.concat(...source)
+
+const stringOptions = {
   replaceArrays: {
-    arrayMerge: (destinationArray, sourceArray, options) => sourceArray
+    arrayMerge: replaceArrays
   },
   concatArrays: {
-    arrayMerge: (target, source, options) => target.concat(...source)
+    arrayMerge: concatArrays
   }
 }
 
-const defaultMergeOptions: deepmerge.Options = {
-  // replacing arrays
-  
-}
-
 export function merge<I, F>(into: Partial<I>, from: Partial<F>, mergeOption: MergeOptionType): I & F & {} {
-  return deepmerge(into, from, options[mergeOption])
+  if (typeof mergeOption == 'string') {
+      return deepmerge(into, from, stringOptions[mergeOption])
+  } else {
+      return deepmerge(into, from, mergeOption)
+  }
 }
